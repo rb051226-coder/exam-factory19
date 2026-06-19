@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* ✨ ৩ডি গ্লাস কার্ড ইফেক্ট */
         .glass-card {
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(16px);
@@ -35,16 +34,15 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.2);
             width: 100%;
-            max-width: 700px;
+            max-width: 850px;
             padding: 40px 30px;
             text-align: center;
         }
 
-        /* 🖼️ লোগো বক্স স্টাইল */
         .logo-container {
             margin: 0 auto 20px auto;
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(134, 85, 250, 0.4);
@@ -61,7 +59,6 @@
             object-fit: cover;
         }
 
-        /* 🔥 ৩ডি গ্লোয়িং ব্র্যান্ড নেম */
         .brand-logo {
             font-size: 38px;
             font-weight: 800;
@@ -97,7 +94,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🔐 পাসওয়ার্ড ইনপুট */
         input {
             width: 100%;
             padding: 16px;
@@ -136,7 +132,6 @@
             box-shadow: 0 2px 0 #1e40af, 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* 📊 ক্লাস বাটন */
         .class-toggle {
             display: flex;
             background: rgba(0, 0, 0, 0.3);
@@ -163,36 +158,47 @@
             box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
-        /* 🎛️ সাবজেক্ট গ্রিড */
+        /* 📁 ক্যাটাগরি হেডিং স্টাইল */
+        .category-title {
+            text-align: left;
+            color: #38bdf8;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            font-size: 15px;
+            letter-spacing: 1px;
+            border-left: 3px solid #a855f7;
+            padding-left: 10px;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .card-3d {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 25px 15px;
-            border-radius: 16px;
+            padding: 20px 10px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
         .card-3d:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.1);
             border-color: #38bdf8;
-            box-shadow: 0 12px 24px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
         }
 
         .card-title {
             display: block;
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .footer-credit {
@@ -229,13 +235,34 @@
             <button id="c12" class="class-btn" onclick="setClass('Class 12')">Class 12 (দ্বাদশ)</button>
         </div>
         
-        <p style="text-align: left; color: #38bdf8; font-weight: 600; margin-bottom: 15px; font-size: 14px;">আপনার বিষয়টি বেছে নিন:</p>
-        
+        <div class="category-title">LANGUAGES (আবশ্যিক বিষয়)</div>
         <div class="grid">
             <div class="card-3d" onclick="navigateToSubject('bengali.html')">📖<span class="card-title">বাংলা</span></div>
             <div class="card-3d" onclick="navigateToSubject('english.html')">🔤<span class="card-title">English</span></div>
+        </div>
+
+        <div class="category-title">ARTS STREAM (কলা বিভাগ)</div>
+        <div class="grid">
             <div class="card-3d" onclick="navigateToSubject('history.html')">📜<span class="card-title">ইতিহাস</span></div>
             <div class="card-3d" onclick="navigateToSubject('geography.html')">🗺️<span class="card-title">ভূগোল</span></div>
+            <div class="card-3d" onclick="navigateToSubject('polscience.html')">⚖️<span class="card-title">রাষ্ট্রবিজ্ঞান</span></div>
+            <div class="card-3d" onclick="navigateToSubject('philosophy.html')">🧘<span class="card-title">দর্শন</span></div>
+            <div class="card-3d" onclick="navigateToSubject('education.html')">🎓<span class="card-title">শিক্ষাবিজ্ঞান</span></div>
+        </div>
+
+        <div class="category-title">SCIENCE STREAM (বিজ্ঞান বিভাগ)</div>
+        <div class="grid">
+            <div class="card-3d" onclick="navigateToSubject('physics.html')">⚛️<span class="card-title">Physics</span></div>
+            <div class="card-3d" onclick="navigateToSubject('chemistry.html')">🧪<span class="card-title">Chemistry</span></div>
+            <div class="card-3d" onclick="navigateToSubject('math.html')">📐<span class="card-title">Mathematics</span></div>
+            <div class="card-3d" onclick="navigateToSubject('biology.html')">🧬<span class="card-title">Biology</span></div>
+        </div>
+
+        <div class="category-title">COMMERCE STREAM (বাণিজ্য বিভাগ)</div>
+        <div class="grid">
+            <div class="card-3d" onclick="navigateToSubject('accountancy.html')">📊<span class="card-title">Accountancy</span></div>
+            <div class="card-3d" onclick="navigateToSubject('bst.html')">🏢<span class="card-title">Business St.</span></div>
+            <div class="card-3d" onclick="navigateToSubject('economics.html')">📈<span class="card-title">Economics</span></div>
         </div>
 
         <div class="footer-credit">POWERED BY @RB_creations._in</div>
@@ -244,9 +271,8 @@
 </div>
 
 <script>
-    // 🔑 মাস্টার পাসওয়ার্ড 
     const APP_PASSWORD = "2026";
-    let currentClass = "Class 11";
+    let currentClass = "Class 11"; // ডিফল্ট ক্লাস ১১
 
     function verifyPassword() {
         const input = document.getElementById('access-code').value;
@@ -267,15 +293,15 @@
         currentClass = className;
         document.getElementById('c11').classList.toggle('active-class', className === 'Class 11');
         document.getElementById('c12').classList.toggle('active-class', className === 'Class 12');
-        // ক্লাস অনুযায়ী আলাদা ফাইল লিংক করতে চাইলে ফিউচারে এখানে লজিক যোগ করা যাবে
     }
 
-    // 🚀 সাবজেক্টের আলাদা ফাইলে যাওয়ার ফাংশন
+    // 🚀 আলাদা ফাইলে রিডাইরেক্ট করার ইন্টেলিজেন্ট ফাংশন
     function navigateToSubject(pageName) {
-        window.location.href = pageName;
+        // ক্লাস অনুযায়ী ফাইলের নামের আগে 'c11-' অথবা 'c12-' বসে যাবে
+        let prefix = (currentClass === 'Class 11') ? 'c11-' : 'c12-';
+        window.location.href = prefix + pageName;
     }
 
-    // যদি লোগো ইমেজ খুঁজে না পায়, তবে ব্যাকআপ হিসেবে একটা টেক্সট বা সুন্দর ডিজাইন দেখাবে
     document.getElementById('app-logo').onerror = function() {
         this.style.display = 'none';
         document.querySelector('.logo-container').innerHTML = "<b style='color:#38bdf8; font-size:24px;'>RB</b>";
