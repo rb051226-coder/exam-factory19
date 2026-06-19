@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Result - Exam Factory</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+color:white;
+text-align:center;
+padding:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+padding:25px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+backdrop-filter:blur(10px);
+}
+
+h1{
+color:#f59e0b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🎉 Exam Finished</h1>
+
+<p id="score"></p>
+<p id="percent"></p>
+
+</div>
+
+<script>
+
+let score = localStorage.getItem("score") || 0;
+let total = 50;
+
+document.getElementById("score").innerText =
+"Score: " + score + " / " + total;
+
+document.getElementById("percent").innerText =
+"Percentage: " + (score*2) + "%";
+
+</script>
+
+</body>
+</html>
