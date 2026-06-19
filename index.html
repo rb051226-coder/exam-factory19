@@ -1,11 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exam Factory</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:#f59e0b;
+}
+
+.nav-btn{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+.hero{
+text-align:center;
+padding:80px 20px;
+}
+
+.hero h1{
+font-size:55px;
+color:#f59e0b;
+text-shadow:0 0 20px rgba(245,158,11,.7);
+}
+
+.hero p{
+margin-top:15px;
+font-size:20px;
+color:#cbd5e1;
+}
+
+.start-btn{
+display:inline-block;
+margin-top:25px;
+padding:15px 35px;
+background:#f59e0b;
+color:#000;
+text-decoration:none;
+font-weight:bold;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(245,158,11,.4);
+}
+
+.subjects{
+padding:50px 8%;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:20px;
+padding:25px;
+text-align:center;
+transition:.4s;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.05);
+}
+
+.card h2{
+margin-bottom:10px;
+color:#f8fafc;
+}
+
+.card p{
+color:#cbd5e1;
+}
+
+.features{
+padding:60px 8%;
+text-align:center;
+}
+
+.features h2{
+margin-bottom:30px;
+color:#f59e0b;
+}
+
+.feature-box{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+}
+
+.feature{
+background:rgba(255,255,255,.08);
+padding:20px;
+border-radius:15px;
+width:250px;
+}
+
+footer{
+text-align:center;
+padding:30px;
+margin-top:40px;
+background:rgba(255,255,255,.05);
+}
+</style>
+
 </head>
-<body style="background:#0f172a;color:white;text-align:center;font-family:Arial;">
+<body>
+
+<header>
+<div class="logo">EXAM FACTORY</div>
+<button class="nav-btn">Login</button>
+</header>
+
+<section class="hero">
 <h1>EXAM FACTORY</h1>
-<h2>West Bengal Board Mock Test 2026</h2>
-<p>বাংলা | ইংরেজি | গণিত | ইতিহাস | ভূগোল | বিজ্ঞান</p>
+<p>West Bengal Board Mock Test 2026</p>
+<p>Practice Today, Score Tomorrow</p>
+<a href="#" class="start-btn">Start Mock Test</a>
+</section>
+
+<section class="subjects">
+
+<div class="card">
+<h2>বাংলা</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+<div class="card">
+<h2>English</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+<div class="card">
+<h2>গণিত</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+<div class="card">
+<h2>ইতিহাস</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+<div class="card">
+<h2>ভূগোল</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+<div class="card">
+<h2>বিজ্ঞান</h2>
+<p>Easy • Medium • Hard</p>
+</div>
+
+</section>
+
+<section class="features">
+<h2>Website Features</h2>
+
+<div class="feature-box">
+
+<div class="feature">
+<h3>⏱ Timer Based Exam</h3>
+</div>
+
+<div class="feature">
+<h3>📊 Instant Result</h3>
+</div>
+
+<div class="feature">
+<h3>🏆 Ranking System</h3>
+</div>
+
+<div class="feature">
+<h3>📚 Semester Wise Tests</h3>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Exam Factory | West Bengal Board Mock Test Platform
+</footer>
+
 </body>
 </html>
