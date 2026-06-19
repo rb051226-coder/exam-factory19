@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 12 Accountancy 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #1e293b; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(15, 23, 42, 0.95); border-radius: 15px; width: 100%; max-width: 700px; margin: auto; padding: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 1px solid #334155; }
+        .brand-logo { font-size: 20px; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 17px; margin-bottom: 20px; padding: 18px; background: rgba(255,255,255,0.03); border-left: 4px solid #38bdf8; border-radius: 6px; }
+        .opt-btn { background: #334155; padding: 10px; margin-bottom: 6px; width: 100%; border-radius: 5px; border: none; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-left: 4px solid #38bdf8; }
+        .finish-btn { background: #0ea5e9; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; margin-top: 20px; font-weight: 600; }
+        .result-item { background: #0f172a; padding: 10px; margin-bottom: 8px; border-radius: 4px; border-left: 3px solid #ef4444; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি একাউন্টেন্সি সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#38bdf8;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#38bdf8;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 18px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">আবার শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. অংশীদারি কারবারের মূল ভিত্তি কী?", options: ["চুক্তি", "আইন", "পুঁজি", "মুনাফা"], correct: 0 },
+        { q: "২. অংশীদারি কারবারে সদস্য সংখ্যা সর্বোচ্চ কত?", options: ["৫০", "২০", "১০", "১০০"], correct: 0 },
+        { q: "৩. অংশীদারি চুক্তিপত্র না থাকলে ঋণের ওপর সুদ কত দিতে হয়?", options: ["৬%", "১০%", "৫%", "০%"], correct: 0 },
+        { q: "৪. লাভের অংশ বণ্টন হয় কোন অনুপাতে?", options: ["সমান", "পুঁজি অনুপাতে", "চুক্তি অনুযায়ী", "কোনটিই নয়"], correct: 2 },
+        { q: "৫. লাভ-ক্ষতি আবন্টন হিসাবের ডেবিট দিকে কী লেখা হয়?", options: ["পুঁজির সুদ", "ঋণের সুদ", "মূলধন", "বিক্রয়"], correct: 0 },
+        { q: "৬. নতুন অংশীদার ভর্তির সময় গুডউইল বা সুনাম কীসের ওপর নির্ভর করে?", options: ["লাভের অংশ", "পুঁজি", "বাজার মূল্য", "সবগুলো"], correct: 0 },
+        { q: "৭. ত্যাগ অনুপাত কখন নির্ণয় করা হয়?", options: ["নতুন অংশীদার ভর্তিতে", "অবসর গ্রহণে", "মৃত্যুতে", "বন্ধে"], correct: 0 },
+        { q: "৮. প্রাপ্তি অনুপাত (Gaining Ratio) কখন নির্ণয় করা হয়?", options: ["অবসর গ্রহণে", "নতুন অংশীদার ভর্তিতে", "দখলে", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. পুনর্বমূল্যায়ন হিসাবের উদ্ভব হয় কেন?", options: ["সম্পদ ও দায় পুনর্মূল্যায়নে", "মুনাফা নির্ণয়ে", "ব্যয় কমাতে", " কোনটিই নয়"], correct: 0 },
+        { q: "১০. অংশীদার মারা গেলে তার প্রাপ্য পাওনা কাকে দেওয়া হয়?", options: ["উত্তরাধিকারী", "সরকারকে", "অন্য অংশীদারকে", "দান করা হয়"], correct: 0 },
+        { q: "১১. কোম্পানী আইনের ২০১২ (বাংলাদেশ) বা ২০১৩ (ভারত) অনুযায়ী শেয়ার ইস্যু করা যায়?", options: ["অধিহারে", "অবহারে", "সমহারে", "সবগুলো"], correct: 3 },
+        { q: "১২. শেয়ার অবহারে ইস্যু করা কি বৈধ?", options: ["না", "হ্যাঁ", "কিছু ক্ষেত্রে", "কোনটিই নয়"], correct: 0 },
+        { q: "১৩. শেয়ার বাজেয়াপ্ত করলে কোন হিসাবটি ডেবিট করতে হয়?", options: ["শেয়ার মূলধন", "শেয়ার প্রিমিয়াম", "শেয়ার অবহার", "কোনটিই নয়"], correct: 0 },
+        { q: "১৪. ডিবেঞ্চার হোল্ডাররা হলেন কারবারের?", options: ["পাওনাদার", "মালিক", "অংশীদার", "কোনটিই নয়"], correct: 0 },
+        { q: "১৫. ডিবেঞ্চারের সুদ একটি?", options: ["ব্যয়", "আয়", "সম্পদ", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. কোম্পানির আর্থিক বিবরণীতে কী কী থাকে?", options: ["আয়-ব্যয়", "আর্থিক অবস্থা", "নগদ প্রবাহ", "সবগুলো"], correct: 3 },
+        { q: "১৭. চলতি অনুপাতের আদর্শ মান কত?", options: ["২:১", "১:১", "৩:১", "০.৫:১"], correct: 0 },
+        { q: "১৮. নগদ প্রবাহ বিবরণী কয়টি পদ্ধতিতে হয়?", options: ["দুই", "তিন", "এক", "চার"], correct: 0 },
+        { q: "১৯. লভ্যাংশ প্রদান কোন ধরনের কার্য?", options: ["অর্থায়ন কার্য", "পরিচালন কার্য", "বিনিয়োগ কার্য", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. যন্ত্রপাতির অবচয় কোন ধরনের কার্য?", options: ["পরিচালন কার্য", "বিনিয়োগ", "অর্থায়ন", "কোনটিই নয়"], correct: 0 },
+        { q: "২১. সুনাম কোন ধরনের সম্পদ?", options: ["অস্পর্শনীয়", "চলতি", "স্থায়ী দৃশ্যমান", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. অংশীদারি ব্যবসায় নিবন্ধন কি বাধ্যতামূলক?", options: ["না", "হ্যাঁ", "ইচ্ছাধীন", "আদালতের নির্দেশে"], correct: 2 },
+        { q: "২৩. অংশীদারি কারবারের মূলধন হিসাব কয় পদ্ধতিতে রাখা যায়?", options: ["দুই", "তিন", "এক", "পাঁচ"], correct: 0 },
+        { q: "২৪. পরিবর্তনশীল মূলধন পদ্ধতিতে কী কী খোলা হয়?", options: ["মূলধন হিসাব", "চলতি হিসাব", "কোনটিই নয়", "সবগুলো"], correct: 0 },
+        { q: "২৫. সুনাম মূল্যায়নের পদ্ধতি কোনটি?", options: ["গড় মুনাফা", "সুপার প্রফিট", "মূলধনায়ন", "সবগুলো"], correct: 3 },
+        { q: "২৬. নতুন অংশীদার কীসের অংশীদার হয়?", options: ["ভবিষ্যৎ মুনাফা", "অতীত মুনাফা", "সম্পদ", "সবগুলো"], correct: 3 },
+        { q: "২৭. পুনর্মূল্যায়ন হিসাবকে কী বলা হয়?", options: ["নামিক হিসাব", "বাস্তব হিসাব", "ব্যক্তিবাচক", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. অংশীদারের মৃত্যুতে কী প্রস্তুত করতে হয়?", options: ["মৃত্যু তারিখ পর্যন্ত মুনাফা", "আর্থিক বিবরণী", "ব্যাংক হিসাব", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. কারবার বিলোপসাধন কখন হয়?", options: ["সকলের সম্মতিতে", "আদালতের নির্দেশে", "অংশীদার পাগল হলে", "সবগুলো"], correct: 3 },
+        { q: "৩০. বিলোপসাধন হিসাবকে কী বলা হয়?", options: ["উপলেক্ষ হিসাব", "পুনর্মূল্যায়ন হিসাব", "লাভ-ক্ষতি হিসাব", "খতিয়ান"], correct: 0 },
+        { q: "৩১. শেয়ার আবেদন একাউন্ট কোন ধরনের?", options: ["সাময়িক", "স্থায়ী", "আয়", "দায়"], correct: 0 },
+        { q: "৩২. শেয়ার অবহার কী?", options: ["সম্পদ", "দায়", "ব্যয়", "আয়"], correct: 0 },
+        { q: "৩৩. শেয়ার প্রিমিয়াম কোথায় স্থানান্তর করা হয়?", options: ["সঞ্চিতি ও উদ্বৃত্ত", "মূলধন", "ব্যাংক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৪. শেয়ার বাজেয়াপ্তর পর শেয়ার পুনরায় ইস্যু করলে কী হয়?", options: ["মূলধন সঞ্চিতি", "মুনাফা", "লস", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. বন্ড হোল্ডারদের কী দেওয়া হয়?", options: ["সুদ", "লভ্যাংশ", "মূলধন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ডিবেঞ্চার কি ফেরতযোগ্য?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. আর্থিক বিবরণীর বিশ্লেষণে কী ব্যবহৃত হয়?", options: ["অনুপাত", "তুলনামূলক বিবরণী", "সমআকার বিবরণী", "সবগুলো"], correct: 3 },
+        { q: "৩৮. অনুপাত বিশ্লেষণ কেন করা হয়?", options: ["পারফরম্যান্স বিচারে", "ভুল ধরতে", "None", "None"], correct: 0 },
+        { q: "৩৯. তারল্য অনুপাত কোনটি?", options: ["তরল অনুপাত", "চলতি অনুপাত", "সবগুলো", "None"], correct: 2 },
+        { q: "৪০. দায়-মালিকানা অনুপাত কী নির্দেশ করে?", options: ["দীর্ঘমেয়াদী স্বচ্ছলতা", "স্বল্পমেয়াদী", "None", "None"], correct: 0 },
+        { q: "৪১. বিনিয়োগের ওপর আয় অনুপাত কী?", options: ["মুনাফাযোগ্যতা", "তারল্য", "None", "None"], correct: 0 },
+        { q: "৪২. প্রত্যক্ষ ও পরোক্ষ উভয় পদ্ধতির নগদ প্রবাহ কয়টি?", options: ["৩টি", "৪টি", "৫টি", "২টি"], correct: 0 },
+        { q: "৪৩. অপারেটিং নগদ প্রবাহে কোনটি আসে না?", options: ["লভ্যাংশ", "বেতন", "কর", "বিক্রয়"], correct: 0 },
+        { q: "৪৪. শেয়ার মূলধন কয় প্রকার?", options: ["৫", "৩", "২", "৪"], correct: 0 },
+        { q: "৪৫. ঋণপত্র ইস্যু করা হয় কার উপর?", options: ["সিলমোহর", "ব্যক্তিগত স্বাক্ষর", "None", "None"], correct: 0 },
+        { q: "৪৬. অনাদায়ী কল কী?", options: ["সম্পদ", "দায়", "None", "None"], correct: 0 },
+        { q: "৪৭. অগ্রিম কল কী?", options: ["দায়", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৪৮. শেয়ার হোল্ডাররা পান?", options: ["লভ্যাংশ", "সুদ", "None", "None"], correct: 0 },
+        { q: "৪৯. অংশীদারি চুক্তি কি মৌখিক হতে পারে?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "৫০. অংশীদারের মূলধনের সুদের হিসাব কোথায় হয়?", options: ["লাভ-ক্ষতি আবন্টন", "মূলধন হিসাব", "None", "None"], correct: 0 },
+        { q: "৫১. নিট লাভ বণ্টন না করলে কী হয়?", options: ["অব্যয়িত মুনাফা", "মূলধন", "None", "None"], correct: 0 },
+        { q: "৫২. নতুন অংশীদার কী নিয়ে আসে?", options: ["পুঁজি ও সুনাম", "শুধু পুঁজি", "None", "None"], correct: 0 },
+        { q: "৫৩. সুনাম কীসের ওপর ভিত্তি করে হিসাব করা হয়?", options: ["অতীত মুনাফা", "ভবিষ্যৎ", "None", "None"], correct: 0 },
+        { q: "৫৪. দায়-দেনা পরিশোধে অক্ষম হলে কী হয়?", options: ["অংশীদার দেউলিয়া", "কারবার বন্ধ", "None", "None"], correct: 0 },
+        { q: "৫৫. শেয়ারের বাজারমূল্য নির্ধারিত হয়?", options: ["চাহিদা ও যোগান", "কোম্পানি", "None", "None"], correct: 0 },
+        { q: "৫৬. ডিবেঞ্চারের বৈশিষ্ট্য কী?", options: ["সুদ প্রদান", "নিশ্চয়তা", "None", "None"], correct: 0 },
+        { q: "৫৭. অনুপাত বিশ্লেষণের সীমাবদ্ধতা কী?", options: ["তথ্যের নির্ভরযোগ্যতা", "অতীতমুখী", "সবগুলো", "None"], correct: 2 },
+        { q: "৫৮. নগদ প্রবাহ বিবরণী কোন হিসাব মান?", options: ["AS-3", "AS-1", "None", "None"], correct: 0 },
+        { q: "৫৯. শেয়ার ইস্যুর ব্যয় কোন ধরণের?", options: ["বিলুপ্তযোগ্য ব্যয়", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৬০. সিকিউরিটিজ প্রিমিয়াম ব্যবহার করা যায়?", options: ["বোনাস শেয়ার দিতে", "ক্ষতি মেটাতে", "None", "None"], correct: 0 },
+        { q: "৬১. অংশীদারি কারবারের নিবন্ধন অসম্পূর্ণ থাকলে?", options: ["আইনি মামলা সম্ভব নয়", "ব্যবসা বন্ধ", "None", "None"], correct: 0 },
+        { q: "৬২. চলতি অনুপাত ২:১ এর মানে?", options: ["প্রতি ১ টাকা দায়ের বিপরীতে ২ টাকা সম্পদ", "None", "None", "None"], correct: 0 },
+        { q: "৬৩. কার্যকারী মূলধন =?", options: ["চলতি সম্পদ - চলতি দায়", "চলতি সম্পদ + চলতি দায়", "None", "None"], correct: 0 },
+        { q: "৬৪. বিনিয়োগের উদ্দেশ্য?", options: ["মুনাফা বৃদ্ধি", "নিরাপত্তা", "None", "None"], correct: 0 },
+        { q: "৬৫. স্টক টার্নওভার রেশিও নির্দেশ করে?", options: ["বিক্রয়ের দক্ষতা", "ক্রয়ের দক্ষতা", "None", "None"], correct: 0 },
+        { q: "৬৬. ডিবেঞ্চার হোল্ডারদের ভোটাধিকার?", options: ["নেই", "আছে", "None", "None"], correct: 0 },
+        { q: "৬৭. শেয়ার হোল্ডারদের ভোটাধিকার?", options: ["আছে", "নেই", "None", "None"], correct: 0 },
+        { q: "৬৮. অংশীদারদের দায়?", options: ["অসীম", "সীমাবদ্ধ", "None", "None"], correct: 0 },
+        { q: "৬৯. শেয়ারের আংশিক মূল্য কল করাকে বলে?", options: ["কলড-আপ মূলধন", "পেড-আপ মূলধন", "None", "None"], correct: 0 },
+        { q: "৭০. শেয়ার ইস্যু না করা মূলধন?", options: ["অননুমোদিত", "অগৃত", "None", "None"], correct: 0 },
+        { q: "৭১. অংশীদারি চুক্তিপত্র কী?", options: ["দলিলাদি", " মৌখিক কথা", "None", "None"], correct: 0 },
+        { q: "৭২. উত্তোলন কী?", options: ["মূলধন হ্রাস", "মূলধন বৃদ্ধি", "None", "None"], correct: 0 },
+        { q: "৭৩. সুনাম বাট্টা দেওয়া উচিত?", options: ["না", "হ্যাঁ", "None", "None"], correct: 0 },
+        { q: "৭৪. নতুন অংশীদার ভর্তিতে পুরনোদের কী হয়?", options: ["ত্যাগ", "লাভ", "None", "None"], correct: 0 },
+        { q: "৭৫. অবসর গ্রহণকারী অংশীদার কী পান?", options: ["পুঁজি ও মুনাফা", "কোনটিই নয়", "None", "None"], correct: 0 },
+        { q: "৭৬. মৃত্যু ও অবসরের পার্থক্য কী?", options: ["সময়", "পদ্ধতি", "None", "None"], correct: 0 },
+        { q: "৭৭. বিলোপসাধন মানে কী?", options: ["কারবার বন্ধ", "অংশীদার পরিবর্তন", "None", "None"], correct: 0 },
+        { q: "৭৮. ক্রেডিট বাট্টা কী?", options: ["আয়", "ব্যয়", "None", "None"], correct: 0 },
+        { q: "৭৯. ঋণপত্র কতদিন পর পরিশোধ?", options: ["নির্দিষ্ট সময়", "ইচ্ছামতো", "None", "None"], correct: 0 },
+        { q: "৮০. আর্থিক বিবরণীর উৎস?", options: ["ট্রায়াল ব্যালেন্স", "জাবেদা", "None", "None"], correct: 0 },
+        { q: "৮১. লাভ-ক্ষতি বিবরণী কী জানায়?", options: ["মুনাফা", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৮২. উদ্বর্তপত্র (Balance Sheet) কী দেখায়?", options: ["অবস্থা", "মুনাফা", "None", "None"], correct: 0 },
+        { q: "৮৩. শেয়ার মূলধনের প্রকারভেদ?", options: ["৪টি", "৫টি", "None", "None"], correct: 0 },
+        { q: "৮৪. অগ্রাধিকার শেয়ার?", options: ["লভ্যাংশ অগ্রাধিকার পায়", "ভোটাধিকার পায়", "None", "None"], correct: 0 },
+        { q: "৮৫. সাধারণ শেয়ার?", options: ["ভোটাধিকার আছে", "নিশ্চিত লভ্যাংশ নেই", "None", "None"], correct: 0 },
+        { q: "৮৬. লভ্যাংশ ঘোষণা করে?", options: ["পরিচালক পর্ষদ", "শেয়ারহোল্ডাররা", "None", "None"], correct: 0 },
+        { q: "৮৭. ইন্টারিম লভ্যাংশ কী?", options: ["বছরের মাঝের", "শেষের", "None", "None"], correct: 0 },
+        { q: "৮৮. ডিবেঞ্চার ট্রাস্টি কী?", options: ["প্রতিনিধি", "মালিক", "None", "None"], correct: 0 },
+        { q: "৮৯. রূপান্তরযোগ্য ডিবেঞ্চার?", options: ["শেয়ারে রূপান্তর", "টাকায় রূপান্তর", "None", "None"], correct: 0 },
+        { q: "৯০. অনুপাতের একক?", options: ["শতকরা/গুণ/অনুপাত", "টাকা", "None", "None"], correct: 0 },
+        { q: "৯১. মোট লাভ অনুপাত?", options: ["মোট লাভ / বিক্রয়", "মোট লাভ / মূলধন", "None", "None"], correct: 0 },
+        { q: "৯২. নগদ প্রবাহের উৎস?", options: ["পরিচালন", "বিনিয়োগ", "অর্থায়ন", "সবগুলো"], correct: 3 },
+        { q: "৯৩. অংশীদারি চুক্তির অভাব থাকলে কী প্রযোজ্য?", options: ["১৯৩২ আইন", "১৯১৩ আইন", "None", "None"], correct: 0 },
+        { q: "৯৪. সুনাম কখন তৈরি হয়?", options: ["সুনাম অর্জন", "ক্রয় করলে", "None", "None"], correct: 0 },
+        { q: "৯৫. অংশীদারি ব্যবসায় কয়টি পক্ষ?", options: ["২ বা ততোধিক", "১", "None", "None"], correct: 0 },
+        { q: "৯৬. মূলধনের সুদের হিসাব কী?", options: ["ব্যয়", "আয়", "None", "None"], correct: 0 },
+        { q: "৯৭. নতুন অংশীদারের প্রবেশে সম্পদ পুনর্বমূল্যায়ন কেন?", options: ["ন্যায্যতার জন্য", "মুনাফার জন্য", "None", "None"], correct: 0 },
+        { q: "৯৮. শেয়ার বাজেয়াপ্তি কেন হয়?", options: ["টাকা না দিলে", "আবেদন না করলে", "None", "None"], correct: 0 },
+        { q: "৯৯. ডিবেঞ্চার হোল্ডাররা সুদ পান?", options: ["লাভ হোক বা না হোক", "শুধু লাভ হলে", "None", "None"], correct: 0 },
+        { q: "১০০. আর্থিক বিবরণী বিশ্লেষণের সুবিধা?", options: ["সিদ্ধান্ত নিতে", "ভবিষ্যদ্বাণী করতে", "সবগুলো", "None"], correct: 2 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p style="color:#f87171">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p style="color:#4ade80">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
