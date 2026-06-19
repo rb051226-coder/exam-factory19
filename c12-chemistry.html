@@ -3,163 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemistry 100 Quest - 2026</title>
+    <title>Class 12 Chemistry Pro Quiz 2026</title>
     <style>
-        body { background: #0f172a; color: white; font-family: 'Hind Siliguri', sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .container { background: #1e293b; padding: 30px; border-radius: 15px; width: 100%; max-width: 700px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        h2 { color: #fbbf24; text-align: center; }
-        .q-box { font-size: 1.2rem; margin: 20px 0; padding: 15px; background: #334155; border-left: 5px solid #fbbf24; }
-        .btn-opt { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #475569; border: none; border-radius: 5px; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
-        .btn-opt:hover { background: #fbbf24; color: #000; }
-        #score-screen { text-align: center; display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>রসায়ন ফাইনাল সাজেশন ১০০ (২০২৬)</h2>
-    <div id="quiz-screen">
-        <p id="progress">প্রশ্ন ১/১০০</p>
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি রসায়ন: ১০০ প্রফেশনাল কুইজ (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
         <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
-        <div id="options"></div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
     </div>
-    <div id="score-screen">
-        <h3>পরীক্ষা শেষ!</h3>
-        <p id="score-text" style="font-size: 2rem;"></p>
-        <button class="btn-opt" style="text-align:center;" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
     </div>
 </div>
 
 <script>
     const questions = [
-        { q: "১. একক কোষ (Unit cell) প্রধানত কত প্রকার?", options: ["২", "৩", "৪", "৭"], correct: 2 },
+        { q: "১. একক কোষ (Unit cell) প্রধানত কত প্রকার?", options: ["২", "৩", "৪", "৭"], correct: 3 },
         { q: "২. কোন ত্রুটির কারণে ঘনত্ব কমে না?", options: ["ফ্রেনকেল", "শটকি", "ধাতব ঘাটতি", "কোনটিই নয়"], correct: 0 },
-        { q: "৩. প্যাকিং দক্ষতা (Packing Efficiency) কিসের পরিমাপ?", options: ["আয়তন দখল", "ভর", "ঘনত্ব", "তাপ"], correct: 0 },
-        { q: "৪. মোলারিটির একক কী?", options: ["mol/L", "mol/kg", "g/L", "none"], correct: 0 },
-        { q: "৫. রাউল্টের সূত্র কোন ধরনের দ্রবণের জন্য?", options: ["আদর্শ", "অনাদর্শ", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৬. অভিস্রবণ চাপ (Osmotic pressure) কী?", options: ["সংখ্যাগত ধর্ম", "ভৌত ধর্ম", "রাসায়নিক ধর্ম", "কোনটিই নয়"], correct: 0 },
-        { q: "৭. ভ্যান্ট হফ গুণক (i) নির্দেশ করে?", options: ["বিয়োজন/আয়নীকরণ", "ভর", "ঘনত্ব", "তাপ"], correct: 0 },
-        { q: "৮. হেনরির সূত্র কোনটির জন্য প্রযোজ্য?", options: ["গ্যাস-তরল", "তরল-তরল", "কঠিন-তরল", "উভয়"], correct: 0 },
-        { q: "৯. আদর্শ দ্রবণে কোনটি ঘটে না?", options: ["তাপের পরিবর্তন", "আয়তনের পরিবর্তন", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "১০. ফ্যারাডের ১ম সূত্র কিসের সাথে সম্পর্কিত?", options: ["তড়িৎ বিশ্লেষণ", "তড়িৎ প্রলেপ", "ব্যাটারি", "জ্বালানি কোষ"], correct: 0 },
-        { q: "১১. নের্নস্ট সমীকরণ কি নির্ণয়ে ব্যবহৃত হয়?", options: ["ইলেক্ট্রোড বিভব", "pH", "ঘনত্ব", "তাপ"], correct: 0 },
-        { q: "১২. মোলার পরিবাহিতার একক কী?", options: ["S cm² mol⁻¹", "S cm⁻¹", "ohm", "none"], correct: 0 },
-        { q: "১৩. কোলরাউশের সূত্রটি কিসের জন্য?", options: ["আয়নিক পরিবাহিতা", "রোধ", "তড়িৎ ক্ষেত্র", "কোনটিই নয়"], correct: 0 },
-        { q: "১৪. লেকলাঞ্চে কোষের অ্যানোড কী দিয়ে গঠিত?", options: ["জিঙ্ক (Zn)", "কার্বন", "তামা", "লোহা"], correct: 0 },
-        { q: "১৫. জ্বালানি কোষে কোনটি ব্যবহৃত হয়?", options: ["H2-O2", "Ni-Cd", "Pb", "কোনটিই নয়"], correct: 0 },
-        { q: "১৬. বিক্রিয়ার হার কিসের ওপর নির্ভর করে?", options: ["ঘনমাত্রা", "তাপমাত্রা", "অনুঘটক", "সবকটি"], correct: 3 },
-        { q: "১৭. শূন্য ক্রমের বিক্রিয়ার হার ধ্রুবকের একক?", options: ["mol L⁻¹ s⁻¹", "s⁻¹", "L mol⁻¹ s⁻¹", "কোনটিই নয়"], correct: 0 },
-        { q: "১৮. ছদ্ম-প্রথম ক্রমের বিক্রিয়া কোনটি?", options: ["ইথাইল অ্যাসিটেট আর্দ্র বিশ্লেষণ", "হাইড্রোজেনেশন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "১৯. সক্রিয়ণ শক্তি (Ea) কী?", options: ["সর্বনিম্ন শক্তি", "সর্বোচ্চ", "গড়", "কোনটিই নয়"], correct: 0 },
-        { q: "২০. আরহেনিয়াস সমীকরণটি কী?", options: ["k = A e^(-Ea/RT)", "k = A e^(Ea/RT)", "k = RT", "কোনটিই নয়"], correct: 0 },
-        { q: "২১. অনুঘটক কী করে?", options: ["বিক্রিয়ার গতি বাড়ায়", "কমায়", "স্থির রাখে", "কোনটিই নয়"], correct: 0 },
-        { q: "২২. ফিজিসর্বশন ও কেমিসর্বশনের মধ্যে পার্থক্য কী?", options: ["বন্ধনের প্রকৃতি", "তাপ", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "২৩. টিন্ডাল প্রভাব কিসে দেখা যায়?", options: ["কলয়েড", "প্রকৃত দ্রবণ", "সাসপেনশন", "সবকটি"], correct: 0 },
-        { q: "২৪. ব্রাউনীয় গতি কী?", options: ["জিক-জাক গতি", "সরল রেখা", "বৃত্তাকার", "কোনটিই নয়"], correct: 0 },
-        { q: "২৫. গোল্ড সংখ্যা কিসের পরিমাপ?", options: ["সুরক্ষামূলক ক্ষমতা", "ভর", "ঘনত্ব", "কোনটিই নয়"], correct: 0 },
-        { q: "২৬. আকরিকের ঘনকরণ পদ্ধতি কোনটি?", options: ["ফেনা ভাসন", "চৌম্বক পৃথকীকরণ", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "২৭. ফেনা ভাসন পদ্ধতি কিসের জন্য?", options: ["সালফাইড আকরিক", "অক্সাইড", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "২৮. ক্যালাসিনেশন কিসে হয়?", options: ["সীমিত বায়ু", "অতিরিক্ত বায়ু", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "২৯. P-ব্লক মৌলদের গ্রুপ কয়টি?", options: ["৬", "৫", "৪", "৩"], correct: 0 },
-        { q: "৩০. আন্তঃহ্যালোজেন যৌগ কোনটি?", options: ["ClF3", "NaCl", "KCl", "কোনটিই নয়"], correct: 0 },
-        { q: "৩১. সালফিউরিক অ্যাসিডের সংস্পর্শ পদ্ধতিতে কোনটি অনুঘটক?", options: ["V2O5", "Fe", "Ni", "কোনটিই নয়"], correct: 0 },
-        { q: "৩২. হিলিয়াম কেন নিষ্ক্রিয়?", options: ["পূর্ণ কক্ষপথ", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৩. অবস্থান্তর মৌল রঙিন কেন?", options: ["d-d ট্রানজিশন", "ইলেকট্রন", "আকার", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৪. ল্যান্থানাইড সংকোচন কী?", options: ["আকার হ্রাস", "বৃদ্ধি", "স্থির", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৫. ট্রানজিশন মৌলের জারণ অবস্থা কী?", options: ["পরিবর্তনশীল", "স্থির", "শূন্য", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৬. লিগ্যান্ড হলো?", options: ["ইলেকট্রন দাতা", "গ্রহীতা", "প্রোটন", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৭. কো-অর্ডিনেশন সংখ্যা কী?", options: ["লিগ্যান্ড সংখ্যা", "পরমাণু", "আয়ন", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৮. ভার্নার তত্ত্বের মূল বিষয় কোনটি?", options: ["প্রাথমিক ও মাধ্যমিক যোজ্যতা", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৩৯. চিলেটিং লিগ্যান্ড কোনটি?", options: ["EDTA", "Cl-", "H2O", "কোনটিই নয়"], correct: 0 },
-        { q: "৪০. আইসোমারিজম কয় প্রকার?", options: ["২", "৩", "৪", "৫"], correct: 0 },
-        { q: "৪১. হাইব্রিডাইজেশন কাকে বলে?", options: ["অরবিটালের মিশ্রণ", "ইলেকট্রন", "প্রোটন", "কোনটিই নয়"], correct: 0 },
-        { q: "৪২. [Fe(CN)6]^4- এর আকৃতি?", options: ["অক্টাহেড্রাল", "টেট্রাহেড্রাল", "স্কয়ার", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৩. সিডউইক প্রস্তাবনা কিসের?", options: ["EAN তত্ত্ব", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৪. বর্ণালীবীক্ষণ কী?", options: ["আলোর শোষণ", "বিকিরণ", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৪৫. মেটালো-অর্গানিক যৌগ উদাহরণ?", options: ["ফেরোসিন", "NaCl", "H2O", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৬. আকরিকের বিশোধন কী?", options: ["তড়িৎ-বিশ্লেষণ", "ঊর্ধ্বপাতন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৭. তড়িৎ-বিশ্লেষণীয় পরিশোধন কিসের জন্য?", options: ["তামা", "লোহা", "সোডিয়াম", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৮. জোন রিফাইনিং কিসে ব্যবহৃত হয়?", options: ["জার্মেনিয়াম", "লোহা", "তামা", "কোনটিই নয়"], correct: 0 },
-        { q: "৪৯. নিষ্ক্রিয় গ্যাসের ব্যবহার কী?", options: ["বেলুন", "লাইটিং", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৫০. অক্সিজেনের গঠন?", options: ["দ্বিপারমাণবিক", "একপারমাণবিক", "ত্রি", "কোনটিই নয়"], correct: 0 },
-        { q: "৫১. SN1 বিক্রিয়ার ক্রম?", options: ["১", "২", "০", "৩"], correct: 0 },
-        { q: "৫২. গ্রিগনার্ড বিকারক কী?", options: ["R-Mg-X", "R-Cl", "R-OH", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৩. উর্জ বিক্রিয়া কিসের জন্য?", options: ["অ্যালকেন", "অ্যালকিন", "অ্যালকাইন", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৪. অ্যালকোহলের ডিহাইড্রেশন কিসের সাহায্যে হয়?", options: ["H2SO4", "HCl", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৫. ফেনল অ্যাসিডিক কেন?", options: ["রেজোনেন্স", "হাইড্রোজেন বন্ধন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৬. কোলবে বিক্রিয়া কী?", options: ["স্যালিসাইলিক অ্যাসিড", "ফেনল", "বেনজিন", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৭. রাইমার-টিম্যান বিক্রিয়া কী?", options: ["স্যালিসাইল অ্যালডিহাইড", "ফেনল", "বেনজিন", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৮. উইলিয়ামসন সংশ্লেষণ কী?", options: ["ইথার", "অ্যালকোহল", "অ্যাসিড", "কোনটিই নয়"], correct: 0 },
-        { q: "৫৯. অ্যালডিহাইড ও কিটোন পার্থক্য কিসে হয়?", options: ["টলেন বিকারক", "ফেলিং", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৬০. টলেন বিকারক কী?", options: ["অ্যামোনিয়াকাল সিলভার নাইট্রেট", "কপার", "তামা", "কোনটিই নয়"], correct: 0 },
-        { q: "৬১. ক্যানিজারো বিক্রিয়া কিসে হয়?", options: ["α-H বিহীন", "যুক্ত", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৬২. অ্যালডল ঘনীভবন কিসে হয়?", options: ["α-H যুক্ত", "হীন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৩. হ্যালোফর্ম বিক্রিয়া কোনটি দেয়?", options: ["ইথানল", "মিথানল", "প্রোপেন", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৪. অ্যাসিডের অম্লত্ব বেশি কেন?", options: ["রেজোনেন্স", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৫. হফম্যান ব্রোমামাইড কী?", options: ["অ্যামাইড থেকে অ্যামিন", "ইথার", "অ্যাসিড", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৬. ডায়াজোনিয়াম লবণ থেকে ফেনল প্রস্তুতি?", options: ["আর্দ্র বিশ্লেষণ", "জারণ", "বিজারণ", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৭. অ্যামিন কেমন ক্ষারক?", options: ["লুইস", "ব্রনস্টেড", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৬৮. কার্বাইলামিন বিক্রিয়া কী?", options: ["প্রাথমিক অ্যামিন", "মাধ্যমিক", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৬৯. গ্লুকোজের আণবিক সংকেত?", options: ["C6H12O6", "C12H22O11", "CH4", "কোনটিই নয়"], correct: 0 },
-        { q: "৭০. পেপটাইড বন্ধন কিসে থাকে?", options: ["প্রোটিন", "কার্বোহাইড্রেট", "লিপিড", "কোনটিই নয়"], correct: 0 },
-        { q: "৭১. প্রোটিন ডিন্যাচারেশন কী?", options: ["কাঠামো পরিবর্তন", "বৃদ্ধি", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৭২. DNA ও RNA পার্থক্য?", options: ["শর্করা ও বেস", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৭৩. ভিটামিন কী?", options: ["জৈব অনুঘটক", "খাদ্য", "ধাতু", "কোনটিই নয়"], correct: 0 },
-        { q: "৭৪. পলিমার কী?", options: ["বৃহৎ অণু", "ক্ষুদ্র", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৭৫. নাইলন-৬,৬ কী?", options: ["পলিমাইড", "পলিইস্টার", "ইথার", "কোনটিই নয়"], correct: 0 },
-        { q: "৭৬. বাকেলাইট কী?", options: ["থার্মোসেটিং", "থার্মোপ্লাস্টিক", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৭৭. থার্মোপ্লাস্টিক বনাম থার্মোসেটিং?", options: ["পুনর্ব্যবহারযোগ্য", "স্থায়ী", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৭৮. সাবান বনাম ডিটারজেন্ট?", options: ["সোডিয়াম লবণ", "সালফোট", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "৭৯. অ্যান্টিবায়োটিক কী?", options: ["ব্যাকটেরিয়া নাশক", "ভাইরাস", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৮০. ড্রাগের শ্রেণিবিভাগ কিসের ওপর?", options: ["ক্রিয়া", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৮১. রাউল্টের সীমাবদ্ধতা?", options: ["তীব্র দ্রবণ", "আদর্শ", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৮২. আপেক্ষিক বাষ্পচাপ অবনমন কী?", options: ["সংখ্যাগত", "ভৌত", "রাসায়নিক", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৩. ক্রম বনাম আণবিকতা?", options: ["পরীক্ষালব্ধ বনাম তাত্ত্বিক", "উভয়", "কোনটিই নয়", "আকার"], correct: 0 },
-        { q: "৮৪. তাপহারী বিক্রিয়া?", options: ["শোষণ", "বর্জন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৫. নির্দেশক কী?", options: ["রঙ পরিবর্তনকারী", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৬. আয়নিক গুণফল কী?", options: ["[H+][OH-]", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৭. বাফার দ্রবণের গুরুত্ব?", options: ["pH স্থির রাখা", "পরিবর্তন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৮. জারণ সংখ্যা?", options: ["চার্জ", "ভর", "আকার", "কোনটিই নয়"], correct: 0 },
-        { q: "৮৯. তড়িৎ রাসায়নিক শ্রেণি?", options: ["মান বিভব", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৯০. হেসের সূত্র?", options: ["তাপের সমষ্টি", "ভর", "আকার", "কোনটিই নয়"], correct: 0 },
-        { q: "৯১. এন্ট্রপি কী?", options: ["বিশৃঙ্খলার পরিমাপ", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
-        { q: "৯২. মুক্ত শক্তি (ΔG)?", options: ["ΔH-TΔS", "ΔH+TΔS", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৩. স্বতঃস্ফূর্ত শর্ত?", options: ["ΔG < 0", "ΔG > 0", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৪. হাকল নিয়ম কী?", options: ["4n+2 π ইলেকট্রন", "4n", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৫. রেজোন্যান্স প্রভাব কী?", options: ["স্থায়ীত্ব", "ভর", "আকার", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৬. ইনডাকটিভ প্রভাব কী?", options: ["ইলেকট্রন স্থানান্তর", "ভর", "আকার", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৭. ইলেকট্রোফাইল কী?", options: ["ইলেকট্রন গ্রহীতা", "দাতা", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৮. বেনজিনের নাইট্রেশন?", options: ["নাইট্রো বেনজিন", "বেনজিন", "উভয়", "কোনটিই নয়"], correct: 0 },
-        { q: "৯৯. ফরমালডিহাইড ও অ্যাসিটালডিহাইড পার্থক্য?", options: ["আয়োডোফর্ম পরীক্ষা", "টলেন", "উভয়", "কোনটিই নয়"], correct: 2 },
-        { q: "১০০. গ্রিন কেমিস্ট্রি কী?", options: ["পরিবেশবান্ধব রসায়ন", "দূষণ", "উভয়", "কোনটিই নয়"], correct: 0 }
+        { q: "৩. মোলারিটির একক কী?", options: ["mol/L", "mol/kg", "g/L", "N/L"], correct: 0 },
+        { q: "৪. রাউল্টের সূত্র কোন ধরনের দ্রবণের জন্য?", options: ["আদর্শ", "অনাদর্শ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫. অভিস্রবণ চাপ (Osmotic pressure) কী?", options: ["সংখ্যাগত ধর্ম", "ভৌত ধর্ম", "রাসায়নিক ধর্ম", "কোনটিই নয়"], correct: 0 },
+        { q: "৬. ভ্যান্ট হফ গুণক (i) নির্দেশ করে?", options: ["বিয়োজন/আয়নীকরণ", "ভর", "ঘনত্ব", "তাপ"], correct: 0 },
+        { q: "৭. হেনরির সূত্র কোনটির জন্য প্রযোজ্য?", options: ["গ্যাস-তরল", "তরল-তরল", "কঠিন-তরল", "উভয়"], correct: 0 },
+        { q: "৮. ফ্যারাডের ১ম সূত্র কিসের সাথে সম্পর্কিত?", options: ["তড়িৎ বিশ্লেষণ", "তড়িৎ প্রলেপ", "ব্যাটারি", "জ্বালানি কোষ"], correct: 0 },
+        { q: "৯. নের্নস্ট সমীকরণ কি নির্ণয়ে ব্যবহৃত হয়?", options: ["ইলেক্ট্রোড বিভব", "pH", "ঘনত্ব", "তাপ"], correct: 0 },
+        { q: "১০. মোলার পরিবাহিতার একক কী?", options: ["S cm² mol⁻¹", "S cm⁻¹", "ohm", "none"], correct: 0 },
+        { q: "১১. কোলরাউশের সূত্রটি কিসের জন্য?", options: ["আয়নিক পরিবাহিতা", "রোধ", "তড়িৎ ক্ষেত্র", "কোনটিই নয়"], correct: 0 },
+        { q: "১২. লেকলাঞ্চে কোষের অ্যানোড কী দিয়ে গঠিত?", options: ["জিঙ্ক (Zn)", "কার্বন", "তামা", "লোহা"], correct: 0 },
+        { q: "১৩. জ্বালানি কোষে কোনটি ব্যবহৃত হয়?", options: ["H2-O2", "Ni-Cd", "Pb", "কোনটিই নয়"], correct: 0 },
+        { q: "১৪. বিক্রিয়ার হার কিসের ওপর নির্ভর করে?", options: ["ঘনমাত্রা", "তাপমাত্রা", "অনুঘটক", "সবকটি"], correct: 3 },
+        { q: "১৫. শূন্য ক্রমের বিক্রিয়ার হার ধ্রুবকের একক?", options: ["mol L⁻¹ s⁻¹", "s⁻¹", "L mol⁻¹ s⁻¹", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. ছদ্ম-প্রথম ক্রমের বিক্রিয়া কোনটি?", options: ["ইথাইল অ্যাসিটেট আর্দ্র বিশ্লেষণ", "হাইড্রোজেনেশন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৭. সক্রিয়ণ শক্তি (Ea) কী?", options: ["সর্বনিম্ন শক্তি", "সর্বোচ্চ", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৮. আরহেনিয়াস সমীকরণটি কী?", options: ["k = A e^(-Ea/RT)", "k = A e^(Ea/RT)", "k = RT", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. অনুঘটক কী করে?", options: ["বিক্রিয়ার গতি বাড়ায়", "কমায়", "স্থির রাখে", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. ফিজিসর্বশন ও কেমিসর্বশনের পার্থক্য কী?", options: ["বন্ধনের প্রকৃতি", "তাপ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "২১. টিন্ডাল প্রভাব কিসে দেখা যায়?", options: ["কলয়েড", "প্রকৃত দ্রবণ", "সাসপেনশন", "সবকটি"], correct: 0 },
+        { q: "২২. ব্রাউনীয় গতি কী?", options: ["জিক-জাক গতি", "সরল রেখা", "বৃত্তাকার", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. গোল্ড সংখ্যা কিসের পরিমাপ?", options: ["সুরক্ষামূলক ক্ষমতা", "ভর", "ঘনত্ব", "কোনটিই নয়"], correct: 0 },
+        { q: "২৪. আকরিকের ঘনকরণ পদ্ধতি কোনটি?", options: ["ফেনা ভাসন", "চৌম্বক পৃথকীকরণ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "২৫. ফেনা ভাসন পদ্ধতি কিসের জন্য?", options: ["সালফাইড আকরিক", "অক্সাইড", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. ক্যালাসিনেশন কিসে হয়?", options: ["সীমিত বায়ু", "অতিরিক্ত বায়ু", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. আন্তঃহ্যালোজেন যৌগ কোনটি?", options: ["ClF3", "NaCl", "KCl", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. সালফিউরিক অ্যাসিডের সংস্পর্শ পদ্ধতিতে কোনটি অনুঘটক?", options: ["V2O5", "Fe", "Ni", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. অবস্থান্তর মৌল রঙিন কেন?", options: ["d-d ট্রানজিশন", "ইলেকট্রন", "আকার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. ল্যান্থানাইড সংকোচন কী?", options: ["আকার হ্রাস", "বৃদ্ধি", "স্থির", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. ট্রানজিশন মৌলের জারণ অবস্থা কী?", options: ["পরিবর্তনশীল", "স্থির", "শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. লিগ্যান্ড হলো?", options: ["ইলেকট্রন দাতা", "গ্রহীতা", "প্রোটন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. কো-অর্ডিনেশন সংখ্যা কী?", options: ["লিগ্যান্ড সংখ্যা", "পরমাণু", "আয়ন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৪. ভার্নার তত্ত্বের মূল বিষয় কোনটি?", options: ["প্রাথমিক ও মাধ্যমিক যোজ্যতা", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. চিলেটিং লিগ্যান্ড কোনটি?", options: ["EDTA", "Cl-", "H2O", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. আইসোমারিজম কয় প্রকার?", options: ["২", "৩", "৪", "৫"], correct: 0 },
+        { q: "৩৭. [Fe(CN)6]^4- এর আকৃতি?", options: ["অক্টাহেড্রাল", "টেট্রাহেড্রাল", "স্কয়ার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. মেটালো-অর্গানিক যৌগ উদাহরণ?", options: ["ফেরোসিন", "NaCl", "H2O", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. তড়িৎ-বিশ্লেষণীয় পরিশোধন কিসের জন্য?", options: ["তামা", "লোহা", "সোডিয়াম", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. জোন রিফাইনিং কিসে ব্যবহৃত হয়?", options: ["জার্মেনিয়াম", "লোহা", "তামা", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. অক্সিজেনের গঠন?", options: ["দ্বিপারমাণবিক", "একপারমাণবিক", "ত্রি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. SN1 বিক্রিয়ার ক্রম?", options: ["১", "২", "০", "৩"], correct: 0 },
+        { q: "৪৩. গ্রিগনার্ড বিকারক কী?", options: ["R-Mg-X", "R-Cl", "R-OH", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. উর্জ বিক্রিয়া কিসের জন্য?", options: ["অ্যালকেন", "অ্যালকিন", "অ্যালকাইন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. ফেনল অ্যাসিডিক কেন?", options: ["রেজোনেন্স", "হাইড্রোজেন বন্ধন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. কোলবে বিক্রিয়া কী?", options: ["স্যালিসাইলিক অ্যাসিড", "ফেনল", "বেনজিন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. রাইমার-টিম্যান বিক্রিয়া কী?", options: ["স্যালিসাইল অ্যালডিহাইড", "ফেনল", "বেনজিন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. অ্যালডিহাইড ও কিটোন পার্থক্য কিসে হয়?", options: ["টলেন বিকারক", "ফেলিং", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৪৯. ক্যানিজারো বিক্রিয়া কিসে হয়?", options: ["α-H বিহীন", "যুক্ত", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. অ্যালডল ঘনীভবন কিসে হয়?", options: ["α-H যুক্ত", "হীন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. হ্যালোফর্ম বিক্রিয়া কোনটি দেয়?", options: ["ইথানল", "মিথানল", "প্রোপেন", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. হফম্যান ব্রোমামাইড কী?", options: ["অ্যামাইড থেকে অ্যামিন", "ইথার", "অ্যাসিড", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. অ্যামিন কেমন ক্ষারক?", options: ["লুইস", "ব্রনস্টেড", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৪. গ্লুকোজের আণবিক সংকেত?", options: ["C6H12O6", "C12H22O11", "CH4", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. পেপটাইড বন্ধন কিসে থাকে?", options: ["প্রোটিন", "কার্বোহাইড্রেট", "লিপিড", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. প্রোটিন ডিন্যাচারেশন কী?", options: ["কাঠামো পরিবর্তন", "বৃদ্ধি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. পলিমার কী?", options: ["বৃহৎ অণু", "ক্ষুদ্র", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. নাইলন-৬,৬ কী?", options: ["পলিমাইড", "পলিইস্টার", "ইথার", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. থার্মোপ্লাস্টিক বনাম থার্মোসেটিং?", options: ["পুনর্ব্যবহারযোগ্য", "স্থায়ী", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬০. সাবান বনাম ডিটারজেন্ট?", options: ["সোডিয়াম লবণ", "সালফোট", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬১. রাউল্টের সীমাবদ্ধতা?", options: ["তীব্র দ্রবণ", "আদর্শ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. ক্রম বনাম আণবিকতা?", options: ["পরীক্ষালব্ধ বনাম তাত্ত্বিক", "উভয়", "কোনটিই নয়", "আকার"], correct: 0 },
+        { q: "৬৩. আয়নিক গুণফল কী?", options: ["[H+][OH-]", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. বাফার দ্রবণের গুরুত্ব?", options: ["pH স্থির রাখা", "পরিবর্তন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. তড়িৎ রাসায়নিক শ্রেণি?", options: ["মান বিভব", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. এন্ট্রপি কী?", options: ["বিশৃঙ্খলার পরিমাপ", "আকার", "ভর", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. মুক্ত শক্তি (ΔG)?", options: ["ΔH-TΔS", "ΔH+TΔS", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. স্বতঃস্ফূর্ত শর্ত?", options: ["ΔG < 0", "ΔG > 0", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. হাকল নিয়ম কী?", options: ["4n+2 π ইলেকট্রন", "4n", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. রেজোন্যান্স প্রভাব কী?", options: ["স্থায়ীত্ব", "ভর", "আকার", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. ইলেকট্রোফাইল কী?", options: ["ইলেকট্রন গ্রহীতা", "দাতা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. বেনজিনের নাইট্রেশন?", options: ["নাইট্রো বেনজিন", "বেনজিন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. গ্রিন কেমিস্ট্রি কী?", options: ["পরিবেশবান্ধব রসায়ন", "দূষণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. অ্যাসিডিক বনাম ক্ষারীয়?", options: ["pH < 7", "pH > 7", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৭৫. হাইড্রোজেন বন্ধন দেখা যায়?", options: ["H2O, NH3", "CH4", "NaCl", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. ডায়াজোনিয়াম লবণ থেকে ফেনল?", options: ["জল বিশ্লেষণ", "জারণ", "বিজারণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. কার্বক্সিলিক অ্যাসিডের সংকেত?", options: ["R-COOH", "R-CHO", "R-OH", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. হিলিয়াম মৌলটি?", options: ["নিষ্ক্রিয়", "ক্ষার", "হ্যালোজেন", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. বোরন কোন গ্রুপের?", options: ["১৩", "১৪", "১৫", "১৬"], correct: 0 },
+        { q: "৮০. CO2 অণুর আকৃতি?", options: ["সরলরৈখিক", "কৌণিক", "পিরামিডীয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. সাম্যধ্রুবক (Kc) নির্ভর করে?", options: ["তাপমাত্রা", "চাপ", "ঘনত্ব", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. ইলেকট্রন বর্জন কী?", options: ["জারণ", "বিজারণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. ওজন স্তর ক্ষয়কারী?", options: ["CFC", "O2", "N2", "H2"], correct: 0 },
+        { q: "৮৪. অ্যাসিড বৃষ্টিতে থাকে?", options: ["SO2", "O2", "H2", "CH4"], correct: 0 },
+        { q: "৮৫. কোয়ান্টাম সংখ্যা কয়টি?", options: ["৪", "৩", "২", "১"], correct: 0 },
+        { q: "৮৬. সবথেকে হালকা মৌল?", options: ["হাইড্রোজেন", "হিলিয়াম", "লিথিয়াম", "বেরিলিয়াম"], correct: 0 },
+        { q: "৮৭. বন্ধন ক্রম (Bond Order) O2 এর?", options: ["২", "১", "৩", "০"], correct: 0 },
+        { q: "৮৮. প্রভাবক কী করে?", options: ["সক্রিয়ণ শক্তি কমায়", "বাড়ায়", "স্থির রাখে", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. মিথেন?", options: ["সম্পৃক্ত", "অসম্পৃক্ত", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. কার্যকরী মূলক সমাণুতা?", options: ["ভিন্ন কার্যকরী মূলক", "একই", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. ক্লোরিন যুক্ত পলিমার?", options: ["PVC", "Polyethylene", "Nylon", "সবকটি"], correct: 0 },
+        { q: "৯২. ইলেকট্রোকেমিক্যাল সেলে?", options: ["রাসায়নিক থেকে তড়িৎ", "তড়িৎ থেকে রাসায়নিক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. বাফার দ্রবণে সামান্য অ্যাসিড?", options: ["pH পরিবর্তন হয় না", "হয়", "বাড়ায়", "কমায়"], correct: 0 },
+        { q: "৯৪. অসম্পৃক্ততা পরীক্ষা?", options: ["ব্রোমিন জল", "জল", "অ্যালকোহল", "ইথার"], correct: 0 },
+        { q: "৯৫. হ্যালোজেন গ্রুপ?", options: ["১৭", "১", "১৮", "১৬"], correct: 0 },
+        { q: "৯৬. নিষ্ক্রিয় গ্যাস?", options: ["১৮", "১", "১৭", "১৫"], correct: 0 },
+        { q: "৯৭. হাইড্রোজেন বন্ধন?", options: ["HF", "CH4", "NaCl", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. ভ্যান ডার ওয়ালস বল?", options: ["দুর্বল", "তীব্র", "আয়নিত", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. সবথেকে স্থিতিশীল ইলেকট্রন বিন্যাস?", options: ["পূর্ণ কক্ষক", "অর্ধপূর্ণ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "১০০. রসায়ন?", options: ["পদার্থের বিজ্ঞান", "ইতিহাস", "গণিত", "কোনটিই নয়"], correct: 0 }
     ];
 
-    let current = 0, score = 0;
-    
-    function load() {
-        if(current < questions.length) {
-            document.getElementById('progress').innerText = `প্রশ্ন ${current+1}/১০০`;
-            document.getElementById('q-text').innerText = questions[current].q;
-            let optDiv = document.getElementById('options');
-            optDiv.innerHTML = '';
-            questions[current].options.forEach((o, i) => {
-                let btn = document.createElement('button');
-                btn.className = 'btn-opt';
-                btn.innerText = o;
-                btn.onclick = () => {
-                    if(i === questions[current].correct) score++;
-                    current++;
-                    load();
-                };
-                optDiv.appendChild(btn);
-            });
-        } else {
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('score-screen').style.display = 'block';
-            document.getElementById('score-text').innerText = `স্কোর: ${score}/১০০`;
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
-    load();
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
 </script>
 </body>
 </html>
