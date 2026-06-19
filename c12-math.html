@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Math 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #22c55e; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #22c55e; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #22c55e; }
+        .finish-btn { background: #166534; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি গণিত সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#22c55e;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#22c55e;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. sin⁻¹x + cos⁻¹x এর মান কত?", options: ["π/2", "π", "0", "1"], correct: 0 },
+        { q: "২. ম্যাট্রিক্সের যোগ সম্ভব হলে শর্তটি কী?", options: ["একই ক্রম", "ভিন্ন ক্রম", "যেকোনো", "কোনটিই নয়"], correct: 0 },
+        { q: "৩. A-এর বিপরীত ম্যাট্রিক্স থাকলে det(A) হবে?", options: ["≠0", "=0", "=1", "কোনটিই নয়"], correct: 0 },
+        { q: "৪. d/dx (log x) = ?", options: ["1/x", "x", "log x", "None"], correct: 0 },
+        { q: "৫. ∫ e^x dx = ?", options: ["e^x", "e^x + c", "1/e^x", "None"], correct: 1 },
+        { q: "৬. দুটি সমান্তরাল ভেক্টরের ক্রস গুণফল কত?", options: ["0", "1", "-1", "ভেক্টর"], correct: 0 },
+        { q: "৭. সম্ভাবনা P(A) + P(A') = ?", options: ["1", "0", "0.5", "None"], correct: 0 },
+        { q: "৮. একটি ফাংশন একৈক (one-one) হওয়ার শর্ত?", options: ["f(x1)=f(x2) ⇒ x1=x2", "f(x1)=f(x2)", "None", "None"], correct: 0 },
+        { q: "৯. sin 2θ এর মান কত?", options: ["2sinθcosθ", "sin²θ", "cos²θ", "None"], correct: 0 },
+        { q: "১০. tan⁻¹x + tan⁻¹y = ?", options: ["tan⁻¹((x+y)/(1-xy))", "tan⁻¹(x-y)", "None", "None"], correct: 0 },
+        { q: "১১. অভেদ ম্যাট্রিক্সের ডিটারমিন্যান্ট কত?", options: ["1", "0", "-1", "None"], correct: 0 },
+        { q: "১২. আডজয়েন্ট ম্যাট্রিক্স (Adj A) এর সংজ্ঞায় কী থাকে?", options: ["কো-ফ্যাক্টর", "মাইনর", "None", "None"], correct: 0 },
+        { q: "১৩. লম্ব ভেক্টরের ডট গুণফল কত?", options: ["0", "1", "-1", "None"], correct: 0 },
+        { q: "১৪. d/dx (sin x) = ?", options: ["cos x", "-cos x", "sin x", "None"], correct: 0 },
+        { q: "১৫. d/dx (cos x) = ?", options: ["-sin x", "sin x", "None", "None"], correct: 0 },
+        { q: "১৬. ∫ 1/x dx = ?", options: ["log|x|+c", "x", "None", "None"], correct: 0 },
+        { q: "১৭. ত্রিভুজের ক্ষেত্রফল (স্থানাঙ্ক জ্যামিতিতে)?", options: ["1/2|x1(y2-y3)...|", "None", "None", "None"], correct: 0 },
+        { q: "১৮. একটি সমতলের অভিলম্ব ভেক্টর কী?", options: ["n vector", "r vector", "None", "None"], correct: 0 },
+        { q: "১৯. সম্ভাবনার শর্ত P(A/B) = ?", options: ["P(A∩B)/P(B)", "P(A∩B)/P(A)", "None", "None"], correct: 0 },
+        { q: "২০. x-অক্ষের সমান্তরাল রেখার ঢাল কত?", options: ["0", "1", "∞", "None"], correct: 0 },
+        { q: "২১. দুটি ভেক্টরের ডট গুণফল কী?", options: ["স্কেলার", "ভেক্টর", "None", "None"], correct: 0 },
+        { q: "২২. অভিলম্বের ঢাল কত?", options: ["-1/m", "m", "None", "None"], correct: 0 },
+        { q: "২৩. রোলের উপপাদ্য (Rolle's Theorem) কী?", options: ["f(a)=f(b)", "f'(c)=0", "Both", "None"], correct: 2 },
+        { q: "২৪. Lagrange's Mean Value Theorem শর্ত?", options: ["f'(c)=(f(b)-f(a))/(b-a)", "None", "None", "None"], correct: 0 },
+        { q: "২৫. ∫ tan x dx = ?", options: ["-log|cos x|+c", "log|sec x|+c", "Both", "None"], correct: 2 },
+        { q: "২৬. ∫ sec x dx = ?", options: ["log|sec x + tan x|+c", "None", "None", "None"], correct: 0 },
+        { q: "২৭. d/dx (tan x) = ?", options: ["sec²x", "tan²x", "None", "None"], correct: 0 },
+        { q: "২৮. ∫ x^n dx = ?", options: ["x^(n+1)/(n+1)", "x^n", "None", "None"], correct: 0 },
+        { q: "২৯. sin^2 x + cos^2 x = ?", options: ["1", "0", "None", "None"], correct: 0 },
+        { q: "৩০. 1 + tan^2 x = ?", options: ["sec^2 x", "cosec^2 x", "None", "None"], correct: 0 },
+        { q: "৩১. cot^2 x + 1 = ?", options: ["cosec^2 x", "sec^2 x", "None", "None"], correct: 0 },
+        { q: "৩২. d/dx (e^x) = ?", options: ["e^x", "e", "x", "None"], correct: 0 },
+        { q: "৩৩. d/dx (ax) = ?", options: ["a", "0", "1", "None"], correct: 0 },
+        { q: "৩৪. দুটি ম্যাট্রিক্সের গুণ সম্ভব যদি?", options: ["Col A = Row B", "Row A = Col B", "None", "None"], correct: 0 },
+        { q: "৩৫. ট্রান্সপোজ ম্যাট্রিক্সের সূত্র?", options: ["(A')'=A", "A'=A", "None", "None"], correct: 0 },
+        { q: "৩৬. প্রতিসম ম্যাট্রিক্স (Symmetric)?", options: ["A'=A", "A'=-A", "None", "None"], correct: 0 },
+        { q: "৩৭. বিপরীত প্রতিসম (Skew-Symmetric)?", options: ["A'=-A", "A'=A", "None", "None"], correct: 0 },
+        { q: "৩৮. ডায়াগোনাল ম্যাট্রিক্স?", options: ["অ-কর্ণ উপাদান 0", "সব উপাদান 0", "None", "None"], correct: 0 },
+        { q: "৩৯. স্কেলার ম্যাট্রিক্স?", options: ["কর্ণ উপাদান সমান", "সব উপাদান 0", "None", "None"], correct: 0 },
+        { q: "৪০. অভেদ বা আইডেন্টিটি ম্যাট্রিক্স?", options: ["কর্ণ 1", "কর্ণ 0", "None", "None"], correct: 0 },
+        { q: "৪১. Determinant |kA| = ?", options: ["k^n |A|", "k|A|", "None", "None"], correct: 0 },
+        { q: "৪২. ক্ষেত্রফলের ডিটারমিন্যান্ট সূত্র?", options: ["1/2|x1(y2-y3)...|", "None", "None", "None"], correct: 0 },
+        { q: "৪৩. লম্ব ভেক্টর A.B = ?", options: ["0", "1", "|A||B|", "None"], correct: 0 },
+        { q: "৪৪. সমান্তরাল ভেক্টর A x B = ?", options: ["0", "1", "None", "None"], correct: 0 },
+        { q: "৪৫. ভেক্টরের মান (Magnitude)?", options: ["√x²+y²+z²", "None", "None", "None"], correct: 0 },
+        { q: "৪৬. প্রজেকশন (Projection) A on B = ?", options: ["(A.B)/|B|", "(A.B)/|A|", "None", "None"], correct: 0 },
+        { q: "৪৭. বিন্দুগামী সরলরেখার সমীকরণ?", options: ["r = a + tb", "r = a + b", "None", "None"], correct: 0 },
+        { q: "৪৮. দুটি সমতলের মধ্যবর্তী কোণ?", options: ["cos θ = |n1.n2| / (|n1||n2|)", "None", "None", "None"], correct: 0 },
+        { q: "৪৯. সম্ভাবনা P(A∪B) = ?", options: ["P(A)+P(B)-P(A∩B)", "P(A)+P(B)", "None", "None"], correct: 0 },
+        { q: "৫০. স্বাধীন ঘটনা (Independent Event)?", options: ["P(A∩B)=P(A)P(B)", "P(A∩B)=0", "None", "None"], correct: 0 },
+        { q: "৫১. ∫ dx/(1+x^2) = ?", options: ["tan⁻¹x + c", "sin⁻¹x + c", "None", "None"], correct: 0 },
+        { q: "৫২. ∫ dx/√(1-x^2) = ?", options: ["sin⁻¹x + c", "cos⁻¹x + c", "None", "None"], correct: 0 },
+        { q: "৫৩. ফাংশন অবিচ্ছিন্ন (Continuous)?", options: ["LHL=RHL=f(a)", "LHL=RHL", "None", "None"], correct: 0 },
+        { q: "৫৪. d/dx (log x)^n = ?", options: ["n(log x)^(n-1)/x", "n(log x)^n", "None", "None"], correct: 0 },
+        { q: "৫৫. একটি বৃত্তের কেন্দ্র (h,k)?", options: ["(x-h)²+(y-k)²=r²", "None", "None", "None"], correct: 0 },
+        { q: "৫৬. পরাবৃত্ত y²=4ax এর শীর্ষবিন্দু?", options: ["(0,0)", "(a,0)", "None", "None"], correct: 0 },
+        { q: "৫৭. উপবৃত্তের সমীকরণ (Ellipse)?", options: ["x²/a²+y²/b²=1", "x²/a²-y²/b²=1", "None", "None"], correct: 0 },
+        { q: "৫৮. পরাবৃত্তের (Hyperbola) সমীকরণ?", options: ["x²/a²-y²/b²=1", "x²/a²+y²/b²=1", "None", "None"], correct: 0 },
+        { q: "৫৯. ∫ 0 to π/2 sin x dx = ?", options: ["1", "0", "-1", "None"], correct: 0 },
+        { q: "৬০. ∫ 0 to π/2 cos x dx = ?", options: ["1", "0", "-1", "None"], correct: 0 },
+        { q: "৬১. লিনিয়ার প্রোগ্রামিং-এর প্রধান উদ্দেশ্য?", options: ["Optimize (Max/Min)", "Addition", "None", "None"], correct: 0 },
+        { q: "৬২. সম্ভাবনার বায়েস উপপাদ্য (Bayes Theorem)?", options: ["P(Ei|A) = ...", "None", "None", "None"], correct: 0 },
+        { q: "৬৩. ফাংশন ইনভার্স (Inverse)?", options: ["Bijection (One-one & Onto)", "One-one", "None", "None"], correct: 0 },
+        { q: "৬৪. অসংজ্ঞায়িত মান tan 90° = ?", options: ["∞", "1", "0", "None"], correct: 0 },
+        { q: "৬৫. ভেক্টরের একক ভেক্টর (Unit vector)?", options: ["A/|A|", "A", "None", "None"], correct: 0 },
+        { q: "৬৬. কার্তেসীয় রূপ?", options: ["(x-x1)/a = (y-y1)/b", "None", "None", "None"], correct: 0 },
+        { q: "৬৭. ডাইরেকশন কোসাইন (Direction Cosines)?", options: ["l,m,n", "x,y,z", "None", "None"], correct: 0 },
+        { q: "৬৮. l²+m²+n² = ?", options: ["1", "0", "None", "None"], correct: 0 },
+        { q: "৬৯. ∫ sec^2 x dx = ?", options: ["tan x + c", "cot x + c", "None", "None"], correct: 0 },
+        { q: "৭০. ∫ cosec^2 x dx = ?", options: ["-cot x + c", "tan x + c", "None", "None"], correct: 0 },
+        { q: "৭১. d/dx (sec x) = ?", options: ["sec x tan x", "sec x", "None", "None"], correct: 0 },
+        { q: "৭২. d/dx (cosec x) = ?", options: ["-cosec x cot x", "cosec x", "None", "None"], correct: 0 },
+        { q: "৭৩. d/dx (tan x) = ?", options: ["sec^2 x", "cosec^2 x", "None", "None"], correct: 0 },
+        { q: "৭৪. d/dx (cot x) = ?", options: ["-cosec^2 x", "sec^2 x", "None", "None"], correct: 0 },
+        { q: "৭৫. ইন্টিগ্রেশন বাই পার্টস (Parts)?", options: ["∫u v dx = u∫v dx - ∫(du/dx ∫v dx) dx", "None", "None", "None"], correct: 0 },
+        { q: "৭৬. লিনিয়ার ডিফারেনশিয়াল ইকুয়েশন (dy/dx + Py = Q)?", options: ["I.F. = e^∫P dx", "I.F. = e^∫Q dx", "None", "None"], correct: 0 },
+        { q: "৭৭. মূলবিন্দু থেকে দূরত্ব?", options: ["ax+by+c=0 |c|/√a²+b²", "None", "None", "None"], correct: 0 },
+        { q: "৭৮. দুটি রেখার সমান্তরাল শর্ত?", options: ["a1/a2 = b1/b2 = c1/c2", "a1a2+b1b2=0", "None", "None"], correct: 0 },
+        { q: "৭৯. দুটি রেখার লম্ব শর্ত?", options: ["a1a2+b1b2+c1c2=0", "None", "None", "None"], correct: 0 },
+        { q: "৮০. সলিড অফ রিভল্যুশন?", options: ["π∫y² dx", "∫y dx", "None", "None"], correct: 0 },
+        { q: "৮১. sin(-x) = ?", options: ["-sin x", "sin x", "None", "None"], correct: 0 },
+        { q: "৮২. cos(-x) = ?", options: ["cos x", "-cos x", "None", "None"], correct: 0 },
+        { q: "৮৩. tan(-x) = ?", options: ["-tan x", "tan x", "None", "None"], correct: 0 },
+        { q: "৮৪. বাইনারি অপারেশন?", options: ["* : A x A → A", "None", "None", "None"], correct: 0 },
+        { q: "৮৫. কমুটেটিভ (Commutative)?", options: ["a*b = b*a", "a*b = b", "None", "None"], correct: 0 },
+        { q: "৮৬. অ্যাসোসিয়েটিভ (Associative)?", options: ["(a*b)*c = a*(b*c)", "None", "None", "None"], correct: 0 },
+        { q: "৮৭. identity element?", options: ["a*e = a", "None", "None", "None"], correct: 0 },
+        { q: "৮৮. ইনভার্স এলিমেন্ট?", options: ["a*b = e", "None", "None", "None"], correct: 0 },
+        { q: "৮৯. ডিটারমিন্যান্ট (3x3)?", options: ["a(ei-fh)-b(di-fg)+c(dh-eg)", "None", "None", "None"], correct: 0 },
+        { q: "৯০. বিপরীত ম্যাট্রিক্সের অস্তিত্ব?", options: ["|A|≠0", "|A|=0", "None", "None"], correct: 0 },
+        { q: "৯১. Adjoint সূত্র?", options: ["A(Adj A) = |A|I", "None", "None", "None"], correct: 0 },
+        { q: "৯২. d/dx(sin⁻¹x) = ?", options: ["1/√(1-x²)", "-1/√(1-x²)", "None", "None"], correct: 0 },
+        { q: "৯৩. d/dx(cos⁻¹x) = ?", options: ["-1/√(1-x²)", "1/√(1-x²)", "None", "None"], correct: 0 },
+        { q: "৯৪. d/dx(tan⁻¹x) = ?", options: ["1/(1+x²)", "-1/(1+x²)", "None", "None"], correct: 0 },
+        { q: "৯৫. d/dx(cot⁻¹x) = ?", options: ["-1/(1+x²)", "1/(1+x²)", "None", "None"], correct: 0 },
+        { q: "৯৬. ∫ 1/√(a²-x²) dx = ?", options: ["sin⁻¹(x/a)+c", "None", "None", "None"], correct: 0 },
+        { q: "৯৭. ∫ 1/(x²+a²) dx = ?", options: ["(1/a)tan⁻¹(x/a)+c", "None", "None", "None"], correct: 0 },
+        { q: "৯৮. ∫ 1/√(x²+a²) dx = ?", options: ["log|x+√(x²+a²)|+c", "None", "None", "None"], correct: 0 },
+        { q: "৯৯. ∫ dx/(x²-a²) = ?", options: ["(1/2a)log|(x-a)/(x+a)|+c", "None", "None", "None"], correct: 0 },
+        { q: "১০০. অংক করার মূল মন্ত্র?", options: ["ধৈর্য ও অনুশীলন", "মুখস্থ", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
