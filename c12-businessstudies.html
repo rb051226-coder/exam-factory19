@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Business Studies 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0b1120; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #22c55e; text-align: center; margin-bottom: 25px; }
+        .q-box { font-size: 22px; line-height: 1.6; margin-bottom: 25px; padding: 25px; background: rgba(255,255,255,0.03); border-left: 6px solid #22c55e; border-radius: 10px; color: #f8fafc; }
+        .opt-btn { background: #1e293b; padding: 20px; margin-bottom: 12px; width: 100%; border-radius: 12px; border: 1px solid #334155; color: #e2e8f0; cursor: pointer; text-align: left; font-size: 20px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #22c55e; }
+        .finish-btn { background: #166534; color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; cursor: pointer; margin-top: 20px; font-size: 20px; font-weight: bold; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ef4444; font-size: 18px; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি ব্যবসায় শিক্ষা (১০০ প্রশ্ন)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:15px; color:#22c55e; font-size: 18px;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#22c55e; margin-bottom: 20px;">আপনার ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 22px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">আবার শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. ব্যবসায় শব্দটি কোন ইংরেজি শব্দ থেকে এসেছে?", options: ["Busy", "Business", "Trade", "Commerce"], correct: 0 },
+        { q: "২. ব্যবসায়ের প্রধান উদ্দেশ্য কী?", options: ["মুনাফা অর্জন", "সেবা দান", "পণ্য উৎপাদন", "সবগুলো"], correct: 0 },
+        { q: "৩. প্রাচীনতম ব্যবসায় সংগঠন কোনটি?", options: ["একমালিকানা", "অংশীদারি", "কোম্পানি", "সমবায়"], correct: 0 },
+        { q: "৪. একমালিকানা ব্যবসায়ের মালিক কতজন?", options: ["একজন", "দুইজন", "অনির্দিষ্ট", "সাতজন"], correct: 0 },
+        { q: "৫. অংশীদারি ব্যবসায়ের মূল ভিত্তি কী?", options: ["চুক্তি", "আইন", "পুঁজি", "মুনাফা"], correct: 0 },
+        { q: "৬. সাধারণ অংশীদারি ব্যবসায়ের সদস্য সংখ্যা সর্বোচ্চ কত?", options: ["২০ জন", "১০ জন", "৫০ জন", "কোনটিই নয়"], correct: 0 },
+        { q: "৭. ব্যাংকিং অংশীদারি ব্যবসায়ের সদস্য সংখ্যা সর্বোচ্চ কত?", options: ["১০ জন", "২০ জন", "৫০ জন", "১০০ জন"], correct: 0 },
+        { q: "৮. কোম্পানি সংগঠন কয় ধরনের?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "৯. জয়েন্ট স্টক কোম্পানির দায় কেমন?", options: ["সীমাবদ্ধ", "অসীম", "যৌথ", "কোনটিই নয়"], correct: 0 },
+        { q: "১০. সমবায় সমিতির মূল লক্ষ্য কী?", options: ["সেবা", "মুনাফা", "জনকল্যাণ", "সবগুলো"], correct: 0 },
+        { q: "১১. কোনটি ব্যবসায় পরিবেশের উপাদান?", options: ["অর্থনৈতিক", "রাজনৈতিক", "সামাজিক", "সবগুলো"], correct: 3 },
+        { q: "১২. ট্রেডমার্ক কিসের প্রতীক?", options: ["পণ্যের", "প্রতিষ্ঠানের", "মানের", "কোনটিই নয়"], correct: 0 },
+        { q: "১৩. ব্যবসায় নৈতিকতা কী?", options: ["সততা", "মুনাফা অর্জন", "ব্যয় কমানো", "সবগুলো"], correct: 0 },
+        { q: "১৪. ই-কমার্স কী?", options: ["অনলাইন ব্যবসা", "দোকান ব্যবসা", "পণ্য উৎপাদন", "সবগুলো"], correct: 0 },
+        { q: "১৫. আমদানি কী?", options: ["বিদেশ থেকে পণ্য আনা", "দেশে পণ্য পাঠানো", "বিক্রয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. রপ্তানি কী?", options: ["পণ্য বিদেশে পাঠানো", "পণ্য আনা", "উৎপাদন", "কোনটিই নয়"], correct: 0 },
+        { q: "১৭. ব্যবসায় ও শিল্পের সম্পর্ক?", options: ["ঘনিষ্ঠ", "দূরবর্তী", "কোনটিই নয়", "বিপরীত"], correct: 0 },
+        { q: "১৮. শিল্প কয় প্রকার?", options: ["৫", "৩", "৪", "৬"], correct: 0 },
+        { q: "১৯. বাণিজ্যের কাজ কী?", options: ["পণ্য বণ্টন", "উৎপাদন", "গবেষণা", "সবগুলো"], correct: 0 },
+        { q: "২০. বীমা কী দূর করে?", options: ["ঝুঁকি", "ব্যয়", "সময়", "স্থান"], correct: 0 },
+        { q: "২১. ব্যাংকিং কী সাহায্য করে?", options: ["অর্থ সংক্রান্ত", "পণ্য পরিবহণ", "পণ্য উৎপাদন", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. গুদামজাতকরণ কীসের সমস্যা দূর করে?", options: ["সময়", "স্থান", "ঝুঁকি", "সবগুলো"], correct: 0 },
+        { q: "২৩. বিজ্ঞাপন কিসের সাহায্য করে?", options: ["বিক্রয় বৃদ্ধি", "উৎপাদন", "পরিবহণ", "কোনটিই নয়"], correct: 0 },
+        { q: "২৪. একমালিকানা ব্যবসায়ের স্থায়িত্ব কেমন?", options: ["কম", "বেশি", "স্থায়ী", "অনির্দিষ্ট"], correct: 0 },
+        { q: "২৫. অংশীদারি ব্যবসায়ের নিবন্ধন কি বাধ্যতামূলক?", options: ["না", "হ্যাঁ", "ইচ্ছাধীন", "আদালতের নির্দেশে"], correct: 2 },
+        { q: "২৬. শেয়ার হোল্ডাররা কী পান?", options: ["লভ্যাংশ", "বেতন", "কমিশন", "সুদ"], correct: 0 },
+        { q: "২৭. কোম্পানির কৃত্রিম ব্যক্তিসত্তা কী?", options: ["আইনগত", "প্রাকৃতিক", "সামাজিক", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. সমবায় সমিতির নিবন্ধন কোন আইনের অধীনে?", options: ["২০০১", "১৯৪০", "১৯৩২", "১৯১৩"], correct: 0 },
+        { q: "২৯. CSR এর পূর্ণরূপ কী?", options: ["Corporate Social Responsibility", "Company Social Responsibility", "Central Social Responsibility", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. ব্যবসায়িক ঝুঁকি কমানোর উপায়?", options: ["বীমা", "ঋণ", "শেয়ার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. ট্রেডমার্ক কি বৌদ্ধিক সম্পদ?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. কপিরাইট কিসের সুরক্ষা দেয়?", options: ["শিল্পকলা/সাহিত্য", "পণ্যের", "মূলধনের", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. পেটেন্ট কিসের সুরক্ষা দেয়?", options: ["উদ্ভাবন", "সাহিত্য", "পণ্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৪. খুচরা ব্যবসায়ী কার মধ্যবর্তী?", options: ["পাইকারি ও ভোক্তা", "উৎপাদক ও পাইকারি", "উৎপাদক ও ভোক্তা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. পাইকারি ব্যবসায়ী কার কাছ থেকে কেনেন?", options: ["উৎপাদক", "খুচরা ব্যবসায়ী", "ভোক্তা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ব্যবসায়ের অর্থনৈতিক গুরুত্ব কী?", options: ["জাতীয় আয় বৃদ্ধি", "বেকারত্ব দূর", "জীবনযাত্রার মান উন্নয়ন", "সবগুলো"], correct: 3 },
+        { q: "৩৭. যৌথ মূলধনী কোম্পানির নিবন্ধন বাধ্যতামূলক?", options: ["হ্যাঁ", "না", "ইচ্ছাধীন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. সরকারি ব্যবসা কী?", options: ["রাষ্ট্রীয় মালিকানাধীন", "ব্যক্তিগত", "অংশীদারি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. PPP এর পূর্ণরূপ কী?", options: ["Public Private Partnership", "Public Private Party", "Public Profit Partnership", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. ব্যবসায়িক পরিবেশের প্রধান উপাদান কয়টি?", options: ["৫টি", "৪টি", "৩টি", "৬টি"], correct: 0 },
+        { q: "৪১. সামাজিক পরিবেশ কীসের সাথে জড়িত?", options: ["সংস্কৃতি ও মূল্যবোধ", "সরকার", "অর্থনীতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. অর্থনৈতিক পরিবেশের প্রধান বিষয়?", options: ["মূলধন ও বিনিয়োগ", "সংস্কৃতি", "ধর্ম", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৩. ব্যবসায়িক নৈতিকতা কী?", options: ["সঠিক কাজ", "মুনাফা অর্জন", "পণ্য বিক্রয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. পরিবেশ দূষণ রোধে ব্যবসায়ের ভূমিকা?", options: ["দায়বদ্ধতা", "অধিকার", "উদাসীনতা", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. ই-বিজনেস সুবিধা কী?", options: ["দ্রুত ও সহজ", "খরচ বেশি", "ধীরগতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. আউটসোর্সিং কী?", options: ["বাইরের সেবা নেওয়া", "নিজস্ব কর্মী", "উৎপাদন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. পণ্য বিনিময় বাণিজ্যের প্রধান মাধ্যম কী?", options: ["মুদ্রা", "পণ্য", "স্বর্ণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. পরিবহণ কিসের সমস্যা দূর করে?", options: ["স্থান", "সময়", "ঝুঁকি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. ব্যাংকের প্রধান কাজ কী?", options: ["সঞ্চয় ও ঋণ", "পণ্য বিক্রয়", "বীমা", "পরিবহণ"], correct: 0 },
+        { q: "৫০. কেন্দ্রীয় ব্যাংক কী নিয়ন্ত্রণ করে?", options: ["মুদ্রা সরবরাহ", "ব্যক্তিগত ঋণ", "ব্যবসা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. জীবন বীমা চুক্তি কীসের?", options: ["নিশ্চয়তা", "ক্ষতিপূরণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. অগ্নি বীমা কী?", options: ["ক্ষতিপূরণ", "নিশ্চয়তা", "কোনটিই নয়", "উভয়"], correct: 0 },
+        { q: "৫৩. ওয়্যারহাউস কী?", options: ["গুদাম", "দোকান", "কারখানা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. খুচরা ব্যবসায়ের প্রকারভেদ কী?", options: ["স্থায়ী ও ভ্রাম্যমাণ", "বড় ও ছোট", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. ডিপার্টমেন্টাল স্টোর কী?", options: ["বিশাল দোকান", "ছোট দোকান", "পাইকারি", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. সুপার শপ বা সুপার মার্কেট কী?", options: ["আধুনিক খুচরা দোকান", "পাইকারি দোকান", "কারখানা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. ব্যবসায়িক জোট (Cartel) কী?", options: ["একচেটিয়া প্রবণতা", "সহযোগিতা", "প্রতিযোগিতা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. একচেটিয়া কারবার (Monopoly) কী?", options: ["একজন বিক্রেতা", "অনেক বিক্রেতা", "কোনটিই নয়", "উভয়"], correct: 0 },
+        { q: "৫৯. শেয়ার বাজারের কাজ কী?", options: ["পুঁজি সংগ্রহ", "পণ্য বিক্রয়", "বীমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. ডিবেঞ্চার হোল্ডাররা কী পান?", options: ["সুদ", "লভ্যাংশ", "শেয়ার", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. সমবায় সমিতির নিবন্ধন ফি কী?", options: ["সহনীয়", "বেশি", "অতিরিক্ত", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. সমবায় নীতি কী?", options: ["সবার জন্য এক", "একজনের জন্য সব", "None", "None"], correct: 0 },
+        { q: "৬৩. সমবায়ের মুনাফা বণ্টন কী?", options: ["সদস্যদের মধ্যে", "উদ্ধৃত সঞ্চয়", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. পার্টনারশিপ ডিড (চুক্তিপত্র) কী?", options: ["লিখিত দলিল", "মৌখিক আলাপ", "None", "None"], correct: 0 },
+        { q: "৬৫. অসীম দায় কার?", options: ["একমালিকানা", "কোম্পানি", "None", "None"], correct: 0 },
+        { q: "৬৬. কোম্পানির পরিচালক কে নিয়োগ দেয়?", options: ["শেয়ারহোল্ডার", "সরকার", "None", "None"], correct: 0 },
+        { q: "৬৭. কোম্পানির মেমোরেন্ডাম কী?", options: ["সংঘ স্মারক", "সংঘ বিধি", "None", "None"], correct: 0 },
+        { q: "৬৮. কোম্পানির আর্টিকেল কী?", options: ["সংঘ বিধি", "সংঘ স্মারক", "None", "None"], correct: 0 },
+        { q: "৬৯. প্রাইভেট কোম্পানির সদস্য সংখ্যা কত?", options: ["৫০", "২০", "২০০", "সীমাহীন"], correct: 0 },
+        { q: "৭০. পাবলিক কোম্পানির সদস্য সংখ্যা কত?", options: ["সদস্য সংখ্যা সীমাহীন", "৫০", "২০", "১০০"], correct: 0 },
+        { q: "৭১. ব্যবসায়িক যোগাযোগ কী?", options: ["তথ্য আদান-প্রদান", "পণ্য বিক্রয়", "None", "None"], correct: 0 },
+        { q: "৭২. ইন্টারনাল ট্রেড মানে কী?", options: ["অভ্যন্তরীণ বাণিজ্য", "বিদেশি বাণিজ্য", "None", "None"], correct: 0 },
+        { q: "৭৩. এক্সটারনাল ট্রেড মানে কী?", options: ["বিদেশি বাণিজ্য", "অভ্যন্তরীণ", "None", "None"], correct: 0 },
+        { q: "৭৪. আমদানি শুল্ক কী?", options: ["কর", "মুনাফা", "None", "None"], correct: 0 },
+        { q: "৭৫. রপ্তানি উন্নয়ন ব্যুরো কী করে?", options: ["রপ্তানি বাড়ায়", "আমদানি বাড়ায়", "None", "None"], correct: 0 },
+        { q: "৭৬. ফিজিক্যাল ডিস্ট্রিবিউশন কী?", options: ["পণ্য সরবরাহ", "উৎপাদন", "None", "None"], correct: 0 },
+        { q: "৭৭. ব্যবসায়ের ঝুঁকি কী?", options: ["অনিশ্চয়তা", "নিশ্চয়তা", "None", "None"], correct: 0 },
+        { q: "৭৮. ব্যবসায়ের সামাজিক দায়বদ্ধতা কী?", options: ["পরিবেশ রক্ষা", "শুধুমাত্র মুনাফা", "None", "None"], correct: 0 },
+        { q: "৭৯. ভোক্তা অধিকার কী?", options: ["পণ্য পাওয়ার অধিকার", "পণ্য বর্জনের অধিকার", "None", "None"], correct: 0 },
+        { q: "৮০. কোনটি ব্যবসায়ের সম্পদ?", options: ["আসবাবপত্র", "ঋণ", "None", "None"], correct: 0 },
+        { q: "৮১. ব্যবসায়িক পরিকল্পনা কী?", options: ["ভবিষ্যৎ রূপরেখা", "অতীতের হিসাব", "None", "None"], correct: 0 },
+        { q: "৮২. স্টার্টআপ কী?", options: ["নতুন ব্যবসা", "পুরনো ব্যবসা", "None", "None"], correct: 0 },
+        { q: "৮৩. উদ্যোক্তা কে?", options: ["ব্যবসায়ের উদ্ভাবক", "কর্মী", "None", "None"], correct: 0 },
+        { q: "৮৪. ক্ষুদ্র ব্যবসায় কী?", options: ["ছোট মূলধন", "বড় মূলধন", "None", "None"], correct: 0 },
+        { q: "৮৫. কটেজ ইন্ডাস্ট্রি বা কুটির শিল্প কী?", options: ["গৃহভিত্তিক শিল্প", "বৃহৎ শিল্প", "None", "None"], correct: 0 },
+        { q: "৮৬. এমএসএমই (MSME) এর পূর্ণরূপ কী?", options: ["Micro Small Medium Enterprises", "Many Small Medium Enterprises", "None", "None"], correct: 0 },
+        { q: "৮৭. ব্যবসায়িক পার্টনারশিপ কেন হয়?", options: ["মূলধন বৃদ্ধির জন্য", "ঝুঁকি কমানোর জন্য", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৮. যৌথ হিন্দু পরিবার ব্যবসায়ের কর্তা কে?", options: ["জ্যেষ্ঠ সদস্য", "সব সদস্য", "None", "None"], correct: 0 },
+        { q: "৮৯. কর্পোরেট গভর্নেন্স কী?", options: ["ব্যবস্থাপনা বিধি", "ব্যক্তিগত ইচ্ছা", "None", "None"], correct: 0 },
+        { q: "৯০. লিজিং কী?", options: ["ভাড়া নেওয়া", "ক্রয় করা", "None", "None"], correct: 0 },
+        { q: "৯১. মাল্টি-ন্যাশনাল কোম্পানি (MNC) কী?", options: ["বহুজাতিক কোম্পানি", "একদেশীয়", "None", "None"], correct: 0 },
+        { q: "৯২. হোল্ডিং কোম্পানি কী?", options: ["অন্য কোম্পানির নিয়ন্ত্রক", "পণ্য বিক্রেতা", "None", "None"], correct: 0 },
+        { q: "৯৩. সাবসিডিয়ারি কোম্পানি কী?", options: ["নিয়ন্ত্রিত কোম্পানি", "নিয়ন্ত্রক", "None", "None"], correct: 0 },
+        { q: "৯৪. ব্যবসার প্রধান উপাদান কয়টি?", options: ["৩", "৫", "None", "None"], correct: 0 },
+        { q: "৯৫. পুঁজি কী?", options: ["বিনিয়োগকৃত অর্থ", "পণ্য", "None", "None"], correct: 0 },
+        { q: "৯৬. ক্রেডিট কার্ড কী?", options: ["ঋণ সুবিধা", "ডেবিট কার্ড", "None", "None"], correct: 0 },
+        { q: "৯৭. অনলাইন ব্যাংকিং কী?", options: ["ইন্টারনেট ভিত্তিক", "শাখা ভিত্তিক", "None", "None"], correct: 0 },
+        { q: "৯৮. ব্যবসায়িক জোটের উদ্দেশ্য কী?", options: ["বাজার নিয়ন্ত্রণ", "সেবা", "None", "None"], correct: 0 },
+        { q: "৯৯. ব্যবসায় কি সেবামূলক কাজ হতে পারে?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "১০০. ব্যবসায় শিক্ষা কী শেখায়?", options: ["ব্যবস্থাপনা ও বাণিজ্য", "বিজ্ঞান", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            if(opt !== "None") {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                container.appendChild(btn);
+            }
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3 style='margin-bottom:15px;'>সঠিক উত্তর মিলিয়ে নিন:</h3>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p style='color:#f87171'>সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
