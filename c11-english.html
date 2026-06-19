@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Factory | Class 11 English Mega Mock Test</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
+            color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); width: 100%; max-width: 750px; padding: 40px 30px; text-align: center;
+        }
+        .brand-logo {
+            font-size: 28px; font-weight: 800; text-transform: uppercase;
+            background: linear-gradient(to right, #22d3ee, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+        }
+        .quiz-meta {
+            display: flex; justify-content: space-between; margin-bottom: 25px; font-weight: 600;
+            background: rgba(0,0,0,0.3); padding: 12px 20px; border-radius: 12px;
+        }
+        #timer { color: #f43f5e; }
+        .q-box {
+            font-size: 19px; text-align: left; margin-bottom: 25px; line-height: 1.6;
+            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 14px; border-left: 5px solid #22d3ee;
+        }
+        .opt-grid { display: flex; flex-direction: column; gap: 12px; }
+        .opt-btn {
+            background: rgba(255, 255, 255, 0.04); border: 2px solid rgba(255, 255, 255, 0.08);
+            padding: 16px; border-radius: 12px; color: white; text-align: left; font-size: 16px; cursor: pointer; transition: 0.2s;
+        }
+        .opt-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #22d3ee; transform: translateX(5px); }
+        .btn-3d {
+            background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; border: none;
+            padding: 16px 32px; font-size: 16px; font-weight: 600; border-radius: 14px; cursor: pointer;
+            box-shadow: 0 6px 0 #0e7490; transition: 0.1s; display: inline-block; margin-top: 20px; text-decoration: none;
+        }
+        .btn-3d:active { transform: translateY(4px); box-shadow: 0 2px 0 #0e7490; }
+        .screen { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">Exam Factory ➔ Class 11 English (100 Marks)</div>
+
+    <div id="quiz-screen" class="screen active">
+        <div class="quiz-meta">
+            <span id="q-count" style="color:#22d3ee;">Question: 1 / 100</span>
+            <span id="timer">Time: 100:00</span>
+        </div>
+        <div class="q-box" id="q-text">Loading Question...</div>
+        <div class="opt-grid">
+            <button class="opt-btn" onclick="handleAnswer(0)"></button>
+            <button class="opt-btn" onclick="handleAnswer(1)"></button>
+            <button class="opt-btn" onclick="handleAnswer(2)"></button>
+            <button class="opt-btn" onclick="handleAnswer(3)"></button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <h2 style="color: #34d399; font-size: 28px; margin-bottom: 15px;">🎉 Mega Mock Test Completed!</h2>
+        <p id="result-details" style="font-size: 18px; margin-bottom: 30px; color:#cbd5e1;"></p>
+        <a href="index.html" class="btn-3d">Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // --- Leela's Friend (1-10) ---
+        { q: "1. Sidda was selected as a servant in Mr. Sivasanker's house because—", options: ["A) He looked tidy and innocent", "B) He had great references", "C) He was very old", "D) He asked for low wages"], correct: 0 },
+        { q: "2. What was Leela's age?", options: ["A) Five years old", "B) Six years old", "C) Four years old", "D) Seven years old"], correct: 0 },
+        { q: "3. Sidda was given how many meals a day?", options: ["A) Two meals", "B) Three meals", "C) One meal", "D) Four meals"], correct: 0 },
+        { q: "4. Sidda's monthly salary was—", options: ["A) Four rupees", "B) Two rupees", "C) Five rupees", "D) Ten rupees"], correct: 0 },
+        { q: "5. According to Sidda, where did the moon come from?", options: ["A) From the sky", "B) From the coconut tree", "C) From the river", "D) From the clouds"], correct: 1 },
+        { q: "6. Leela lost her gold chain in—", options: ["A) The tamarind pot", "B) The well", "C) The garden", "D) Sidda's pocket"], correct: 0 },
+        { q: "7. Who reported the loss of the chain to the police?", options: ["A) Mr. Sivasanker", "B) Leela's mother", "C) Leela", "D) The inspector"], correct: 0 },
+        { q: "8. Leela's mother found the gold chain inside a pot of—", options: ["A) Tamarind", "B) Salt", "C) Sugar", "D) Rice"], correct: 0 },
+        { q: "9. How many letters of the alphabet did Leela know?", options: ["A) Two or three", "B) Five", "C) All letters", "D) None"], correct: 0 },
+        { q: "10. In the end, Mr. Sivasanker refused to keep Sidda because—", options: ["A) He was a confirmed criminal", "B) He was too lazy", "C) Leela did not like him", "D) He stole money"], correct: 0 },
+
+        // --- Karma (11-20) ---
+        { q: "11. Sir Mohan Lal was looking at himself in the mirror of—", options: ["A) A first-class waiting room", "B) His own bedroom", "C) The train compartment", "D) A hotel lobby"], correct: 0 },
+        { q: "12. Sir Mohan Lal stayed in England for—", options: ["A) Five years", "B) Three years", "C) Six years", "D) Two years"], correct: 0 },
+        { q: "13. What was Lachmi's appearance?", options: ["A) Short and fat", "B) Tall and slim", "C) Young and beautiful", "D) Extremely old"], correct: 0 },
+        { q: "14. Lachmi was traveling in which class of the train?", options: ["A) Inter-class Zenana", "B) First-class", "C) Second-class", "D) Third-class"], correct: 0 },
+        { q: "15. The two English soldiers who threw Sir Mohan out were named—", options: ["A) Bill and Jim", "B) John and Tom", "C) Smith and Jones", "D) Harry and Dick"], correct: 0 },
+        { q: "16. Sir Mohan Lal's favorite drink was—", options: ["A) Scotch Whisky", "B) Wine", "C) Rum", "D) Champagne"], correct: 0 },
+        { q: "17. What did Lachmi chew after her meal?", options: ["A) Betel leaves (Paan)", "B) Tobacco", "C) Bubble gum", "D) Fennel seeds"], correct: 0 },
+        { q: "18. Sir Mohan Lal's tie was from—", options: ["A) Balliol", "B) Oxford", "C) Cambridge", "D) London"], correct: 0 },
+        { q: "19. The soldiers called Sir Mohan a—", options: ["A) Nigger", "B) Native", "C) Babu", "D) Coolie"], correct: 0 },
+        { q: "20. At the end of the story, who was left on the platform?", options: ["A) Sir Mohan Lal", "B) Lachmi", "C) The soldiers", "D) The coolie"], correct: 0 },
+
+        // --- Jimmy Valentine (21-30) ---
+        { q: "21. What was Jimmy Valentine's prison number?", options: ["A) 9762", "B) 8762", "C) 9541", "D) 7629"], correct: 0 },
+        { q: "22. Jimmy was granted a pardon by—", options: ["A) The Governor", "B) The Warden", "C) The Judge", "D) The President"], correct: 0 },
+        { q: "23. Who was the detective tracking Jimmy Valentine?", options: ["A) Ben Price", "B) Mike Dolan", "C) Ralph Spencer", "D) Chronin"], correct: 0 },
+        { q: "24. Jimmy changed his name in Elmore to—", options: ["A) Ralph D. Spencer", "B) James Adams", "C) William Morris", "D) Ben Price"], correct: 0 },
+        { q: "25. Who was the lady Jimmy fell in love with?", options: ["A) Annabel Adams", "B) Martha Price", "C) Polly Simpson", "D) Lucy Adams"], correct: 0 },
+        { q: "26. Jimmy opened what kind of business in Elmore?", options: ["A) A shoe store", "B) A grocery store", "C) A bank", "D) A hardware shop"], correct: 0 },
+        { q: "27. Who got locked inside the new vault of the Elmore Bank?", options: ["A) Agatha", "B) May", "C) Annabel", "D) Jimmy"], correct: 0 },
+        { q: "28. How long was Agatha trapped inside the safe before Jimmy opened it?", options: ["A) A few minutes", "B) Two hours", "C) One day", "D) Half an hour"], correct: 0 },
+        { q: "29. What tool kit did Jimmy use to crack safes?", options: ["A) Specially made burglar tools", "B) A hammer and chisel", "C) Dynamites", "D) Electric drill machine"], correct: 0 },
+        { q: "30. Why did Ben Price pretend not to recognize Jimmy at the end?", options: ["A) Because Jimmy had truly reformed", "B) He was afraid of Jimmy", "C) He lost his memory", "D) He was bribed"], correct: 0 },
+
+        // --- Noble Lecture (31-40) ---
+        { q: "31. Mother Teresa delivered her Nobel Lecture in the city of—", options: ["A) Oslo", "B) London", "C) Calcutta", "D) Rome"], correct: 0 },
+        { q: "32. Mother Teresa received the Nobel Peace Prize in—", options: ["A) 1979", "B) 1980", "C) 1975", "D) 1989"], correct: 0 },
+        { q: "33. According to Mother Teresa, the greatest destroyer of peace today is—", options: ["A) Abortion", "B) War", "C) Poverty", "D) Disease"], correct: 0 },
+        { q: "34. Mother Teresa began her speech with a prayer of—", options: ["A) St. Francis of Assisi", "B) Jesus Christ", "C) The Virgin Mary", "D) St. Peter"], correct: 0 },
+        { q: "35. Mother Teresa mentioned a man she brought from the street who died with a—", options: ["A) Smile on his face", "B) Tear in his eye", "C) Curse on his tongue", "D) Complaint"], correct: 0 },
+        { q: "36. Where did Mother Teresa find the four people who were in a terrible state?", options: ["A) On the streets of Calcutta", "B) In a hospital", "C) In a village", "D) In a railway station"], correct: 0 },
+        { q: "37. Who gave up sugar for a week to give money to Mother Teresa's children?", options: ["A) A four-year-old Hindu child", "B) A rich merchant", "C) An old lady", "D) A foreign tourist"], correct: 0 },
+        { q: "38. According to Mother Teresa, poverty is not just lack of food, but being—", options: ["A) Unloved and unwanted", "B) Uneducated", "C) Unemployed", "D) Homeless"], correct: 0 },
+        { q: "39. The name of Mother Teresa's organization is—", options: ["A) Missionaries of Charity", "B) Sisters of Mercy", "C) Red Cross", "D) Peace Corps"], correct: 0 },
+        { q: "40. Mother Teresa says that love begins at—", options: ["A) Home", "B) Church", "C) School", "D) Streets"], correct: 0 },
+
+        // --- Poetry (41-50) ---
+        { q: "41. 'Composed upon Westminster Bridge' is written by—", options: ["A) William Wordsworth", "B) Robert Browning", "C) William Blake", "D) John Keats"], correct: 0 },
+        { q: "42. Which city is described in the poem 'Westminster Bridge'?", options: ["A) London", "B) Paris", "C) Venice", "D) Rome"], correct: 0 },
+        { q: "43. The city of London looks beautiful in the—", options: ["A) Early morning", "B) Late evening", "C) Afternoon", "D) Night"], correct: 0 },
+        { q: "44. In 'Meeting at Night', the color of the sea is—", options: ["A) Grey", "B) Black", "C) Blue", "D) Yellow"], correct: 0 },
+        { q: "45. The lover in 'Meeting at Night' crosses how many fields?", options: ["A) Three fields", "B) Two fields", "C) Four fields", "D) One field"], correct: 0 },
+        { q: "46. In Blake's poem, the rose is—", options: ["A) Sick", "B) Fresh", "C) Dead", "D) Beautiful"], correct: 0 },
+        { q: "47. The secret love of the invisible worm destroys the rose's—", options: ["A) Life", "B) Fragrance", "C) Leaves", "D) Roots"], correct: 0 },
+        { q: "48. The poem 'Brotherhood' is written by—", options: ["A) Octavio Paz", "B) H.W. Longfellow", "C) William Blake", "D) Robert Browning"], correct: 0 },
+        { q: "49. In 'Brotherhood', the poet looks up at the sky and reads the—", options: ["A) Stars", "B) Clouds", "C) Moon", "D) Birds"], correct: 0 },
+        { q: "50. Who calls 'Awake!' to the mists, forest, and birds in the poem 'Daybreak'?", options: ["A) The Wind", "B) The Sun", "C) The Ocean", "D) The Rooster"], correct: 0 },
+
+              // --- Tales from Shakespeare: Macbeth (51-58) ---
+        { q: "51. The three witches greeted Macbeth first as the Thane of—", options: ["A) Glamis", "B) Cawdor", "C) Fife", "D) Ross"], correct: 0 },
+        { q: "52. Who was the King of Scotland murdered by Macbeth?", options: ["A) Duncan", "B) Banquo", "C) Macduff", "D) Malcolm"], correct: 0 },
+        { q: "53. Lady Macbeth could not murder Duncan herself because—", options: ["A) He resembled her father as he slept", "B) She was afraid of the guards", "C) She had no dagger", "D) Macbeth stopped her"], correct: 0 },
+        { q: "54. Whom did Macbeth see sitting on his chair at the banquet?", options: ["A) The ghost of Banquo", "B) King Duncan", "C) Macduff", "D) Fleance"], correct: 0 },
+        { q: "55. The witches warned Macbeth to beware of—", options: ["A) Macduff", "B) Banquo", "C) Malcolm", "D) Fleance"], correct: 0 },
+        { q: "56. Macbeth was told he would not be defeated until which wood came to Dunsinane?", options: ["A) Birnam Wood", "B) Sherwood Forest", "C) Arden Wood", "D) Black Forest"], correct: 0 },
+        { q: "57. Who finally killed Macbeth in the battle?", options: ["A) Macduff", "B) Malcolm", "C) Donalbain", "D) Banquo"], correct: 0 },
+        { q: "58. What was the name of Banquo's son who escaped?", options: ["A) Fleance", "B) Macduff", "C) Malcolm", "D) Donalbain"], correct: 0 },
+
+        // --- Othello (59-66) ---
+        { q: "59. Othello was a brave soldier who belonged to which race?", options: ["A) Moor", "B) Roman", "C) Greek", "D) Persian"], correct: 0 },
+        { q: "60. Who was Desdemona's father?", options: ["A) Brabantio", "B) Cassio", "C) Iago", "D) Roderigo"], correct: 0 },
+        { q: "61. Othello had promoted Cassio to the rank of—", options: ["A) Lieutenant", "B) Captain", "C) General", "D) Major"], correct: 0 },
+        { q: "62. Who was the main villain who plotted against Othello?", options: ["A) Iago", "B) Cassio", "C) Roderigo", "D) Brabantio"], correct: 0 },
+        { q: "63. What was the first gift given to Desdemona by Othello?", options: ["A) A strawberry-spotted handkerchief", "B) A gold ring", "C) A diamond necklace", "D) A silk gown"], correct: 0 },
+        { q: "64. How did Desdemona die?", options: ["A) Othello smothered her with a pillow", "B) She drank poison", "C) Iago stabbed her", "D) She drowned"], correct: 0 },
+        { q: "65. When Othello realized Desdemona was innocent, he—", options: ["A) Killed himself", "B) Forgave Iago", "C) Married again", "D) Left Venice"], correct: 0 },
+        { q: "66. Where did the war take place where Othello was sent?", options: ["A) Cyprus", "B) Venice", "C) Rome", "D) London"], correct: 0 },
+
+        // --- As You Like It (67-75) ---
+        { q: "67. Rosalind was the daughter of—", options: ["A) The banished Duke", "B) Duke Frederick", "C) Sir Rowland de Boys", "D) Oliver"], correct: 0 },
+        { q: "68. Where did the banished Duke live with his followers?", options: ["A) Forest of Arden", "B) Sherwood Forest", "C) Birnam Wood", "D) Windsor Forest"], correct: 0 },
+        { q: "69. Who was Celia's father?", options: ["A) Duke Frederick", "B) The banished Duke", "C) Orlando", "D) Oliver"], correct: 0 },
+        { q: "70. Orlando was the youngest son of—", options: ["A) Sir Rowland de Boys", "B) Duke Frederick", "C) Oliver", "D) Jaques"], correct: 0 },
+        { q: "71. What name did Rosalind take when she disguised herself as a man?", options: ["A) Ganymede", "B) Aliena", "C) Cesario", "D) Touchstone"], correct: 0 },
+        { q: "72. Celia disguised herself as a country girl named—", options: ["A) Aliena", "B) Ganymede", "C) Phebe", "D) Audrey"], correct: 0 },
+        { q: "73. Orlando saved his elder brother Oliver from a—", options: ["A) Hungry lioness and a snake", "B) Group of robbers", "C) Wild boar", "D) Mad dog"], correct: 0 },
+        { q: "74. At the end of the play, Oliver fell in love with and married—", options: ["A) Celia (Aliena)", "B) Rosalind", "C) Phebe", "D) Audrey"], correct: 0 },
+        { q: "75. Duke Frederick restored the dukedom because he—", options: ["A) Met a holy hermit and converted", "B) Was defeated in battle", "C) Died of sickness", "D) Felt pity for his brother"], correct: 0 },
+
+        // --- Tales from Shakespeare: The Comedy of Errors & Twelfth Night (76-85) ---
+        { q: "76. Antipholus of Syracuse and Antipholus of Ephesus were—", options: ["A) Twin brothers", "B) Father and son", "C) Master and servant", "D) Enemies"], correct: 0 },
+        { q: "77. Aegeon was a merchant of—", options: ["A) Syracuse", "B) Ephesus", "C) Venice", "D) Rome"], correct: 0 },
+        { q: "78. What was the name of the Duke of Ephesus?", options: ["A) Solinus", "B) Menaphon", "C) Adriana", "D) Aegeon"], correct: 0 },
+        { q: "79. Viola disguised herself as a page-boy and took the name—", options: ["A) Cesario", "B) Ganymede", "C) Sebastian", "D) Malvolio"], correct: 0 },
+        { q: "80. Duke Orsino was deeply in love with—", options: ["A) Lady Olivia", "B) Viola", "C) Maria", "D) Rosalind"], correct: 0 },
+        { q: "81. Who was Viola's twin brother who was lost at sea?", options: ["A) Sebastian", "B) Cesario", "C) Antonio", "D) Valentine"], correct: 0 },
+        { q: "82. Olivia fell in love with Viola because she thought Viola was—", options: ["A) A handsome young man (Cesario)", "B) A rich lord", "C) Duke Orsino himself", "D) Her lost brother"], correct: 0 },
+        { q: "83. Lady Olivia was mourning the death of her—", options: ["A) Brother", "B) Father", "C) Husband", "D) Mother"], correct: 0 },
+        { q: "84. At the end of Twelfth Night, Duke Orsino married—", options: ["A) Viola", "B) Olivia", "C) Maria", "D) Celia"], correct: 0 },
+        { q: "85. Who rescued Sebastian from the shipwreck?", options: ["A) Antonio, a sea captain", "B) Duke Orsino", "C) Sir Toby Belch", "D) Capt. Solinus"], correct: 0 },
+
+        // --- English Grammar & Usage (86-100) ---
+        { q: "86. Change the Voice: 'Sidda opened the gate.'", options: ["A) The gate was opened by Sidda.", "B) The gate is opened by Sidda.", "C) The gate had been opened by Sidda.", "D) Sidda was opening the gate."], correct: 0 },
+        { q: "87. Change the Narration: 'Sir Mohan said, \"I am in no hurry.\"'", options: ["A) Sir Mohan said that he was in no hurry.", "B) Sir Mohan said that I am in no hurry.", "C) Sir Mohan told that he is in no hurry.", "D) Sir Mohan says that he was in no hurry."], correct: 0 },
+        { q: "88. Jimmy Valentine diligently ______ shoes in the prison shop. (Fill in the blank with correct tense)", options: ["A) stitched", "B) stitches", "C) was stitching", "D) has stitched"], correct: 0 },
+        { q: "89. Turn into a Complex sentence: 'I looked up at the sky.'", options: ["A) When I looked up, it was at the sky.", "B) I looked up where the sky was.", "C) I looked up and saw the sky.", "D) It was the sky where I looked up."], correct: 0 },
+        { q: "90. What is the antonym of 'Innocent'?", options: ["A) Guilty", "B) Pure", "C) Simple", "D) Honest"], correct: 0 },
+        { q: "91. Mother Teresa was awarded _____ Nobel Peace Prize. (Fill in with Article)", options: ["A) the", "B) a", "C) an", "D) no article"], correct: 0 },
+        { q: "92. Change into a Negative sentence: 'He was always quiet.'", options: ["A) He was never noisy.", "B) He was not always quiet.", "C) He was never quiet.", "D) He was always not noisy."], correct: 0 },
+        { q: "93. Complete the idiom: 'To cry over spilt ______'", options: ["A) milk", "B) water", "C) juice", "D) tea"], correct: 0 },
+        { q: "94. Identify the correct spelling:", options: ["A) Committee", "B) Commitee", "C) Comitee", "D) Committe"], correct: 0 },
+        { q: "95. 'Meeting at Night' is a ______ poem.", options: ["A) love", "B) war", "C) religious", "D) nature"], correct: 0 },
+        { q: "96. Join into a Single sentence: 'The wind blew. The mists woke up.'", options: ["A) As the wind blew, the mists woke up.", "B) The wind blew and so mists woke up.", "C) The wind blowing the mists woke up.", "D) Mists woke up for the blowing wind."], correct: 0 },
+        { q: "97. What is the synonym of 'Fragrance'?", options: ["A) Scent", "B) Odour", "C) Foul", "D) Taste"], correct: 0 },
+        { q: "98. 'Ralph Spencer' was the alter-ego of—", options: ["A) Jimmy Valentine", "B) Ben Price", "C) Mike Dolan", "D) Mr. Adams"], correct: 0 },
+        { q: "99. Find the noun form of 'Beautiful':", options: ["A) Beauty", "B) Beautifully", "C) Beautify", "D) Beauteness"], correct: 0 },
+        { q: "100. Select the correct preposition: 'The train arrived _____ the station.'", options: ["A) at", "B) on", "C) in", "D) into"], correct: 0 }
+    ];
+
+    let currentQuestionIndex = 0; let score = 0; let timerInterval; let timeLeft = 6000;
+    function startQuiz() {
+        currentQuestionIndex = 0; score = 0; timeLeft = 6000; updateQuestionUI();
+        timerInterval = setInterval(() => {
+            if(timeLeft <= 0) { endQuiz(); } else {
+                timeLeft--; let min = Math.floor(timeLeft / 60); let sec = timeLeft % 60;
+                document.getElementById('timer').innerText = `Time: ${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+        }, 1000);
+    }
+    function updateQuestionUI() {
+        document.getElementById('q-count').innerText = `Question: ${currentQuestionIndex + 1} / 100`;
+        let qObj = questions[currentQuestionIndex]; document.getElementById('q-text').innerText = qObj.q;
+        const buttons = document.querySelectorAll('.opt-btn');
+        buttons[0].innerText = qObj.options[0]; buttons[1].innerText = qObj.options[1];
+        buttons[2].innerText = qObj.options[2]; buttons[3].innerText = qObj.options[3];
+    }
+    function handleAnswer(selectedIndex) {
+        if(selectedIndex === questions[currentQuestionIndex].correct) { score++; }
+        if(currentQuestionIndex < 99) { currentQuestionIndex++; updateQuestionUI(); } else { endQuiz(); }
+    }
+    function endQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('result-details').innerHTML = `
+            You answered <b style="color:#22d3ee; font-size:28px;">${score}</b> out of 100 questions correctly. <br><br>
+            Your Score: <span style="color:#34d399; font-size:24px; font-weight:700;">${score} / 100</span>
+        `;
+    }
+    startQuiz();
+</script>
+</body>
+</html>
