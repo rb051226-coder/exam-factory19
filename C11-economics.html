@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Economics Quiz 2026 (100 Qs)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 650px; margin: auto; padding: 25px; border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 25px; }
+        .q-box { font-size: 20px; line-height: 1.5; margin-bottom: 25px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 6px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #1e293b; padding: 18px; margin-bottom: 12px; width: 100%; border-radius: 10px; border: 1px solid #475569; color: #fff; cursor: pointer; text-align: left; font-size: 18px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #fbbf24; }
+        .finish-btn { background: #d97706; color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; }
+        .result-item { background: #1e293b; padding: 12px; margin-bottom: 8px; border-radius: 6px; border-left: 4px solid #f87171; font-size: 16px; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি অর্থনীতি (১০০ প্রশ্ন - ২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#fbbf24;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#fbbf24; margin-bottom: 20px;">আপনার স্কোর</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">আবার শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. অর্থনীতির জনক কে?", options: ["অ্যাডাম স্মিথ", "আলফ্রেড মার্শাল", "পল স্যামুয়েলসন", "কেইনস"], correct: 0 },
+        { q: "২. 'Wealth of Nations' বইটি কার?", options: ["অ্যাডাম স্মিথ", "কার্ল মার্কস", "রিকার্ডো", "মালথাস"], correct: 0 },
+        { q: "৩. দুষ্প্রাপ্যতা অর্থনীতির কীসের কারণ?", options: ["মৌলিক সমস্যা", "উন্নয়ন", "None", "None"], correct: 0 },
+        { q: "৪. চাহিদার স্থিতিস্থাপকতা কী পরিমাপ করে?", options: ["সাড়া", "দাম", "None", "None"], correct: 0 },
+        { q: "৫. চাহিদা বিধি অনুযায়ী দাম ও চাহিদার সম্পর্ক?", options: ["বিপরীত", "সমমুখী", "None", "None"], correct: 0 },
+        { q: "৬. যোগান বিধি অনুযায়ী দাম ও যোগানের সম্পর্ক?", options: ["সমমুখী", "বিপরীতমুখী", "None", "None"], correct: 0 },
+        { q: "৭. উপযোগিতা কী?", options: ["চাহিদা মেটানোর ক্ষমতা", "দাম", "None", "None"], correct: 0 },
+        { q: "৮. প্রান্তিক উপযোগ কী?", options: ["অতিরিক্ত এককের উপযোগ", "মোট উপযোগ", "None", "None"], correct: 0 },
+        { q: "৯. উৎপাদন অপেক্ষক কী?", options: ["উপকরণ ও উৎপাদকের সম্পর্ক", "দাম", "None", "None"], correct: 0 },
+        { q: "১০. পূর্ণ প্রতিযোগিতা বাজারে কী থাকে?", options: ["অনেক বিক্রেতা", "একজন বিক্রেতা", "None", "None"], correct: 0 },
+        { q: "১১. একচেটিয়া কারবার (Monopoly) এ কী হয়?", options: ["এক বিক্রেতা", "অনেক বিক্রেতা", "None", "None"], correct: 0 },
+        { q: "১২. ভারতের সবুজ বিপ্লব কিসের সাথে যুক্ত?", options: ["কৃষি", "শিল্প", "None", "None"], correct: 0 },
+        { q: "১৩. জিডিপি (GDP) এর পূর্ণরূপ কী?", options: ["Gross Domestic Product", "Gross Domestic Plan", "None", "None"], correct: 0 },
+        { q: "১৪. নীতি আয়োগের সভাপতি কে?", options: ["প্রধানমন্ত্রী", "রাষ্ট্রপতি", "None", "None"], correct: 0 },
+        { q: "১৫. ভারতের মুদ্রার নাম?", options: ["টাকা", "ডলার", "None", "None"], correct: 0 },
+        { q: "১৬. আরবিআই (RBI) কী?", options: ["কেন্দ্রীয় ব্যাংক", "বানিজ্যিক ব্যাংক", "None", "None"], correct: 0 },
+        { q: "১৭. মুদ্রাস্ফীতি কী?", options: ["দাম বৃদ্ধি", "দাম হ্রাস", "None", "None"], correct: 0 },
+        { q: "১৮. বাজেট কে পেশ করেন?", options: ["অর্থমন্ত্রী", "প্রধানমন্ত্রী", "None", "None"], correct: 0 },
+        { q: "১৯. পরোক্ষ করের উদাহরণ?", options: ["GST", "আয়কর", "None", "None"], correct: 0 },
+        { q: "২০. প্রত্যক্ষ করের উদাহরণ?", options: ["আয়কর", "GST", "None", "None"], correct: 0 },
+        { q: "২১. দারিদ্র্য পরিমাপের সূচক কী?", options: ["CPI", "GDP", "None", "None"], correct: 0 },
+        { q: "২২. বেকারত্ব কিসের অভাব?", options: ["কাজের", "পুঁজির", "None", "None"], correct: 0 },
+        { q: "২৩. জনসংখ্যা বৃদ্ধির কারণ?", options: ["অশিক্ষা", "উন্নয়ন", "None", "None"], correct: 0 },
+        { q: "২৪. শিল্পায়ন কী?", options: ["শিল্পের প্রসার", "কৃষির প্রসার", "None", "None"], correct: 0 },
+        { q: "২৫. ব্যক্তিগত আয় কী?", options: ["মোট আয় - কর", "মোট আয়", "None", "None"], correct: 0 },
+        { q: "২৬. বাজার ভারসাম্য কী?", options: ["চাহিদা=যোগান", "চাহিদা>যোগান", "None", "None"], correct: 0 },
+        { q: "২৭. অর্থনৈতিক উন্নয়ন কী?", options: ["দীর্ঘমেয়াদী বৃদ্ধি", "স্বল্পমেয়াদী", "None", "None"], correct: 0 },
+        { q: "২৮. মাথাপিছু আয় কী?", options: ["জাতীয় আয় / জনসংখ্যা", "জাতীয় আয়", "None", "None"], correct: 0 },
+        { q: "২৯. কর ব্যবস্থা কয় প্রকার?", options: ["দুই", "তিন", "None", "None"], correct: 0 },
+        { q: "৩০. রাজস্ব নীতি কার?", options: ["সরকারের", "ব্যাংকের", "None", "None"], correct: 0 },
+        { q: "৩১. মুদ্রানীতি কার?", options: ["কেন্দ্রীয় ব্যাংক", "সরকার", "None", "None"], correct: 0 },
+        { q: "৩২. ভোগের স্তর কী?", options: ["সন্তুষ্টি", "উৎপাদন", "None", "None"], correct: 0 },
+        { q: "৩৩. সঞ্চয় কী?", options: ["আয় - ভোগ", "আয় + ভোগ", "None", "None"], correct: 0 },
+        { q: "৩৪. বিনিয়োগ কী?", options: ["পুঁজি গঠন", "ভোগ", "None", "None"], correct: 0 },
+        { q: "৩৫. অর্থনৈতিক প্রবৃদ্ধি কী?", options: ["GDP বৃদ্ধি", "জনসংখ্যা বৃদ্ধি", "None", "None"], correct: 0 },
+        { q: "৩৬. মিশ্র অর্থনীতি কী?", options: ["সরকারি ও ব্যক্তিগত", "শুধুমাত্র সরকারি", "None", "None"], correct: 0 },
+        { q: "৩৭. শ্রম বিভাগ কার তত্ত্ব?", options: ["অ্যাডাম স্মিথ", "মার্শাল", "None", "None"], correct: 0 },
+        { q: "৩৮. চাহিদা রেখা কেমন হয়?", options: ["নিম্নমুখী", "উর্ধ্বমুখী", "None", "None"], correct: 0 },
+        { q: "৩৯. যোগান রেখা কেমন হয়?", options: ["উর্ধ্বমুখী", "নিম্নমুখী", "None", "None"], correct: 0 },
+        { q: "৪০. গায়ের দাম ও চাহিদা সম্পর্ক?", options: ["বিপরীত", "সমমুখী", "None", "None"], correct: 0 },
+        { q: "৪১. উৎপাদন সম্ভাবনা রেখা কী?", options: ["PPF", "D-Curve", "None", "None"], correct: 0 },
+        { q: "৪২. পূর্ণ নিয়োগ কী?", options: ["সবাই কাজ পায়", "কেউ পায় না", "None", "None"], correct: 0 },
+        { q: "৪৩. চাহিদা আধিক্য কী?", options: ["চাহিদা > যোগান", "যোগান > চাহিদা", "None", "None"], correct: 0 },
+        { q: "৪৪. যোগান আধিক্য কী?", options: ["যোগান > চাহিদা", "চাহিদা > যোগান", "None", "None"], correct: 0 },
+        { q: "৪৫. দামস্তর কী?", options: ["গড় দাম", "নির্ধারিত দাম", "None", "None"], correct: 0 },
+        { q: "৪৬. অর্থনীতি কীসের বিজ্ঞান?", options: ["সম্পদ", "সমাজ", "None", "None"], correct: 0 },
+        { q: "৪৭. লরেন্স রেখা কী দেখায়?", options: ["আয়ের বৈষম্য", "দাম", "None", "None"], correct: 0 },
+        { q: "৪৮. গিনি সহগ কী?", options: ["বৈষম্য পরিমাপক", "সুদ", "None", "None"], correct: 0 },
+        { q: "৪৯. বাণিজ্য ঘাটতি কী?", options: ["আমদানি > রপ্তানি", "রপ্তানি > আমদানি", "None", "None"], correct: 0 },
+        { q: "৫০. বাণিজ্য উদ্বৃত্ত কী?", options: ["রপ্তানি > আমদানি", "আমদানি > রপ্তানি", "None", "None"], correct: 0 },
+        { q: "৫১. ব্যাংক রেট কী?", options: ["সুদের হার", "দাম", "None", "None"], correct: 0 },
+        { q: "৫২. সিআরআর (CRR) কী?", options: ["নগদ রিজার্ভ", "সুদ", "None", "None"], correct: 0 },
+        { q: "৫৩. এসএলআর (SLR) কী?", options: ["লিকুইডিটি রেশিও", "টাকা", "None", "None"], correct: 0 },
+        { q: "৫৪. উন্নয়নশীল দেশ কোনটি?", options: ["ভারত", "আমেরিকা", "None", "None"], correct: 0 },
+        { q: "৫৫. উন্নত দেশ কোনটি?", options: ["আমেরিকা", "ভারত", "None", "None"], correct: 0 },
+        { q: "৫৬. বেকারত্ব দূর করার উপায়?", options: ["শিল্পায়ন", "কৃষি কমানো", "None", "None"], correct: 0 },
+        { q: "৫৭. দারিদ্র্য দূর করার উপায়?", options: ["কর্মসংস্থান", "অলসতা", "None", "None"], correct: 0 },
+        { q: "৫৮. অর্থনৈতিক পরিকল্পনা কেন?", options: ["লক্ষ্য অর্জন", "খরচ বাড়ানো", "None", "None"], correct: 0 },
+        { q: "৫৯. বাজার অর্থনীতি কী?", options: ["দাম নির্ধারিত", "সরকার নির্ধারিত", "None", "None"], correct: 0 },
+        { q: "৬০. সমাজতান্ত্রিক অর্থনীতি কী?", options: ["সরকারি নিয়ন্ত্রণ", "ব্যক্তি নিয়ন্ত্রণ", "None", "None"], correct: 0 },
+        { q: "৬১. মুদ্রার প্রধান কাজ?", options: ["বিনিময়ের মাধ্যম", "দোকান", "None", "None"], correct: 0 },
+        { q: "৬২. ব্যাংকের মূল কাজ?", options: ["আমানত গ্রহণ", "ব্যবসা", "None", "None"], correct: 0 },
+        { q: "৬৩. কেন্দ্রীয় ব্যাংকের কাজ?", options: ["মুদ্রা নিয়ন্ত্রণ", "ব্যক্তি ঋণ", "None", "None"], correct: 0 },
+        { q: "৬৪. প্রত্যক্ষ করের উদাহরণ?", options: ["আয়কর", "বিক্রয় কর", "None", "None"], correct: 0 },
+        { q: "৬৫. পরোক্ষ করের উদাহরণ?", options: ["জিএসটি", "আয়কর", "None", "None"], correct: 0 },
+        { q: "৬৬. ঘাটতি বাজেট কী?", options: ["ব্যয় > আয়", "আয় > ব্যয়", "None", "None"], correct: 0 },
+        { q: "৬৭. উদ্বৃত্ত বাজেট কী?", options: ["আয় > ব্যয়", "ব্যয় > আয়", "None", "None"], correct: 0 },
+        { q: "৬৮. সুষম বাজেট কী?", options: ["আয় = ব্যয়", "আয় > ব্যয়", "None", "None"], correct: 0 },
+        { q: "৬৯. কেইনসের তত্ত্ব কী?", options: ["কার্যকর চাহিদা", "দাম তত্ত্ব", "None", "None"], correct: 0 },
+        { q: "৭০. মালথাসের তত্ত্ব?", options: ["জনসংখ্যা", "উৎপাদন", "None", "None"], correct: 0 },
+        { q: "৭১. অর্থনৈতিক প্রবৃদ্ধি vs উন্নয়ন?", options: ["বৃদ্ধি < উন্নয়ন", "বৃদ্ধি > উন্নয়ন", "None", "None"], correct: 0 },
+        { q: "৭২. মানব উন্নয়ন সূচক কী?", options: ["HDI", "GDP", "None", "None"], correct: 0 },
+        { q: "৭৩. শিল্পের গুরুত্ব?", options: ["রোজগার", "বিনোদোন", "None", "None"], correct: 0 },
+        { q: "৭৪. কৃষির গুরুত্ব?", options: ["খাদ্য সরবরাহ", "শিল্প সরবরাহ", "None", "None"], correct: 0 },
+        { q: "৭৫. অর্থনীতি কীসের বিজ্ঞান?", options: ["সামাজিক", "ভৌত", "None", "None"], correct: 0 },
+        { q: "৭৬. সুযোগ ব্যয় কী?", options: ["পরিত্যাগকৃত সুযোগ", "খরচ", "None", "None"], correct: 0 },
+        { q: "৭৭. সমপ্রান্তিক উপযোগ সূত্র?", options: ["গসেনের দ্বিতীয় সূত্র", "প্রথম সূত্র", "None", "None"], correct: 0 },
+        { q: "৭৮. চাহিদা নির্ধারক?", options: ["দাম", "আবহাওয়া", "None", "None"], correct: 0 },
+        { q: "৭৯. যোগান নির্ধারক?", options: ["প্রযুক্তি", "দাম", "None", "None"], correct: 0 },
+        { q: "৮০. বাজার কাঠামো কয় প্রকার?", options: ["চার", "দুই", "None", "None"], correct: 0 },
+        { q: "৮১. পূর্ণ প্রতিযোগিতার বৈশিষ্ট্য?", options: ["অনেক ক্রেতা-বিক্রেতা", "একজন", "None", "None"], correct: 0 },
+        { q: "৮২. একচেটিয়া বাজারে?", options: ["পণ্যের কোনো বিকল্প নেই", "বিকল্প আছে", "None", "None"], correct: 0 },
+        { q: "৮৩. অলিগোপলি বাজারে?", options: ["কজন বিক্রেতা", "অনেক", "None", "None"], correct: 0 },
+        { q: "৮৪. মনোপসনি বাজারে?", options: ["একজন ক্রেতা", "একজন বিক্রেতা", "None", "None"], correct: 0 },
+        { q: "৮৫. জাতীয় আয় পরিমাপের পদ্ধতি?", options: ["তিনটি", "দুটি", "None", "None"], correct: 0 },
+        { q: "৮৬. মাথাপিছু আয় কী নির্দেশ করে?", options: ["গড় আয়", "মোট আয়", "None", "None"], correct: 0 },
+        { q: "৮৭. সঞ্চয় প্রবণতা কী?", options: ["সঞ্চয়/আয়", "আয়/সঞ্চয়", "None", "None"], correct: 0 },
+        { q: "৮৮. ভোগ প্রবণতা কী?", options: ["ভোগ/আয়", "আয়/ভোগ", "None", "None"], correct: 0 },
+        { q: "৮৯. গুণক (Multiplier) কী?", options: ["বিনিয়োগের প্রভাব", "খরচ", "None", "None"], correct: 0 },
+        { q: "৯০. ত্বরণ (Accelerator) কী?", options: ["উৎপাদন প্রভাব", "মুনাফা", "None", "None"], correct: 0 },
+        { q: "৯১. মুদ্রার বিবর্তন?", options: ["বস্তু-মুদ্রা থেকে কাগজ", "কাগজ থেকে বস্তু", "None", "None"], correct: 0 },
+        { q: "৯২. কেন্দ্রীয় ব্যাংকের কাজ?", options: ["মুদ্রা ছাপানো", "ব্যক্তি ঋণ", "None", "None"], correct: 0 },
+        { q: "৯৩. বাণিজ্য ব্যাংক কী করে?", options: ["আমানত গ্রহণ", "মুদ্রা ছাপানো", "None", "None"], correct: 0 },
+        { q: "৯৪. করের লক্ষ্য?", options: ["রাজস্ব বৃদ্ধি", "দাম বৃদ্ধি", "None", "None"], correct: 0 },
+        { q: "৯৫. ভর্তুকি কী?", options: ["আর্থিক সাহায্য", "কর", "None", "None"], correct: 0 },
+        { q: "৯৬. বেসরকারিকরণ কী?", options: ["ব্যক্তি মালিকানা", "সরকারি মালিকানা", "None", "None"], correct: 0 },
+        { q: "৯৭. বিশ্বায়ন কী?", options: ["বাজার উন্মুক্তকরণ", "বন্ধ করা", "None", "None"], correct: 0 },
+        { q: "৯৮. এলপিজি (LPG) নীতি?", options: ["১৯৯১", "১৯৪৭", "None", "None"], correct: 0 },
+        { q: "৯৯. ভারতের অর্থনীতি?", options: ["মিশ্র", "সমাজতান্ত্রিক", "None", "None"], correct: 0 },
+        { q: "১০০. অর্থনীতির মূল লক্ষ্য?", options: ["কল্যান সাধন", "মুনাফা", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+    
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            if(opt !== "None") {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                container.appendChild(btn);
+            }
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3 style='margin-bottom:15px;'>সঠিক উত্তর:</h3>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p style='color:#f87171'>সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
