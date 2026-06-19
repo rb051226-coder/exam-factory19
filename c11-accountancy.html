@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 11 Accountancy 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি হিসাববিজ্ঞান সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#fbbf24;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. হিসাববিজ্ঞানের মূল ভিত্তি কী?", options: ["লেনদেন", "মুনাফা", "মূলধন", "ব্যবস্থাপনা"], correct: 0 },
+        { q: "২. আধুনিক হিসাব সমীকরণ কোনটি?", options: ["A = L + E", "A = L - E", "E = A + L", "A = E - L"], correct: 0 },
+        { q: "৩. সম্পত্তির বৃদ্ধি ঘটলে কী হয়?", options: ["ডেবিট", "ক্রেডিট", "কোনটিই নয়", "স্থির থাকে"], correct: 0 },
+        { q: "৪. দায়ের বৃদ্ধি ঘটলে কী হয়?", options: ["ক্রেডিট", "ডেবিট", "স্থির থাকে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫. হিসাবের প্রাথমিক বহি কোনটি?", options: ["জাবেদা", "খতিয়ান", "রেওয়ামিল", "নগদান বই"], correct: 0 },
+        { q: "৬. হিসাবের পাকা বহি কোনটি?", options: ["খতিয়ান", "জাবেদা", "রেওয়ামিল", "নগদান বই"], correct: 1 },
+        { q: "৭. দু-তরফা দাখিলা পদ্ধতির মূল বৈশিষ্ট্য কী?", options: ["দ্বৈত সত্তা", "একক সত্তা", "কোনটিই নয়", "নগদ ভিত্তিক"], correct: 0 },
+        { q: "৮. ক্রয় জাবেদায় কী ধরনের লেনদেন হয়?", options: ["ধারে পণ্য ক্রয়", "নগদ ক্রয়", "সম্পদ ক্রয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. বিক্রয় জাবেদায় কোন লেনদেন লেখা হয়?", options: ["ধারে পণ্য বিক্রয়", "নগদ বিক্রয়", "সম্পদ বিক্রয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১০. কারবারি বাট্টা কোথায় লেখা হয় না?", options: ["হিসাব বইতে", "জাবেদায়", "খতিয়ানে", "নগদান বইতে"], correct: 0 },
+        { q: "১১. নগদ বাট্টা কোথায় লিপিবদ্ধ হয়?", options: ["নগদান বইতে", "জাবেদায়", "খতিয়ানে", "কোথাও নয়"], correct: 0 },
+        { q: "১২. রেওয়ামিল কী?", options: ["গাণিতিক শুদ্ধতার তালিকা", "আর্থিক বিবরণী", "জাবেদার অংশ", "খতিয়ানের অংশ"], correct: 0 },
+        { q: "১৩. উত্তোলন হিসাবের প্রকৃতি কী?", options: ["মালিকানা স্বত্ব হ্রাস", "সম্পদ বৃদ্ধি", "দায় বৃদ্ধি", "আয় বৃদ্ধি"], correct: 0 },
+        { q: "১৪. মূলধন কী?", options: ["মালিকানা স্বত্ব", "দায়", "সম্পদ", "ব্যয়"], correct: 0 },
+        { q: "১৫. ডেপ্রিসিয়েশন (অবচয়) কী?", options: ["সম্পদের মূল্য হ্রাস", "সম্পদ বৃদ্ধি", "দায় বৃদ্ধি", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. অনাদায়ী পাওনা কী?", options: ["ক্ষতি", "আয়", "সম্পদ", "দায়"], correct: 0 },
+        { q: "১৭. ব্যাংকের জমাকৃত টাকার সুদ কী?", options: ["আয়", "ব্যয়", "সম্পদ", "দায়"], correct: 0 },
+        { q: "১৮. সম্পদ অর্জনের খরচকে কী বলে?", options: ["মূলধন জাতীয় ব্যয়", "মুনাফা জাতীয় ব্যয়", "বিবিধ ব্যয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. নিয়মিত খরচকে কী বলে?", options: ["মুনাফা জাতীয় ব্যয়", "মূলধন জাতীয় ব্যয়", "সম্পদ", "দায়"], correct: 0 },
+        { q: "২০. মালিকের ব্যক্তিগত খরচ ব্যবসার তহবিল থেকে করলে কী হবে?", options: ["উত্তোলন", "মূলধন", "ব্যয়", "সম্পদ"], correct: 0 },
+        { q: "২১. বাট্টা প্রধানত কয় প্রকার?", options: ["দুই", "তিন", "চার", "এক"], correct: 0 },
+        { q: "২২. ক্রয় ফেরত বইতে কী লেখা হয়?", options: ["ধারে ক্রয় ফেরত", "নগদ ক্রয় ফেরত", "সম্পদ ফেরত", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. কন্ট্রা এন্ট্রি (Contra Entry) কোন নগদান বইতে হয়?", options: ["দুই ও তিন ঘরা", "এক ঘরা", "কোনটিই নয়", "সবগুলো"], correct: 0 },
+        { q: "২৪. ব্যাংক সমন্বয় বিবরণী কে প্রস্তুত করে?", options: ["ব্যবসায়িক প্রতিষ্ঠান", "ব্যাংক", "সরকার", "কোনটিই নয়"], correct: 0 },
+        { q: "২৫. রেওয়ামিলের উভয় দিক সমান না হলে কোনটি খোলা হয়?", options: ["অনিশ্চিত হিসাব", "মূলধন হিসাব", "নগদ হিসাব", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. আর্থিক বিবরণী কয়টি অংশে বিভক্ত?", options: ["তিন", "দুই", "চার", "এক"], correct: 0 },
+        { q: "২৭. নিট লাভ কোথায় পাওয়া যায়?", options: ["বিষদ আয় বিবরণীতে", "আর্থিক অবস্থার বিবরণীতে", "রেওয়ামিলে", "খতিয়ানে"], correct: 0 },
+        { q: "২৮. ব্যালেন্স শীট (Balance Sheet) কী জানায়?", options: ["আর্থিক অবস্থা", "মুনাফা", "বিক্রয়", "ব্যয়"], correct: 0 },
+        { q: "২৯. সম্পদকে কয়ভাগে ভাগ করা যায়?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "৩০. চলতি সম্পদ কোনটি?", options: ["হাতে নগদ", "আসবাবপত্র", "কলকব্জা", "ভূমি"], correct: 0 },
+        { q: "৩১. স্থায়ী সম্পদ কোনটি?", options: ["ভূমি", "হাতে নগদ", "প্রাপ্য বিল", "মজুদ পণ্য"], correct: 0 },
+        { q: "৩২. দীর্ঘমেয়াদী দায় কোনটি?", options: ["বন্ধকী ঋণ", "পাওনাদার", "প্রদেয় বিল", "ব্যাংক জমাতিরিক্ত"], correct: 0 },
+        { q: "৩৩. বকেয়া বেতন কী?", options: ["চলতি দায়", "স্থায়ী দায়", "সম্পদ", "আয়"], correct: 0 },
+        { q: "৩৪. অগ্রিম ভাড়া কী?", options: ["চলতি সম্পদ", "স্থায়ী সম্পদ", "দায়", "ব্যয়"], correct: 0 },
+        { q: "৩৫. অবচয় কোন পদ্ধতিতে বের করা যায়?", options: ["সরলরৈখিক", "ক্রমহ্রাসমান", "উভয় পদ্ধতি", "কোনটিই নয়"], correct: 2 },
+        { q: "৩৬. হিসাববিজ্ঞান কিসের ভাষা?", options: ["ব্যবসায়ের", "বিজ্ঞানের", "ইতিহাসের", "ভূগোলের"], correct: 0 },
+        { q: "৩৭. GAAP এর পূর্ণরূপ কী?", options: ["Generally Accepted Accounting Principles", "General Accounting Principles", "None", "None"], correct: 0 },
+        { q: "৩৮. ব্যবসায়িক সত্তা নীতি অনুযায়ী ব্যবসায় ও মালিক?", options: ["ভিন্ন", "অভিন্ন", "একই", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. চলমান প্রতিষ্ঠান নীতি কী?", options: ["অনির্দিষ্টকাল ব্যবসা", "এক বছর ব্যবসা", "দুই বছর", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. রক্ষণশীলতার নীতি কী?", options: ["ভবিষ্যতের ক্ষতি বিবেচনা", "লাভের চিন্তা", "সম্পদ বৃদ্ধি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. জাবেদার ছকে কয়টি ঘর থাকে?", options: ["৫", "৪", "৬", "৩"], correct: 0 },
+        { q: "৪২. খতিয়ানের ছক কয়টি?", options: ["দুইটি", "তিনটি", "চারটি", "পাঁচটি"], correct: 0 },
+        { q: "৪৩. টি-ছক (T-shape) খতিয়ানের বাম দিককে কী বলে?", options: ["ডেবিট", "ক্রেডিট", "উভয়ই", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. টি-ছক খতিয়ানের ডান দিককে কী বলে?", options: ["ক্রেডিট", "ডেবিট", "উভয়ই", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. জের টানা (Balancing) কোথায় হয়?", options: ["খতিয়ানে", "জাবেদায়", "নগদান বইতে", "রেওয়ামিলে"], correct: 0 },
+        { q: "৪৬. নগদান বইয়ের উদ্বৃত্ত কী নির্দেশ করে?", options: ["হাতে নগদ", "ব্যাংক জমা", "সম্পদ", "দায়"], correct: 0 },
+        { q: "৪৭. ব্যাংক রিকনসিলিয়েশন স্টেটমেন্ট কেন করা হয়?", options: ["অমিল মেলাতে", "মুনাফা নির্ণয়ে", "ব্যয় কমাতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. ভুল সংশোধন জাবেদা কেন দেওয়া হয়?", options: ["ভুল সংশোধনে", "বিক্রয়ে", "ক্রয়ে", "None"], correct: 0 },
+        { q: "৪৯. বিক্রয় ফেরত বইতে কী হয়?", options: ["ধারে বিক্রয় ফেরত", "নগদ বিক্রয় ফেরত", "কোনটিই নয়", "None"], correct: 0 },
+        { q: "৫০. ডেবিট নোট কার জন্য?", options: ["ক্রেতা", "বিক্রেতা", "ব্যাংক", "None"], correct: 0 },
+        { q: "৫১. ক্রেডিট নোট কার জন্য?", options: ["বিক্রেতা", "ক্রেতা", "ব্যাংক", "None"], correct: 0 },
+        { q: "৫২. মূলধন সঞ্চিতি কী?", options: ["সঞ্চিতি", "মুনাফা", "সম্পদ", "None"], correct: 0 },
+        { q: "৫৩. সঞ্চিতি তহবিল কোথায় স্থানান্তর হয়?", options: ["আর্থিক অবস্থায়", "আয় বিবরণীতে", "None", "None"], correct: 0 },
+        { q: "৫৪. নগদ বাট্টা কী?", options: ["পাওনা আদায়ে ছাড়", "পণ্যে ছাড়", "None", "None"], correct: 0 },
+        { q: "৫৫. জাবেদাকে কী বলা হয়?", options: ["প্রাথমিক বহি", "পাকা বহি", "None", "None"], correct: 0 },
+        { q: "৫৬. খতিয়ানকে কী বলা হয়?", options: ["পাকা বহি", "প্রাথমিক বহি", "None", "None"], correct: 0 },
+        { q: "৫৭. হিসাব সমীকরণটি কে প্রবর্তন করেন?", options: ["লুকা প্যাসিওলি", "মেন্ডেল", "None", "None"], correct: 0 },
+        { q: "৫৮. একতরফা দাখিলা পদ্ধতিতে কী রাখা যায় না?", options: ["গাণিতিক শুদ্ধতা", "মুনাফা", "None", "None"], correct: 0 },
+        { q: "৫৯. নগদ বইয়ের প্রকারভেদ কয়টি?", options: ["চার", "দুই", "None", "None"], correct: 0 },
+        { q: "৬০. খুচরা নগদান বই কে সংরক্ষণ করেন?", options: ["সহকারী ক্যাশিয়ার", "প্রধান ক্যাশিয়ার", "None", "None"], correct: 0 },
+        { q: "৬১. ইমপ্রেস্ট সিস্টেম কী?", options: ["খুচরা নগদান পদ্ধতি", "মূল নগদান পদ্ধতি", "None", "None"], correct: 0 },
+        { q: "৬২. প্রাপ্য বিল কী?", options: ["চলতি সম্পদ", "দায়", "None", "None"], correct: 0 },
+        { q: "৬৩. প্রদেয় বিল কী?", options: ["চলতি দায়", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৬৪. বিনিয়োগ কী?", options: ["সম্পদ", "ব্যয়", "None", "None"], correct: 0 },
+        { q: "৬৫. সুদের আয় কী?", options: ["আয়", "ব্যয়", "None", "None"], correct: 0 },
+        { q: "৬৬. মজুরি কী জাতীয় ব্যয়?", options: ["মুনাফা জাতীয়", "মূলধন জাতীয়", "None", "None"], correct: 0 },
+        { q: "৬৭. দালান কোঠা কী?", options: ["স্থায়ী সম্পদ", "চলতি সম্পদ", "None", "None"], correct: 0 },
+        { q: "৬৮. সুনাম কী?", options: ["অস্পর্শনীয় সম্পদ", "চলতি সম্পদ", "None", "None"], correct: 0 },
+        { q: "৬৯. ট্রেডমার্ক কী?", options: ["অস্পর্শনীয় সম্পদ", "দায়", "None", "None"], correct: 0 },
+        { q: "৭০. কাস্টম ডিউটি কী?", options: ["ব্যয়", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৭১. পণ্য উত্তোলন কী?", options: ["উত্তোলন", "ক্রয়", "None", "None"], correct: 0 },
+        { q: "৭২. ক্যাশ মেমোতে বাট্টা থাকে?", options: ["না", "হ্যাঁ", "None", "None"], correct: 0 },
+        { q: "৭৩. চালান কী?", options: ["ক্রয়-বিক্রয়ের দলিল", "রসিদ", "None", "None"], correct: 0 },
+        { q: "৭৪. ডেবিট ভাউচার কিসের জন্য?", options: ["টাকা প্রদানের জন্য", "টাকা প্রাপ্তির জন্য", "None", "None"], correct: 0 },
+        { q: "৭৫. ক্রেডিট ভাউচার কিসের জন্য?", options: ["টাকা প্রাপ্তির জন্য", "টাকা প্রদানের জন্য", "None", "None"], correct: 0 },
+        { q: "৭৬. রেওয়ামিলে কোনটি আসে না?", options: ["প্রারম্ভিক মজুদ", "সমাপনী মজুদ", "None", "None"], correct: 1 },
+        { q: "৭৭. সমাপনী মজুদ পণ্য কোথায় থাকে?", options: ["রেওয়ামিলের বাইরে", "রেওয়ামিলের ভেতরে", "None", "None"], correct: 0 },
+        { q: "৭৮. সমন্বিত দাখিলা কোথায় হয়?", options: ["চূড়ান্ত হিসাবে", "জাবেদায়", "None", "None"], correct: 0 },
+        { q: "৭৯. নিট বিক্রয় =?", options: ["বিক্রয় - বিক্রয় ফেরত", "বিক্রয় + বিক্রয় ফেরত", "None", "None"], correct: 0 },
+        { q: "৮০. নিট ক্রয় =?", options: ["ক্রয় - ক্রয় ফেরত", "ক্রয় + ক্রয় ফেরত", "None", "None"], correct: 0 },
+        { q: "৮১. মোট মুনাফা =?", options: ["বিক্রয় - বিক্রীত পণ্যের ব্যয়", "বিক্রয় - মোট খরচ", "None", "None"], correct: 0 },
+        { q: "৮২. অপারেটিং লাভ কী?", options: ["পরিচালন মুনাফা", "নিট মুনাফা", "None", "None"], correct: 0 },
+        { q: "৮৩. দায় =?", options: ["সম্পদ - মালিকানা স্বত্ব", "সম্পদ + মালিকানা স্বত্ব", "None", "None"], correct: 0 },
+        { q: "৮৪. লিকুইডিটি কী?", options: ["তারল্য", "মুনাফা", "None", "None"], correct: 0 },
+        { q: "৮৫. চলতি অনুপাত =?", options: ["চলতি সম্পদ / চলতি দায়", "চলতি দায় / চলতি সম্পদ", "None", "None"], correct: 0 },
+        { q: "৮৬. আদর্শ চলতি অনুপাত?", options: ["২:১", "১:১", "None", "None"], correct: 0 },
+        { q: "৮৭. হিসাববিজ্ঞানের জনক?", options: ["লুকা প্যাসিওলি", "মেন্ডেল", "None", "None"], correct: 0 },
+        { q: "৮৮. বাট্টা প্রধানত কয় প্রকার?", options: ["২", "৩", "None", "None"], correct: 0 },
+        { q: "৮৯. নগদান বই কী?", options: ["হিসাব বই", "তালিকাবদ্ধ কাগজ", "None", "None"], correct: 0 },
+        { q: "৯০. ব্যাংক জমাতিরিক্ত কী?", options: ["দায়", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৯১. অগ্রিম খরচ কী?", options: ["সম্পদ", "দায়", "None", "None"], correct: 0 },
+        { q: "৯২. বকেয়া আয় কী?", options: ["সম্পদ", "দায়", "None", "None"], correct: 0 },
+        { q: "৯৩. আয়কর কী?", options: ["উত্তোলন", "ব্যয়", "None", "None"], correct: 0 },
+        { q: "৯৪. জীবন বীমা প্রিমিয়াম কী?", options: ["উত্তোলন", "ব্যয়", "None", "None"], correct: 0 },
+        { q: "৯৫. অনাদায়ী পাওনা সঞ্চিতি কী?", options: ["বিপরীত সম্পদ", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৯৬. দেনাদারের বাট্টা সঞ্চিতি?", options: ["বিপরীত সম্পদ", "সম্পদ", "None", "None"], correct: 0 },
+        { q: "৯৭. যন্ত্রপাতির মেরামত খরচ?", options: ["মুনাফা জাতীয়", "মূলধন জাতীয়", "None", "None"], correct: 0 },
+        { q: "৯৮. অফিসের আসবাবপত্র মেরামত?", options: ["মুনাফা জাতীয়", "মূলধন জাতীয়", "None", "None"], correct: 0 },
+        { q: "৯৯. হিসাবের শুদ্ধতা যাচাইয়ের জন্য কী করা হয়?", options: ["রেওয়ামিল", "জাবেদা", "None", "None"], correct: 0 },
+        { q: "১০০. দু-তরফা দাখিলা পদ্ধতির উদ্ভব?", options: ["ইতালি", "যুক্তরাজ্য", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
