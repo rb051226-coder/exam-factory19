@@ -7,33 +7,45 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #020617 0%, #111827 100%); color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; width: 100%; max-width: 700px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .brand-logo { font-size: 22px; font-weight: 700; color: #fb7185; text-align: center; margin-bottom: 20px; }
-        .quiz-meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 600; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; }
-        .q-box { font-size: 18px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-left: 4px solid #fb7185; }
-        .opt-btn { background: #1e293b; border: 1px solid #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; color: white; text-align: left; cursor: pointer; transition: 0.2s; }
-        .opt-btn:hover { background: #334155; border-color: #fb7185; }
+        body { background: linear-gradient(135deg, #020617 0%, #111827 100%); color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fb7185; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #38bdf8; border-radius: 8px; }
+        .opt-btn { background: #1e293b; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #334155; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #38bdf8; }
+        .finish-btn { background: #ef4444; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
         .screen { display: none; } .active { display: block; }
     </style>
 </head>
 <body>
+
 <div class="glass-card">
-    <div class="brand-logo">EXAM FACTORY ➔ দ্বাদশ শ্রেণী বাংলা (১০০ নম্বর)</div>
+    <div class="brand-logo">EXAM FACTORY ➔ দ্বাদশ শ্রেণী বাংলা</div>
+    
     <div id="quiz-screen" class="screen active">
-        <div class="quiz-meta"><span id="q-count">প্রশ্ন: ১ / ১০০</span><span id="timer">সময়: ১০০:০০</span></div>
-        <div class="q-box" id="q-text">লোড হচ্ছে...</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#38bdf8;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+            <span id="timer">সময়: ১২০:০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
         <div id="opt-container">
             <button class="opt-btn" onclick="handleAnswer(0)"></button>
             <button class="opt-btn" onclick="handleAnswer(1)"></button>
             <button class="opt-btn" onclick="handleAnswer(2)"></button>
             <button class="opt-btn" onclick="handleAnswer(3)"></button>
         </div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন (Finish Test)</button>
     </div>
+
     <div id="result-screen" class="screen">
-        <h2 style="text-align:center; color:#4ade80;">ফলাফল</h2>
-        <p id="result-details" style="text-align:center; margin: 20px 0; font-size: 20px;"></p>
-        <div style="text-align:center;"><a href="index.html" style="color:#fb7185; text-decoration:none; font-weight:bold;">◀ প্রধান মেনুতে ফিরুন</a></div>
+        <h2 style="text-align:center; margin-bottom:20px; color:#4ade80;">ফলাফল বিশ্লেষণ</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><a href="index.html" style="color:#38bdf8; text-decoration:none; font-weight:bold;">◀ প্রধান মেনুতে ফিরুন</a></div>
     </div>
 </div>
 
@@ -130,53 +142,71 @@
         { q: "৮৯. ধ্বনিবিজ্ঞানের ভাষায় 'ক, খ, গ, ঘ'— এগুলিকে কী ধ্বনি বলা হয়?", options: ["ক) কণ্ঠ্য বা জিবামূলীয় ধ্বনি", "খ) দন্ত্য ধ্বনি", "গ) ওষ্ঠ্য ধ্বনি", "ঘ) তালব্য ধ্বনি"], correct: 0 },
         { q: "৯০. ভাষার ক্ষুদ্রতম অর্থপূর্ণ একককে কী বলে?", options: ["ক) রূপমূল (Morpheme)", "খ) ধ্বনি", "গ) শব্দ", "ঘ) বাক্য"], correct: 0 },
         { q: "৯১. বাংলা চিত্রকলায় 'পট' শব্দের অর্থ কী?", options: ["ক) চিত্র বা চিত্রপট (কাপড়/কাগজ)", "খ) থালা", "গ) নদী", "ঘ) পাত্র"], correct: 0 },
-        { q: "৯২. 'ঠাকুমার ঝুলি' রূপকথার বইটি কার সম্পাদনায় প্রকাশিত হয়েছিল?", options: ["ক) দক্ষিণারঞ্জন মিত্র মজুমদার", "খ) অবনীন্দ্রনাথ ঠাকুর", "গ) উপেন্দ্রকিশোর রায়চৌধুরী", "ঘ) সুকুমার রায়"], correct: 0 },
-        { q: "৯৩. উষ্ম ধ্বনি বা শিষ ধ্বনির একটি উদাহরণ দাও:", options: ["ক) স / শ / ষ", "খ) ক", "গ) প", "ঘ) ম"], correct: 0 },
-        { q: "৯৪. একই পদের পরপর দুবার ব্যবহারকে ব্যাকরণে কী বলা হয়?", options: ["ক) পদদ্বৈত", "খ) সন্ধি", "গ) সমাস", "ঘ) প্রত্যয়"], correct: 0 },
-        { q: "৯৫. প্রথম ভারতীয় ক্রিকেটার হিসেবে টেস্টে হ্যাটট্রিক করেছিলেন কে?", options: ["ক) হরভজন সিং", "খ) অনিল কুম্বলে", "গ) কপিল দেব", "ঘ) জাহির খান"], correct: 0 },
-        { q: "৯৬. 'বর্ণপরিচয়' গ্রন্থটির রচয়িতা কে?", options: ["ক) ঈশ্বরচন্দ্র বিদ্যাসাগর", "খ) রবীন্দ্রনাথ ঠাকুর", "গ) রামমোহন রায়", "ঘ) অক্ষয়কুমার দত্ত"], correct: 0 },
-        { q: "৯৭. মধ্যযুগের বাংলা সাহিত্যের শ্রেষ্ঠ নিদর্শন কোনটি?", options: ["ক) শ্রীকৃষ্ণকীর্তন বা মঙ্গলকাব্য", "খ) চর্যাপদ", "গ) বৈষ্ণব পদাবলী", "ঘ) রামায়ণ অনুবাদ"], correct: 0 },
-        { q: "৯৮. মুখের মান্য বাংলা ভাষায় মৌলিক স্বরধ্বনির সংখ্যা কয়টি?", options: ["ক) ৭টি", "খ) ৯টি", "গ) ১১টি", "ঘ) ৫টি"], correct: 0 },
-        { q: "৯৯. অভিধানে শব্দ খোঁজার বিজ্ঞানসম্মত ক্রম বা পদ্ধতিকে কী বলা হয়?", options: ["ক) শব্দার্থবিজ্ঞান", "খ) রূপবিজ্ঞান", "গ) শৈলীবিজ্ঞান", "ঘ) কোনোটিই নয়"], correct: 0 },
         { q: "১০০. 'সহজ পাঠ' বইটির ছবিগুলি কে এঁকেছিলেন?", options: ["ক) নন্দলাল বসু", "খ) অবনীন্দ্রনাথ ঠাকুর", "গ) গগনেন্দ্রনাথ ঠাকুর", "ঘ) যামিনী রায়"], correct: 0 }
     ];
 
-    let currentQuestionIndex = 0; let score = 0; let timerInterval; let timeLeft = 6000;
-    
-    function startQuiz() {
-        currentQuestionIndex = 0; score = 0; timeLeft = 6000; updateQuestionUI();
+    let currentQuestionIndex = 0, score = 0, timeLeft = 7200, userAnswers = [], timerInterval;
+
+    function startTimer() {
         timerInterval = setInterval(() => {
-            if(timeLeft <= 0) { endQuiz(); } else {
-                timeLeft--; let min = Math.floor(timeLeft / 60); let sec = timeLeft % 60;
-                document.getElementById('timer').innerText = `সময়: ${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }
+            timeLeft--;
+            let min = Math.floor(timeLeft / 60);
+            let sec = timeLeft % 60;
+            document.getElementById('timer').innerText = `সময়: ${min}:${sec < 10 ? '0' : ''}${sec}`;
+            if(timeLeft <= 0) endQuiz();
         }, 1000);
     }
 
-    function updateQuestionUI() {
-        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ১০০`;
+    function updateUI() {
         let qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
         document.getElementById('q-text').innerText = qObj.q;
         const buttons = document.querySelectorAll('.opt-btn');
-        buttons[0].innerText = qObj.options[0];
-        buttons[1].innerText = qObj.options[1];
-        buttons[2].innerText = qObj.options[2];
-        buttons[3].innerText = qObj.options[3];
+        buttons.forEach((btn, i) => btn.innerText = qObj.options[i]);
     }
 
     function handleAnswer(selectedIndex) {
-        if(selectedIndex === questions[currentQuestionIndex].correct) { score++; }
-        if(currentQuestionIndex < questions.length - 1) { currentQuestionIndex++; updateQuestionUI(); } else { endQuiz(); }
+        userAnswers[currentQuestionIndex] = selectedIndex;
+        if(selectedIndex === questions[currentQuestionIndex].correct) score++;
+        
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            updateUI();
+        } else {
+            endQuiz();
+        }
     }
 
     function endQuiz() {
         clearInterval(timerInterval);
         document.getElementById('quiz-screen').classList.remove('active');
         document.getElementById('result-screen').classList.add('active');
-        document.getElementById('result-details').innerHTML = `আপনি ১০০টির মধ্যে <b>${score}</b> টি সঠিক উত্তর দিয়েছেন।`;
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${currentQuestionIndex + 1}</b>`;
+
+        let reviewHTML = "<h3>ভুল সংশোধনী তালিকা:</h3><br>";
+        for(let i = 0; i <= currentQuestionIndex; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `
+                <div class="result-item">
+                    <p><b>প্রশ্ন: ${questions[i].q}</b></p>
+                    <p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p>
+                    <p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p>
+                </div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
     }
 
-    startQuiz();
+    updateUI();
+    startTimer();
 </script>
 </body>
-</html>
+</html> { q: "৯২. 'ঠাকুমার ঝুলি' রূপকথার বইটি কার সম্পাদনায় প্রকাশিত হয়েছিল?", options: ["ক) দক্ষিণারঞ্জন মিত্র মজুমদার", "খ) অবনীন্দ্রনাথ ঠাকুর", "গ) উপেন্দ্রকিশোর রায়চোধুরী", "ঘ) সুকুমার রায়"], correct: 0 },
+        { q: "৯৩. উষ্ম ধ্বনি বা শিষ ধ্বনির একটি উদাহরণ দাও:", options: ["ক) স / শ / ষ", "খ) ক", "গ) প", "ঘ) ম"], correct: 0 },
+        { q: "৯৪. একই পদের পরপর দুবার ব্যবহারকে ব্যাকরণে কী বলা হয়?", options: ["ক) পদদ্বৈত", "খ) সন্ধি", "গ) সমাস", "ঘ) প্রত্যয়"], correct: 0 },
+        { q: "৯৫. প্রথম ভারতীয় ক্রিকেটার হিসেবে টেস্টে হ্যাটট্রিক করেছিলেন কে?", options: ["ক) হরভজন সিং", "খ) অনিল কুম্বলে", "গ) কপিল দেব", "ঘ) জাহির খান"], correct: 0 },
+        { q: "৯৬. 'বর্ণপরিচয়' গ্রন্থটির রচয়িতা কে?", options: ["ক) ঈশ্বরচন্দ্র বিদ্যাসাগর", "খ) রবীন্দ্রনাথ ঠাকুর", "গ) রামমোহন রায়", "ঘ) অক্ষয়কুমার দত্ত"], correct: 0 },
+        { q: "৯৭. মধ্যযুগের বাংলা সাহিত্যের শ্রেষ্ঠ নিদর্শন কোনটি?", options: ["ক) শ্রীকৃষ্ণকীর্তন বা মঙ্গলকাব্য", "খ) চর্যাপদ", "গ) বৈষ্ণব পদাবলী", "ঘ) রামায়ণ অনুবাদ"], correct: 0 },
+        { q: "৯৮. মুখের মান্য বাংলা ভাষায় মৌলিক স্বরধ্বনির সংখ্যা কয়টি?", options: ["ক) ৭টি", "খ) ৯টি", "গ) ১১টি", "ঘ) ৫টি"], correct: 0 },
+        { q: "৯৯. অভিধানে শব্দ খোঁজার বিজ্ঞানসম্মত ক্রম বা পদ্ধতিকে কী বলা হয়?", options: ["ক) শব্দার্থবিজ্ঞান", "খ) রূপবিজ্ঞান", "গ) শৈলীবিজ্ঞান", "ঘ) কোনোটিই নয়"], 
+         
