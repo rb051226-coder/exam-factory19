@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Physics 2026 Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি পদার্থবিজ্ঞান: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. দৈর্ঘ্যের মাত্রীয় সংকেত কী?", options: ["[L]", "[M]", "[T]", "[A]"], correct: 0 },
+        { q: "২. বলের সিজিএস (CGS) একক কী?", options: ["ডাইন", "নিউটন", "জুল", "আর্গ"], correct: 0 },
+        { q: "৩. কার্য ও শক্তির এসআই (SI) একক কী?", options: ["জুল", "নিউটন", "ওয়াট", "প্যাসকেল"], correct: 0 },
+        { q: "৪. প্লবতা কোন দিকে কাজ করে?", options: ["উপরের দিকে", "নিচের দিকে", "ডানে", "বামে"], correct: 0 },
+        { q: "৫. সান্দ্রতা গুণাঙ্কের একক কী?", options: ["পয়জ", "জুল", "নিউটন", "ওয়াট"], correct: 0 },
+        { q: "৬. কোন তাপমাত্রায় সেলসিয়াস ও ফারেনহাইট স্কেল সমান?", options: ["-৪০", "০", "৩২", "১০০"], correct: 0 },
+        { q: "৭. আদর্শ গ্যাসের সমীকরণ কোনটি?", options: ["PV=nRT", "PV=RT", "P=VRT", "কোনটিই নয়"], correct: 0 },
+        { q: "৮. সরল দোলগতিতে ত্বরণ সরণের—", options: ["সমানুপাতিক", "ব্যস্তানুপাতিক", "বর্গানুপাতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. শব্দের গতিবেগ সবচেয়ে বেশি কোথায়?", options: ["কঠিন মাধ্যম", "তরল মাধ্যম", "বায়ু মাধ্যম", "শূন্যস্থান"], correct: 0 },
+        { q: "১০. নিউটনের গতির দ্বিতীয় সূত্রটি কী?", options: ["F=ma", "F=m/a", "F=a/m", "F=m+a"], correct: 0 },
+        { q: "১১. অভিকর্ষজ ত্বরণের মান কোথায় সবচেয়ে বেশি?", options: ["মেরু অঞ্চলে", "বিষুবীয় অঞ্চলে", "কেন্দ্রে", "পাহাড়ে"], correct: 0 },
+        { q: "১২. মুক্তি বেগের মান কত?", options: ["১১.২ কিমি/সে", "৯.৮ কিমি/সে", "৩.২ কিমি/সে", "০"], correct: 0 },
+        { q: "১৩. চাপের এসআই একক কী?", options: ["প্যাসকেল", "জুল", "নিউটন", "ওয়াট"], correct: 0 },
+        { q: "১৪. ঘনত্বের মাত্রা কী?", options: ["[ML^-3]", "[ML^-2]", "[ML^-1]", "[M^2L^-3]"], correct: 0 },
+        { q: "১৫. রৈখিক ভরবেগের সংরক্ষণ সূত্র কোনটি?", options: ["m1v1=m2v2", "F=ma", "W=Fd", "PE=mgh"], correct: 0 },
+        { q: "১৬. কাজ শূন্য হয় যখন বল ও সরণের মধ্যবর্তী কোণ—", options: ["৯০ ডিগ্রি", "০ ডিগ্রি", "১৮০ ডিগ্রি", "৪৫ ডিগ্রি"], correct: 0 },
+        { q: "১৭. ক্ষমতা = কী?", options: ["কাজ / সময়", "কাজ × সময়", "বল / সময়", "বল × সরণ"], correct: 0 },
+        { q: "১৮. ঘূর্ণন গতির একক কী?", options: ["রেডিয়ান/সেকেন্ড", "মিটার/সেকেন্ড", "নিউটন", "জুল"], correct: 0 },
+        { q: "১৯. জড়তার ভ্রামক (I) = কী?", options: ["mr^2", "m/r^2", "m+r", "m-r"], correct: 0 },
+        { q: "২০. মহাকর্ষীয় ধ্রুবক G-এর মান—", options: ["৬.৬৭ × ১০^-১১", "৯.৮", "১.৬", "০"], correct: 0 },
+        { q: "২১. পৃষ্ঠটানের এসআই একক কী?", options: ["নিউটন/মিটার", "জুল/মিটার", "নিউটন/মিটার^2", "প্যাসকেল"], correct: 0 },
+        { q: "২২. তাপ পরিবহণ গুণাঙ্কের একক কী?", options: ["W/mK", "J/s", "N/m", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. পরম শূন্য তাপমাত্রা কত?", options: ["-২৭৩.১৫ ডিগ্রি সেলসিয়াস", "০ ডিগ্রি সেলসিয়াস", "১০০ ডিগ্রি সেলসিয়াস", "সবকটি"], correct: 0 },
+        { q: "২৪. একটি পূর্ণ দোলনের সময়কালকে কী বলে?", options: ["পর্যায়কাল", "কম্পাঙ্ক", "বিস্তার", "কোনটিই নয়"], correct: 0 },
+        { q: "২৫. অনুদৈর্ঘ্য তরঙ্গ কোথায় দেখা যায়?", options: ["শব্দে", "আলোকে", "জলে", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. বলের মাত্রা কী?", options: ["[MLT^-2]", "[MLT^-1]", "[ML^2T^-2]", "[LT^-2]"], correct: 0 },
+        { q: "২৭. কাজ বা শক্তির মাত্রা কী?", options: ["[ML^2T^-2]", "[MLT^-2]", "[ML^2T^-1]", "[MLT^-1]"], correct: 0 },
+        { q: "২৮. ক্ষমতার মাত্রা কী?", options: ["[ML^2T^-3]", "[MLT^-3]", "[ML^2T^-2]", "[ML^2T^-1]"], correct: 0 },
+        { q: "২৯. ঘর্ষণ বল কোন দিকে কাজ করে?", options: ["গতির বিপরীত দিকে", "গতির দিকে", "উলম্বভাবে", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. স্থিতি ঘর্ষণ গুণাঙ্ক কীসের ওপর নির্ভর করে?", options: ["তলের প্রকৃতির ওপর", "বলের ওপর", "সরণের ওপর", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. রৈখিক গতির সমীকরণ কোনটি?", options: ["v=u+at", "v=u+a", "s=ut", "v=at"], correct: 0 },
+        { q: "৩২. প্রাসের গতিপথ কেমন?", options: ["পরাবৃত্তাকার", "সরলরৈখিক", "বৃত্তাকার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. অভিকেন্দ্র বলের মান—", options: ["mv^2/r", "mv/r", "m/r", "v^2/r"], correct: 0 },
+        { q: "৩৪. কাজ একটি—", options: ["স্কেলার রাশি", "ভেক্টর রাশি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. ক্ষমতা একটি—", options: ["স্কেলার রাশি", "ভেক্টর রাশি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ভরবেগ—", options: ["ভেক্টর রাশি", "স্কেলার রাশি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. সান্দ্রতা—", options: ["তরলের গুণ", "কঠিনের গুণ", "গ্যাসের গুণ", "সবকটি"], correct: 0 },
+        { q: "৩৮. বার্নোলির উপপাদ্য কোন সংরক্ষণের ওপর ভিত্তি করে?", options: ["শক্তির সংরক্ষণ", "ভরের সংরক্ষণ", "ভরবেগের সংরক্ষণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. আপেক্ষিক তাপ সবচেয়ে বেশি কার?", options: ["জল", "লোহা", "তামা", "পারদ"], correct: 0 },
+        { q: "৪০. হুকের সূত্র কী?", options: ["পীড়ন ∝ বিকৃতি", "পীড়ন ∝ দৈর্ঘ্য", "বল ∝ দৈর্ঘ্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. ইয়ং গুণাঙ্ক কী?", options: ["পীড়ন/বিকৃতি", "বল/ক্ষেত্রফল", "বিকৃতি/পীড়ন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. বায়ুর চাপের একক কী?", options: ["এটিএম (atm)", "জুল", "ওয়াট", "নিউটন"], correct: 0 },
+        { q: "৪৩. আদর্শ গ্যাস—", options: ["অবাস্তব", "বাস্তব", "তরল", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. স্থির চাপে চার্লসের সূত্র কী?", options: ["V ∝ T", "P ∝ T", "V ∝ 1/P", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. বয়েলের সূত্র কোনটির জন্য প্রযোজ্য?", options: ["স্থির তাপমাত্রা", "স্থির চাপ", "স্থির আয়তন", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. দোলকের দোলনকাল কিসের ওপর নির্ভর করে?", options: ["দৈর্ঘ্য", "ভর", "বিস্তার", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. তরঙ্গ দৈর্ঘ্য পরিমাপের একক—", options: ["মিটার", "সেকেন্ড", "হার্টজ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. শব্দের তীব্রতা—", options: ["অ্যাম্প্লিটিউডের বর্গের সমানুপাতিক", "অ্যাম্প্লিটিউডের সমানুপাতিক", "উল্টানুপাতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. ডপলার ইফেক্ট কীসের সাথে জড়িত?", options: ["শব্দ/আলোর কম্পাঙ্ক", "গতি", "ভর", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. পদার্থের চতুর্থ অবস্থা—", options: ["প্লাজমা", "তরল", "কঠিন", "গ্যাস"], correct: 0 },
+        { q: "৫১. মহাকর্ষ বল—", options: ["আকর্ষণীয়", "বিকর্ষণীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. জি (g) এর একক—", options: ["মি/সে^২", "মি/সে", "নিউটন", "জুল"], correct: 0 },
+        { q: "৫৩. ভরবেগ = কী?", options: ["ভর × বেগ", "ভর × ত্বরণ", "বল × সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. ত্বরণ = কী?", options: ["বেগ পরিবর্তন / সময়", "সরণ / সময়", "বেগ × সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. একটি বস্তু স্থির থাকলে—", options: ["ত্বরণ ০", "বেগ ০", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৬. বৃত্তাকার পথে গতির অভিমুখ—", options: ["স্পর্শক বরাবর", "কেন্দ্রের দিকে", "বাইরের দিকে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. কার্যকারিতা (Efficiency) = কী?", options: ["আউটপুট/ইনপুট", "ইনপুট/আউটপুট", "সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. শক্তির সংরক্ষণ সূত্র—", options: ["শক্তির সৃষ্টি বা বিনাশ নেই", "শক্তি ধ্বংস হয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. বিভব শক্তি (PE) = কী?", options: ["mgh", "1/2mv^2", "mv", "ma"], correct: 0 },
+        { q: "৬০. গতিশক্তি (KE) = কী?", options: ["1/2mv^2", "mgh", "ma", "mv"], correct: 0 },
+        { q: "৬১. জড়তার ভ্রামক—", options: ["কৌণিক ভর", "রৈখিক ভর", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. কৌণিক ভরবেগ (L) = কী?", options: ["Iω", "mv", "ma", "F.d"], correct: 0 },
+        { q: "৬৩. কেপলারের গ্রহগতির সূত্র কয়টি?", options: ["৩টি", "২টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "৬৪. কৃত্রিম উপগ্রহ—", options: ["পৃথিবীর চারিদিকে ঘোরে", "স্থির", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. পৃষ্ঠটান—", options: ["অণুর আকর্ষণ", "বিকর্ষণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. কৈশিকতা—", options: ["পৃষ্ঠটানের ফল", "সান্দ্রতার ফল", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. তাপ—", options: ["শক্তির রূপ", "বস্তু", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. তাপগতিবিদ্যার প্রথম সূত্র—", options: ["শক্তির সংরক্ষণ", "ভর সংরক্ষণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. এনট্রপি—", options: ["বিশৃঙ্খলা পরিমাপ", "শক্তি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. অণুর গতি—", options: ["তাপমাত্রার সাথে বাড়লে বাড়ে", "কমলে কমে", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৭১. স্থির তরঙ্গের নিস্পন্দ বিন্দু—", options: ["সরণ শূন্য", "সরণ সর্বোচ্চ", "গতি সর্বোচ্চ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. স্থির তরঙ্গের সুস্পন্দ বিন্দু—", options: ["সরণ সর্বোচ্চ", "সরণ শূন্য", "গতি শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. হার্জ (Hz) কিসের একক?", options: ["কম্পাঙ্ক", "সময়", "বেগ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. আলোর প্রতিসরাঙ্ক—", options: ["শূন্য মাধ্যম/মাধ্যম", "উভয়", "কোনটিই নয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. লেন্সের ক্ষমতা—", options: ["1/f", "f", "f^2", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. দর্পণ—", options: ["আলোর প্রতিফলন", "প্রতিসরণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. আধান (Charge) এর একক—", options: ["কুলম্ব", "নিউটন", "জুল", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. রোধের একক—", options: ["ওহম", "অ্যাম্পিয়ার", "ভোল্ট", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. বিভব প্রভেদ—", options: ["ভোল্ট", "ওহম", "অ্যাম্পিয়ার", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. ওহমের সূত্র—", options: ["V=IR", "V=I/R", "I=VR", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. শক্তির একক—", options: ["জুল", "ওয়াট", "নিউটন", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. ক্ষমতার একক—", options: ["ওয়াট", "জুল", "নিউটন", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. সরণ—", options: ["ভেক্টর", "স্কেলার", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. দূরত্ব—", options: ["স্কেলার", "ভেক্টর", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. বেগ—", options: ["ভেক্টর", "স্কেলার", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. দ্রুতি—", options: ["স্কেলার", "ভেক্টর", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. ত্বরণ—", options: ["ভেক্টর", "স্কেলার", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. মন্দন—", options: ["ঋণাত্মক ত্বরণ", "ত্বরণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. রৈখিক গতি—", options: ["সরলরেখা", "বৃত্ত", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. কৌণিক গতি—", options: ["বৃত্ত", "সরলরেখা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. বল—", options: ["ভেক্টর", "স্কেলার", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. ভর—", options: ["স্কেলার", "ভেক্টর", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. ওজোন স্তর—", options: ["অতিবেগুনি রশ্নি শোষণ", "আলো শোষণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. গ্রিন হাউস—", options: ["তাপ ধরে রাখা", "তাপ বের করে দেওয়া", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. শব্দ—", options: ["তরঙ্গ", "কণা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. আলো—", options: ["তরঙ্গ ও কণা", "শুধু তরঙ্গ", "শুধু কণা", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. প্রতিফলন—", options: ["আলো ফিরে আসা", "শোষিত হওয়া", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. প্রতিসরণ—", options: ["আলোর বাঁক নেওয়া", "ফিরে আসা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. পূর্ণ অভ্যন্তরীণ প্রতিফলন—", options: ["মরীচিকা", "আকাশ নীল", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. পদার্থবিজ্ঞান—", options: ["প্রকৃতির বিজ্ঞান", "ইতিহাস", "উভয়", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
