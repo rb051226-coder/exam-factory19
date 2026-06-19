@@ -3,153 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | Class 12 English Mega Mock Test</title>
+    <title>Exam Factory | Class 12 English (100 Qs)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; width: 100%; max-width: 700px; padding: 30px; }
-        .brand-logo { font-size: 24px; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 20px; }
-        .quiz-meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 600; }
-        .q-box { font-size: 18px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; }
-        .opt-btn { background: #334155; border: none; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 8px; color: white; text-align: left; cursor: pointer; transition: 0.2s; }
-        .opt-btn:hover { background: #475569; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fb7185; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #38bdf8; border-radius: 8px; }
+        .opt-btn { background: #1e293b; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #334155; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #38bdf8; }
+        .finish-btn { background: #ef4444; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
         .screen { display: none; } .active { display: block; }
     </style>
 </head>
 <body>
+
 <div class="glass-card">
-    <div class="brand-logo">Class 12 English (100 Marks)</div>
+    <div class="brand-logo">EXAM FACTORY ➔ Class 12 English</div>
+    
     <div id="quiz-screen" class="screen active">
-        <div class="quiz-meta"><span id="q-count">Question: 1 / 100</span><span id="timer">Time: 100:00</span></div>
-        <div class="q-box" id="q-text">Loading...</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#38bdf8;">
+            <span id="q-count">Question: 1 / 100</span>
+            <span id="timer">Time: 120:00</span>
+        </div>
+        <div id="q-text" class="q-box">Loading question...</div>
         <div id="opt-container">
             <button class="opt-btn" onclick="handleAnswer(0)"></button>
             <button class="opt-btn" onclick="handleAnswer(1)"></button>
             <button class="opt-btn" onclick="handleAnswer(2)"></button>
             <button class="opt-btn" onclick="handleAnswer(3)"></button>
         </div>
+        <button class="finish-btn" onclick="endQuiz()">Finish Test</button>
     </div>
-    <div id="result-screen" class="screen"><h2>Result</h2><p id="result-details"></p><a href="index.html" style="color:#38bdf8;">Back to Home</a></div>
+
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#4ade80;">Performance Analysis</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><a href="#" onclick="location.reload()" style="color:#38bdf8; text-decoration:none; font-weight:bold;">◀ Restart Test</a></div>
+    </div>
 </div>
+
 <script>
     const questions = [
-        // --- Prose (1-18) ---
-        { q: "1. The girl in 'The Eyes Have It' was wearing—", options: ["A) slippers", "B) sandals", "C) shoes", "D) boots"], correct: 0 },
-        { q: "2. The narrator in 'The Eyes Have It' was—", options: ["A) blind", "B) deaf", "C) lame", "D) dumb"], correct: 0 },
-        { q: "3. Kalam's father's name was—", options: ["A) Jainulabdeen", "B) Pakshi Lakshmana Sastry", "C) Ahmed", "D) Sivan"], correct: 0 },
-        { q: "4. The coconut grove where Kalam's father walked was—", options: ["A) 4 miles away", "B) 2 miles away", "C) 1 mile away", "D) 3 miles away"], correct: 0 },
-        { q: "5. Mrs. Luella Bates Washington Jones gave Roger—", options: ["A) ten dollars", "B) five dollars", "C) twenty dollars", "D) fifteen dollars"], correct: 0 },
-        { q: "6. Roger wanted to buy—", options: ["A) blue suede shoes", "B) a new shirt", "C) a cycle", "D) a book"], correct: 0 },
-        { q: "7. The hermit was widely known for his—", options: ["A) wisdom", "B) wealth", "C) strength", "D) cruelty"], correct: 0 },
-        { q: "8. The Tsar went to the hermit in the—", options: ["A) woods", "B) palace", "C) temple", "D) market"], correct: 0 },
-        { q: "9. The girl said she was getting off at—", options: ["A) Saharanpur", "B) Dehra", "C) Mussoorie", "D) Rohana"], correct: 0 },
-        { q: "10. Strong Roots is taken from—", options: ["A) Wings of Fire", "B) Ignited Minds", "C) The Luminous Sparks", "D) India 2020"], correct: 0 },
-        { q: "11. Mrs. Jones worked in a—", options: ["A) hotel beauty shop", "B) school", "C) factory", "D) hospital"], correct: 0 },
-        { q: "12. In 'Three Questions', the bearded man wanted to—", options: ["A) revenge", "B) help", "C) kill the Tsar", "D) steal"], correct: 0 },
-        { q: "13. The narrator found the girl's voice like the—", options: ["A) spark of a mountain stream", "B) sound of rain", "C) singing of birds", "D) whispering wind"], correct: 0 },
-        { q: "14. Kalam's family lived in—", options: ["A) Rameswaram", "B) Madurai", "C) Chennai", "D) Trichy"], correct: 0 },
-        { q: "15. Roger had—", options: ["A) no one at home", "B) a big family", "C) a strict father", "D) a poor mother"], correct: 0 },
-        { q: "16. The Tsar washed the bearded man's wounds with—", options: ["A) fresh water", "B) warm water", "C) wine", "D) oil"], correct: 0 },
-        { q: "17. The girl in the train found the narrator—", options: ["A) gallant", "B) boring", "C) rude", "D) funny"], correct: 0 },
-        { q: "18. Kalam's mother's name was—", options: ["A) Ashiamma", "B) Zohra", "C) Fatima", "D) Mary"], correct: 0 },
-
-        // --- Poetry (19-33) ---
-        { q: "19. 'On Killing a Tree' is written by—", options: ["A) Gieve Patel", "B) Keats", "C) Shakespeare", "D) Wordsworth"], correct: 0 },
-        { q: "20. The tree has grown by consuming—", options: ["A) earth's crust", "B) water", "C) sunlight", "D) air"], correct: 0 },
-        { q: "21. The soldier in 'Asleep in the Valley' is—", options: ["A) very young", "B) old", "C) middle-aged", "D) a child"], correct: 0 },
-        { q: "22. The soldier's feet are among the—", options: ["A) flowers", "B) mud", "C) thorns", "D) grass"], correct: 0 },
-        { q: "23. Shakespeare's Sonnet 18 is addressed to—", options: ["A) a friend (Mr. W.H.)", "B) his wife", "C) the Dark Lady", "D) Queen Elizabeth"], correct: 0 },
-        { q: "24. Summer's lease hath all too—", options: ["A) short a date", "B) long a date", "C) hot a day", "D) cold a night"], correct: 0 },
-        { q: "25. 'The Poetry of Earth' is written by—", options: ["A) John Keats", "B) Gieve Patel", "C) Rimbaud", "D) Shakespeare"], correct: 0 },
-        { q: "26. The grasshopper takes the lead in—", options: ["A) summer luxury", "B) winter evening", "C) autumn", "D) spring"], correct: 0 },
-        { q: "27. The bleeding bark will—", options: ["A) heal", "B) grow", "C) die", "D) wither"], correct: 0 },
-        { q: "28. The valley is—", options: ["A) green and sunlit", "B) dark and deep", "C) cold and icy", "D) dry and barren"], correct: 0 },
-        { q: "29. The rough winds do shake the—", options: ["A) darling buds of May", "B) trees", "C) flowers", "D) leaves"], correct: 0 },
-        { q: "30. The cricket's song increases—", options: ["A) warmth", "B) cold", "C) light", "D) darkness"], correct: 0 },
-        { q: "31. A tree is not killed by—", options: ["A) a simple jab of the knife", "B) uprooting", "C) cutting", "D) burning"], correct: 0 },
-        { q: "32. The soldier sleeps in—", options: ["A) a sun-drenched valley", "B) a palace", "C) a tent", "D) the jungle"], correct: 0 },
-        { q: "33. Thy eternal summer shall not—", options: ["A) fade", "B) grow", "C) shine", "D) bloom"], correct: 0 },
-        
-                // --- Drama (34-50) ---
-        { q: "34. The play 'The Proposal' is written by—", options: ["A) Anton Chekhov", "B) Shakespeare", "C) Shaw", "D) Ibsen"], correct: 0 },
-        { q: "35. Lomov came to Chubukov's house to—", options: ["A) propose Natalya", "B) borrow money", "C) hunt", "D) play cards"], correct: 0 },
-        { q: "36. Oxen Meadows was worth—", options: ["A) 300 roubles", "B) 500 roubles", "C) 100 roubles", "D) 1000 roubles"], correct: 0 },
-        { q: "37. Natalya was—", options: ["A) 25 years old", "B) 20 years old", "C) 30 years old", "D) 22 years old"], correct: 0 },
-        { q: "38. Lomov suffers from—", options: ["A) palpitations", "B) fever", "C) cough", "D) headache"], correct: 0 },
-        { q: "39. Guess is the name of—", options: ["A) Lomov's dog", "B) Natalya's dog", "C) Chubukov's dog", "D) A horse"], correct: 0 },
-        { q: "40. Squeezer is—", options: ["A) a dog", "B) a cat", "C) a horse", "D) a servant"], correct: 0 },
-        { q: "41. Chubukov is Natalya's—", options: ["A) father", "B) brother", "C) uncle", "D) neighbor"], correct: 0 },
-        { q: "42. The proposal is a—", options: ["A) farce", "B) tragedy", "C) epic", "D) thriller"], correct: 0 },
-        { q: "43. Natalya's dog Squeezer was bought for—", options: ["A) 85 roubles", "B) 25 roubles", "C) 100 roubles", "D) 50 roubles"], correct: 0 },
-        { q: "44. Lomov's dog Guess was bought for—", options: ["A) 125 roubles", "B) 100 roubles", "C) 85 roubles", "D) 200 roubles"], correct: 0 },
-        { q: "45. Lomov thought it was high time he got—", options: ["A) married", "B) a job", "C) a house", "D) a dog"], correct: 0 },
-        { q: "46. Who shouted 'A villain, a scarecrow'?", options: ["A) Chubukov", "B) Lomov", "C) Natalya", "D) The servant"], correct: 0 },
-        { q: "47. The argument over the meadows was about—", options: ["A) ownership", "B) grazing cattle", "C) buying it", "D) cutting wood"], correct: 0 },
-        { q: "48. Natalya claimed that her dog was—", options: ["A) better than Guess", "B) worse than Guess", "C) same as Guess", "D) younger"], correct: 0 },
-        { q: "49. Chubukov calls Lomov a—", options: ["A) snake", "B) rat", "C) fox", "D) dog"], correct: 0 },
-        { q: "50. Natalya says 'Let's get married'—", options: ["A) yes", "B) no", "C) maybe", "D) never"], correct: 0 },
-        
-        // --- Grammar & Writing (51-66) ---
-        { q: "51. Change the voice: 'She looked at me.'", options: ["A) I was looked at by her.", "B) I am looked at by her.", "C) She was looked at by me.", "D) I was looked by her."], correct: 0 },
-        { q: "52. Change the narration: He said, 'I am busy.'", options: ["A) He said that he was busy.", "B) He said he is busy.", "C) He told me he was busy.", "D) He said I am busy."], correct: 0 },
-        { q: "53. Join into complex sentence: 'He is poor. He is honest.'", options: ["A) Though he is poor, he is honest.", "B) He is poor and honest.", "C) Being poor he is honest.", "D) He is poor but honest."], correct: 0 },
-        { q: "54. Fill in: 'He is ___ M.A.'", options: ["A) an", "B) a", "C) the", "D) X"], correct: 0 },
-        { q: "55. Correct the sentence: 'One of the boys are absent.'", options: ["A) is absent", "B) were absent", "C) be absent", "D) absent"], correct: 0 },
-        { q: "56. 'The eyes have it' is a story by—", options: ["A) Ruskin Bond", "B) Chekhov", "C) Keats", "D) Kalam"], correct: 0 },
-        { q: "57. 'Strong Roots' is an extract from—", options: ["A) Wings of Fire", "B) India 2020", "C) Ignited Minds", "D) The Luminous Sparks"], correct: 0 },
-        { q: "58. 'Thank You, Ma'am' is written by—", options: ["A) Langston Hughes", "B) Ruskin Bond", "C) A.P.J. Abdul Kalam", "D) Leo Tolstoy"], correct: 0 },
-        { q: "59. In 'The Eyes Have It', the narrator was traveling to—", options: ["A) Mussoorie", "B) Delhi", "C) Dehra", "D) Saharanpur"], correct: 0 },
-        { q: "60. 'The Proposal' by Chekhov is—", options: ["A) a comedy", "B) a tragedy", "C) a farce", "D) a satire"], correct: 0 },
-        { q: "61. The grasshopper is associated with—", options: ["A) summer", "B) winter", "C) autumn", "D) spring"], correct: 0 },
-        { q: "62. The cricket is associated with—", options: ["A) winter", "B) summer", "C) autumn", "D) spring"], correct: 0 },
-        { q: "63. The poet in Sonnet 18 says his friend is—", options: ["A) more lovely", "B) less lovely", "C) equal", "D) not lovely"], correct: 0 },
-        { q: "64. The soldier has—", options: ["A) two red holes", "B) a wound", "C) a gun", "D) a sword"], correct: 0 },
-        { q: "65. The tree is killed by—", options: ["A) pulling out the root", "B) cutting", "C) burning", "D) sawing"], correct: 0 },
-        { q: "66. 'Strong Roots' deals with the childhood of—", options: ["A) Kalam", "B) Ruskin Bond", "C) Chekhov", "D) Tolstoy"], correct: 0 },
-        { q: "67. Who was the hermit?", options: ["A) A holy man", "B) A king", "C) A soldier", "D) A minister"], correct: 0 },
-        { q: "68. 'Three Questions' was written by—", options: ["A) Leo Tolstoy", "B) Chekhov", "C) Ruskin Bond", "D) Langston Hughes"], correct: 0 },
-        { q: "69. In 'Three Questions', the enemy was—", options: ["A) the bearded man", "B) the hermit", "C) the king", "D) the minister"], correct: 0 },
-        { q: "70. Lomov's estate is—", options: ["A) Oxen Meadows", "B) The Gats", "C) The Woods", "D) The Palace"], correct: 0 },
-        { q: "71. Who said 'My heart's palpitating dreadfully'?", options: ["A) Lomov", "B) Natalya", "C) Chubukov", "D) The servant"], correct: 0 },
-        { q: "72. What was the name of Kalam's father's boat?", options: ["A) Zulo", "B) Ferry", "C) Ship", "D) Boat"], correct: 0 },
-        { q: "73. The girl in the train told the narrator that she—", options: ["A) liked the hills", "B) hated the hills", "C) never went to hills", "D) was afraid of hills"], correct: 0 },
-        { q: "74. 'Thank You, Ma'am'— who said this?", options: ["A) Roger", "B) Mrs. Jones", "C) The policeman", "D) The boy"], correct: 0 },
-        { q: "75. The grasshopper sings—", options: ["A) everywhere", "B) nowhere", "C) in the house", "D) in the field"], correct: 0 },
-        { q: "76. The soldier in 'Asleep in the Valley'—", options: ["A) is dead", "B) is sleeping", "C) is running", "D) is eating"], correct: 0 },
-        { q: "77. 'On Killing a Tree'— the tree is—", options: ["A) resilient", "B) fragile", "C) weak", "D) short-lived"], correct: 0 },
-        { q: "78. 'Thou art more lovely'— who is 'thou'?", options: ["A) the friend", "B) the poet", "C) the summer", "D) the nature"], correct: 0 },
-        { q: "79. The cricket's song—", options: ["A) is shrill", "B) is sweet", "C) is loud", "D) is silent"], correct: 0 },
-        { q: "80. In 'The Proposal', the arguments are—", options: ["A) silly", "B) serious", "C) intellectual", "D) romantic"], correct: 0 },
-        { q: "81. 'I am not a villain'— who said this?", options: ["A) Lomov", "B) Chubukov", "C) Natalya", "D) Guess"], correct: 0 },
-        { q: "82. Kalam was born in—", options: ["A) 1931", "B) 1940", "C) 1950", "D) 1920"], correct: 0 },
-        { q: "83. The girl in the train had—", options: ["A) sparkling eyes", "B) blind eyes", "C) blue eyes", "D) green eyes"], correct: 0 },
-        { q: "84. Mrs. Jones was—", options: ["A) large", "B) thin", "C) young", "D) old"], correct: 0 },
-        { q: "85. The hermit answered the Tsar's—", options: ["A) 3 questions", "B) 2 questions", "C) 1 question", "D) 4 questions"], correct: 0 },
-        { q: "86. Guess is—", options: ["A) a dog", "B) a cat", "C) a rat", "D) a mouse"], correct: 0 },
-        { q: "87. Squeezer is—", options: ["A) inferior to Guess", "B) superior to Guess", "C) equal to Guess", "D) same as Guess"], correct: 0 },
-        { q: "88. 'Three Questions' teaches us to—", options: ["A) be good", "B) be rich", "C) be strong", "D) be smart"], correct: 0 },
-        { q: "89. Kalam's father was—", options: ["A) simple", "B) complex", "C) rich", "D) arrogant"], correct: 0 },
-        { q: "90. 'The Eyes Have It' narrator was—", options: ["A) alone", "B) with friends", "C) with family", "D) with a girl"], correct: 0 },
-        { q: "91. Shakespeare's Sonnet 18—", options: ["A) immortalizes his friend", "B) immortalizes himself", "C) immortalizes summer", "D) immortalizes nature"], correct: 0 },
-        { q: "92. 'The Poetry of Earth' is—", options: ["A) a sonnet", "B) a ballad", "C) an epic", "D) a play"], correct: 0 },
-        { q: "93. 'Asleep in the Valley' is—", options: ["A) a sonnet", "B) a ballad", "C) an epic", "D) a lyric"], correct: 0 },
-        { q: "94. 'On Killing a Tree' depicts—", options: ["A) cruelty of man", "B) kindness of man", "C) love for nature", "D) hate for nature"], correct: 0 },
-        { q: "95. 'The Proposal'— the dispute is over—", options: ["A) land", "B) money", "C) dog", "D) name"], correct: 0 },
-        { q: "96. Natalya—", options: ["A) is excited about marriage", "B) is sad about marriage", "C) doesn't care", "D) is angry"], correct: 0 },
-        { q: "97. Lomov—", options: ["A) is anxious", "B) is calm", "C) is angry", "D) is happy"], correct: 0 },
-        { q: "98. Chubukov—", options: ["A) is talkative", "B) is silent", "C) is shy", "D) is serious"], correct: 0 },
-        { q: "99. 'Thank You, Ma'am'— the theme is—", options: ["A) kindness", "B) theft", "C) punishment", "D) revenge"], correct: 0 },
-        { q: "100. English B mock test is—", options: ["A) completed", "B) unfinished", "C) boring", "D) easy"], correct: 0 }
+        { q: "1. Who is the author of 'The Eyes Have It'?", options: ["A) APJ Abdul Kalam", "B) Ruskin Bond", "C) Leo Tolstoy", "D) Langston Hughes"], correct: 1 },
+        { q: "2. Where was the girl going?", options: ["A) Saharanpur", "B) Mussoorie", "C) Rohana", "D) Dehradun"], correct: 0 },
+        { q: "3. What did the girl say about the narrator's face?", options: ["A) Interesting", "B) Ugly", "C) Handsome", "D) Boring"], correct: 0 },
+        { q: "4. Where did the narrator get off the train?", options: ["A) Saharanpur", "B) Mussoorie", "C) Rohana", "D) Dehradun"], correct: 0 },
+        { q: "5. Who entered the train at Saharanpur?", options: ["A) A new passenger", "B) The girl", "C) A vendor", "D) A policeman"], correct: 0 },
+        { q: "6. What was the girl wearing on her hair?", options: ["A) A ribbon", "B) A scarf", "C) A clip", "D) Nothing"], correct: 0 },
+        { q: "7. Why did the narrator want to prevent the girl from knowing he was blind?", options: ["A) He was proud", "B) He wanted to impress her", "C) He was shy", "D) He didn't care"], correct: 1 },
+        { q: "8. What was the girl's destination?", options: ["A) Dehradun", "B) Mussoorie", "C) Saharanpur", "D) Rohana"], correct: 1 },
+        { q: "9. How did the girl describe the narrator?", options: ["A) Gallant", "B) Serious", "C) Funny", "D) Quiet"], correct: 0 },
+        { q: "10. What was the narrator's secret?", options: ["A) He was rich", "B) He was blind", "C) He was a writer", "D) He was a spy"], correct: 1 },
+        { q: "11. When did the narrator become blind?", options: ["A) From birth", "B) At age 10", "C) Recently", "D) At age 20"], correct: 0 },
+        { q: "12. What was the noise of the train?", options: ["A) Hissing", "B) Rattling", "C) Screeching", "D) Whistling"], correct: 1 },
+        { q: "13. What did the narrator say about Mussoorie in October?", options: ["A) Very hot", "B) Pleasant", "C) Rainy", "D) Snowy"], correct: 1 },
+        { q: "14. Who came to see the girl off?", options: ["A) Her father", "B) Her mother", "C) Her brother", "D) Her friend"], correct: 1 },
+        { q: "15. The narrator thought the girl's voice had the sparkle of a...", options: ["A) Mountain stream", "B) Bell", "C) Song", "D) Wind"], correct: 0 },
+        { q: "16. What was the girl's opinion of the narrator?", options: ["A) Rude", "B) Gallant", "C) Blind", "D) Talkative"], correct: 1 },
+        { q: "17. Why did the girl leave?", options: ["A) To meet her aunt", "B) To go to Mussoorie", "C) To reach her destination", "D) Because she was bored"], correct: 1 },
+        { q: "18. What was the narrator doing at the window?", options: ["A) Sleeping", "B) Looking at the scene", "C) Dreaming", "D) Eating"], correct: 1 },
+        { q: "19. The narrator loved the...", options: ["A) Sounds of the train", "B) Forest", "C) Quiet of the hills", "D) Journey"], correct: 2 },
+        { q: "20. How long did the narrator talk to the girl?", options: ["A) 1 hour", "B) 30 minutes", "C) Few minutes", "D) All day"], correct: 2 },
+        { q: "21. Who wrote 'Strong Roots'?", options: ["A) Ruskin Bond", "B) APJ Abdul Kalam", "C) Shakespeare", "D) Wordsworth"], correct: 1 },
+        { q: "22. Where was Kalam's ancestral house located?", options: ["A) Mosque Street", "B) Temple Street", "C) Church Street", "D) School Street"], correct: 0 },
+        { q: "23. Who was Kalam's father?", options: ["A) Jainulabdeen", "B) Sivananda Sastry", "C) Lakshmana Sastry", "D) Aravindan"], correct: 0 },
+        { q: "24. What did Kalam's father possess?", options: ["A) Great wisdom", "B) Lots of money", "C) Famous name", "D) Good looks"], correct: 0 },
+        { q: "25. Kalam's mother's name was...", options: ["A) Ashiamma", "B) Fatema", "C) Zubeida", "D) None"], correct: 0 },
+        { q: "26. What was the daily ritual of Kalam's father?", options: ["A) Reading the Quran", "B) Meditation", "C) Morning walk", "D) Praying"], correct: 0 },
+        { q: "27. Who was Pakshi Lakshmana Sastry?", options: ["A) High priest", "B) Doctor", "C) Teacher", "D) Politician"], correct: 0 },
+        { q: "28. What did Kalam's father say about adversity?", options: ["A) It is bad", "B) It presents opportunities for introspection", "C) It is avoidable", "D) It is a sin"], correct: 1 },
+        { q: "29. Where did Kalam eat most of his meals?", options: ["A) With mother", "B) With father", "C) Alone", "D) With friends"], correct: 0 },
+        { q: "30. Kalam's family was very...", options: ["A) Rich", "B) Poor", "C) Middle-class", "D) Simple"], correct: 2 },
+        { q: "31. What did Kalam's father believe in?", options: ["A) Astrology", "B) Science", "C) Prayer and divinity", "D) Money"], correct: 2 },
+        { q: "32. The narrator felt that his childhood was...", options: ["A) Miserable", "B) Secure", "C) Exciting", "D) Lonely"], correct: 1 },
+        { q: "33. What was the name of the temple in Rameswaram?", options: ["A) Shiva Temple", "B) Vishnu Temple", "C) Rameswaram Temple", "D) Kali Temple"], correct: 2 },
+        { q: "34. What was the attitude of Kalam's father towards his own needs?", options: ["A) Selfish", "B) Self-indulgent", "C) Self-denial", "D) Greedy"], correct: 2 },
+        { q: "35. Kalam lived in a...", options: ["A) Big city", "B) Small village", "C) Island town", "D) Mountain town"], correct: 2 },
+        { q: "36. Kalam was a/an...", options: ["A) Scientist", "B) Politician", "C) Poet", "D) Actor"], correct: 0 },
+        { q: "37. What kind of food did Kalam eat?", options: ["A) Western", "B) Simple Tamil", "C) Continental", "D) Fast food"], correct: 1 },
+        { q: "38. Kalam's father was not a...", options: ["A) Scholar", "B) Educated man", "C) Wealthy man", "D) Pious man"], correct: 2 },
+        { q: "39. Kalam believed that God...", options: ["A) Is cruel", "B) Is a mediator", "C) Does not exist", "D) Only for the rich"], correct: 1 },
+        { q: "40. Strong Roots reflects Kalam's...", options: ["A) Childhood", "B) Adult life", "C) School life", "D) Career"], correct: 0 },
+        { q: "41. Who wrote 'Thank You, M'am'?", options: ["A) Langston Hughes", "B) Ruskin Bond", "C) Tolstoy", "D) Kalam"], correct: 0 },
+        { q: "42. What was the boy's name?", options: ["A) Roger", "B) Joey", "C) Michael", "D) Tom"], correct: 0 },
+        { q: "43. Who was Mrs. Luella?", options: ["A) A teacher", "B) A strong woman", "C) A doctor", "D) A thief"], correct: 1 },
+        { q: "44. Why did Roger try to snatch the purse?", options: ["A) To buy blue suede shoes", "B) To buy food", "C) To pay rent", "D) Just for fun"], correct: 0 },
+        { q: "45. How did Mrs. Luella react?", options: ["A) She cried", "B) She kicked him", "C) She was calm", "D) She ran away"], correct: 1 },
+        { q: "46. What did Mrs. Luella do to Roger?", options: ["A) Handed him to police", "B) Took him home", "C) Beat him", "D) Ignored him"], correct: 1 },
+        { q: "47. What did Roger want to buy?", options: ["A) A shirt", "B) Blue suede shoes", "C) A watch", "D) A book"], correct: 1 },
+        { q: "48. Mrs. Luella's home was...", options: ["A) A rooming house", "B) A mansion", "C) A tent", "D) A hotel"], correct: 0 },
+        { q: "49. What did she offer him to eat?", options: ["A) Cake", "B) Pizza", "C) Lima beans and ham", "D) Burger"], correct: 2 },
+        { q: "50. How did Roger feel in the house?", options: ["A) Scared", "B) Confused", "C) Trusted", "D) Angry"], correct: 2 },
+        { q: "51. What did she give Roger before he left?", options: ["A) Advice", "B) Money", "C) Clothes", "D) A hug"], correct: 1 },
+        { q: "52. Why did Roger want the shoes?", options: ["A) To look cool", "B) To wear to school", "C) Because he liked them", "D) To impress others"], correct: 0 },
+        { q: "53. What did she tell Roger about her past?", options: ["A) She was rich", "B) She had done things too", "C) She was a saint", "D) She was a queen"], correct: 1 },
+        { q: "54. Roger was a...", options: ["A) Teenager", "B) Man", "C) Child", "D) Old person"], correct: 0 },
+        { q: "55. Why didn't Roger run?", options: ["A) He was tired", "B) He trusted her", "C) He was scared", "D) He wanted food"], correct: 1 },
+        { q: "56. What did she tell him to do first?", options: ["A) Wash his face", "B) Eat", "C) Sleep", "D) Go home"], correct: 0 },
+        { q: "57. Mrs. Luella had a...", options: ["A) Small purse", "B) Large purse", "C) No purse", "D) Briefcase"], correct: 1 },
+        { q: "58. Roger was...", options: ["A) Honest", "B) A thief", "C) A student", "D) A liar"], correct: 1 },
+        { q: "59. The tone of the story is...", options: ["A) Dark", "B) Compassionate", "C) Humorous", "D) Tragic"], correct: 1 },
+        { q: "60. Roger thanked her by saying...", options: ["A) Thank you", "B) Goodbye", "C) Nothing", "D) Sorry"], correct: 0 },
+        { q: "61. Who wrote 'Three Questions'?", options: ["A) Leo Tolstoy", "B) Ruskin Bond", "C) Kalam", "D) Hughes"], correct: 0 },
+        { q: "62. The King wanted to know...", options: ["A) Two questions", "B) Three questions", "C) Four questions", "D) Ten questions"], correct: 1 },
+        { q: "63. The first question was about...", options: ["A) Right time", "B) Right person", "C) Right work", "D) Future"], correct: 0 },
+        { q: "64. The second question was about...", options: ["A) Right person", "B) Right time", "C) Right work", "D) Right food"], correct: 0 },
+        { q: "65. The third question was about...", options: ["A) Right work", "B) Right person", "C) Right time", "D) Right house"], correct: 0 },
+        { q: "66. Who did the King visit?", options: ["A) Hermit", "B) Minister", "C) General", "D) Neighbor"], correct: 0 },
+        { q: "67. Where did the hermit live?", options: ["A) In a wood", "B) In a palace", "C) In a city", "D) In a mountain"], correct: 0 },
+        { q: "68. What was the hermit doing?", options: ["A) Digging", "B) Eating", "C) Sleeping", "D) Writing"], correct: 0 },
+        { q: "69. Who came running out of the woods?", options: ["A) A bearded man", "B) A soldier", "C) A thief", "D) A child"], correct: 0 },
+        { q: "70. What happened to the man?", options: ["A) He was wounded", "B) He was dead", "C) He was hungry", "D) He was lost"], correct: 0 },
+        { q: "71. The King...", options: ["A) Saved him", "B) Killed him", "C) Ignored him", "D) Arrested him"], correct: 0 },
+        { q: "72. The wounded man was...", options: ["A) King's enemy", "B) King's friend", "C) Hermit's friend", "D) Stranger"], correct: 0 },
+        { q: "73. The man asked for...", options: ["A) Forgiveness", "B) Money", "C) Food", "D) Water"], correct: 0 },
+        { q: "74. The King forgave him and...", options: ["A) Promised to return property", "B) Put him in jail", "C) Sent him away", "D) Ignored him"], correct: 0 },
+        { q: "75. What were the answers to the King's questions?", options: ["A) Present moment, necessary person, doing good", "B) Future, friend, wealth", "C) Past, family, power", "D) None"], correct: 0 },
+        { q: "76. Why is the present moment important?", options: ["A) It's the only time we have power", "B) It's easy", "C) It's fun", "D) It doesn't matter"], correct: 0 },
+        { q: "77. Who is the most important person?", options: ["A) The one you are with", "B) The King", "C) The Hermit", "D) Yourself"], correct: 0 },
+        { q: "78. What is the most important work?", options: ["A) To do good", "B) To make money", "C) To win wars", "D) To rest"], correct: 0 },
+        { q: "79. The King was...", options: ["A) Wise", "B) Foolish", "C) Cruel", "D) Lazy"], correct: 0 },
+        { q: "80. The story teaches us...", options: ["A) Kindness", "B) Greed", "C) Pride", "D) Hate"], correct: 0 },
+        { q: "81. Who wrote 'Asleep in the Valley'?", options: ["A) Rimbaud", "B) Keats", "C) Shakespeare", "D) Frost"], correct: 0 },
+        { q: "82. In 'Asleep in the Valley', the soldier is...", options: ["A) Dead", "B) Sleeping", "C) Eating", "D) Running"], correct: 0 },
+        { q: "83. The valley is...", options: ["A) Green", "B) Red", "C) Dry", "D) Rocky"], correct: 0 },
+        { q: "84. The soldier has two...", options: ["A) Red holes", "B) Blue eyes", "C) White hands", "D) Black feet"], correct: 0 },
+        { q: "85. 'On Killing a Tree' is about...", options: ["A) Environmental damage", "B) Growth", "C) Farming", "D) Gardening"], correct: 0 },
+        { q: "86. It takes much time to...", options: ["A) Kill a tree", "B) Plant a tree", "C) Water a tree", "D) Prune a tree"], correct: 0 },
+        { q: "87. The root is...", options: ["A) White and wet", "B) Black and dry", "C) Red and long", "D) Green and soft"], correct: 0 },
+        { q: "88. Who wrote 'Shall I compare thee to a summer's day'?", options: ["A) Shakespeare", "B) Wordsworth", "C) Keats", "D) Frost"], correct: 0 },
+        { q: "89. Summer's lease hath all too...", options: ["A) Short a date", "B) Long a date", "C) Ended", "D) Begun"], correct: 0 },
+        { q: "90. What is 'The Proposal'?", options: ["A) A comedy", "B) A tragedy", "C) A thriller", "D) A poem"], correct: 0 },
+        { q: "91. Who wrote 'The Proposal'?", options: ["A) Chekhov", "B) Shakespeare", "C) Tolstoy", "D) Wilde"], correct: 0 },
+        { q: "92. Who is Lomov?", options: ["A) A landowner", "B) A farmer", "C) A doctor", "D) A poet"], correct: 0 },
+        { q: "93. Who is Natalya?", options: ["A) Chubukov's daughter", "B) Lomov's sister", "C) A maid", "D) A stranger"], correct: 0 },
+        { q: "94. What do they fight about first?", options: ["A) Oxen Meadows", "B) Dogs", "C) Marriage", "D) Money"], correct: 0 },
+        { q: "95. Lomov's dog is...", options: ["A) Guess", "B) Squeezer", "C) Bruno", "D) Tiger"], correct: 0 },
+        { q: "96. Natalya's dog is...", options: ["A) Squeezer", "B) Guess", "C) Pluto", "D) Rex"], correct: 0 },
+        { q: "97. Chubukov is Natalya's...", options: ["A) Father", "B) Brother", "C) Husband", "D) Uncle"], correct: 0 },
+        { q: "98. The play is set in...", options: ["A) Russia", "B) England", "C) France", "D) India"], correct: 0 },
+        { q: "99. How does the play end?", options: ["A) Marriage", "B) Fight", "C) Divorce", "D) Death"], correct: 0 },
+        { q: "100. English literature is...", options: ["A) Rich", "B) Poor", "C) Boring", "D) Useless"], correct: 0 }
     ];
 
-    let currentQuestionIndex = 0; let score = 0; let timerInterval; let timeLeft = 6000;
-    function startQuiz() { currentQuestionIndex = 0; score = 0; timeLeft = 6000; updateQuestionUI(); timerInterval = setInterval(() => { if(timeLeft <= 0) { endQuiz(); } else { timeLeft--; let min = Math.floor(timeLeft / 60); let sec = timeLeft % 60; document.getElementById('timer').innerText = `Time: ${min}:${sec < 10 ? '0' : ''}${sec}`; } }, 1000); }
-    function updateQuestionUI() { document.getElementById('q-count').innerText = `Question: ${currentQuestionIndex + 1} / 100`; let qObj = questions[currentQuestionIndex]; document.getElementById('q-text').innerText = qObj.q; const buttons = document.querySelectorAll('.opt-btn'); buttons[0].innerText = qObj.options[0]; buttons[1].innerText = qObj.options[1]; buttons[2].innerText = qObj.options[2]; buttons[3].innerText = qObj.options[3]; }
-    function handleAnswer(selectedIndex) { if(selectedIndex === questions[currentQuestionIndex].correct) { score++; } if(currentQuestionIndex < 99) { currentQuestionIndex++; updateQuestionUI(); } else { endQuiz(); } }
-    function endQuiz() { clearInterval(timerInterval); document.getElementById('quiz-screen').classList.remove('active'); document.getElementById('result-screen').classList.add('active'); document.getElementById('result-details').innerHTML = `You scored: <b style="color:#38bdf8; font-size:24px;">${score} / 100</b>`; }
-    startQuiz();
+    let currentQuestionIndex = 0, score = 0, timeLeft = 7200, userAnswers = [], timerInterval;
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let min = Math.floor(timeLeft / 60);
+            let sec = timeLeft % 60;
+            document.getElementById('timer').innerText = `Time: ${min}:${sec < 10 ? '0' : ''}${sec}`;
+            if(timeLeft <= 0) endQuiz();
+        }, 1000);
+    }
+
+    function updateUI() {
+        let qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `Question: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        const buttons = document.querySelectorAll('.opt-btn');
+        buttons.forEach((btn, i) => btn.innerText = qObj.options[i]);
+    }
+
+    function handleAnswer(selectedIndex) {
+        userAnswers[currentQuestionIndex] = selectedIndex;
+        if(selectedIndex === questions[currentQuestionIndex].correct) score++;
+        
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            updateUI();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('score-summary').innerHTML = `Your Score: <b>${score} / ${questions.length}</b>`;
+
+        let reviewHTML = "<h3>Review your mistakes:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `
+                <div class="result-item">
+                    <p><b>Q: ${questions[i].q}</b></p>
+                    <p class="wrong">Your Answer: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "Not Answered"}</p>
+                    <p class="correct">Correct Answer: ${questions[i].options[questions[i].correct]}</p>
+                </div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+
+    updateUI();
+    startTimer();
 </script>
 </body>
 </html>
-
