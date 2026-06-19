@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Math 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #38bdf8; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #38bdf8; }
+        .finish-btn { background: #0369a1; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি গণিত ফাইনাল সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#38bdf8;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#38bdf8;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. A={1,2}, B={2,3} হলে A ∪ B = ?", options: ["{1,2,3}", "{2}", "{1,3}", "{1,2,2,3}"], correct: 0 },
+        { q: "২. sin²θ + cos²θ = ?", options: ["0", "1", "-1", "sinθ"], correct: 1 },
+        { q: "৩. i² এর মান কত?", options: ["1", "-1", "i", "-i"], correct: 1 },
+        { q: "৪. দ্বিঘাত সমীকরণ ax²+bx+c=0 এর মূলদ্বয়ের যোগফল?", options: ["b/a", "-b/a", "c/a", "-c/a"], correct: 1 },
+        { q: "৫. nCr এর মান কোনটি?", options: ["n! / (r!(n-r)!)", "n! / (n-r)!", "r! / n!", "None"], correct: 0 },
+        { q: "৬. মূলবিন্দুর স্থানাঙ্ক কত?", options: ["(1,1)", "(0,1)", "(0,0)", "(1,0)"], correct: 2 },
+        { q: "৭. lim(x->0) sinx/x = ?", options: ["0", "1", "∞", "x"], correct: 1 },
+        { q: "৮. d/dx (sin x) = ?", options: ["cos x", "-cos x", "sin x", "-sin x"], correct: 0 },
+        { q: "৯. d/dx (x^n) = ?", options: ["n.x^(n-1)", "x^n", "n.x^n", "n+1"], correct: 0 },
+        { q: "১০. tan 45° এর মান কত?", options: ["0", "1", "√3", "1/√3"], correct: 1 },
+        { q: "১১. সেটের উপসেট সংখ্যা (n উপাদান) কত?", options: ["n", "2n", "2^n", "n^2"], correct: 2 },
+        { q: "১২. tan(90°-θ) = ?", options: ["tanθ", "cotθ", "-cotθ", "sinθ"], correct: 1 },
+        { q: "১৩. গুণোত্তর প্রগতির (GP) সাধারণ পদ?", options: ["a+(n-1)d", "ar^(n-1)", "a^n", "d^n"], correct: 1 },
+        { q: "১৪. বৃত্তের সাধারণ সমীকরণ?", options: ["x²+y²=r²", "y=mx+c", "ax+by+c=0", "None"], correct: 0 },
+        { q: "১৫. পরাবৃত্তের (Parabola) সমীকরণ?", options: ["y²=4ax", "x²/a²+y²/b²=1", "x²/a²-y²/b²=1", "None"], correct: 0 },
+        { q: "১৬. cos 0° = ?", options: ["0", "1", "-1", "None"], correct: 1 },
+        { q: "১৭. a+b+c=0 হলে a³+b³+c³ = ?", options: ["3abc", "abc", "0", "1"], correct: 0 },
+        { q: "১৮. log_a (a) = ?", options: ["0", "1", "a", "None"], correct: 1 },
+        { q: "১৯. sin(-θ) = ?", options: ["sinθ", "-sinθ", "cosθ", "None"], correct: 1 },
+        { q: "২০. লম্ব রেখার ঢালের গুণফল?", options: ["1", "-1", "0", "None"], correct: 1 },
+        { q: "২১. e^0 এর মান?", options: ["0", "1", "e", "None"], correct: 1 },
+        { q: "২২. sin 90° = ?", options: ["0", "1", "-1", "None"], correct: 1 },
+        { q: "২৩. cos 90° = ?", options: ["0", "1", "-1", "None"], correct: 0 },
+        { q: "২৪. সমান্তর প্রগতির (AP) সাধারণ পদ?", options: ["a+(n-1)d", "ar^(n-1)", "a^n", "d^n"], correct: 0 },
+        { q: "২৫. n! এর মান কোনটি?", options: ["n(n-1)...1", "n^n", "n!", "None"], correct: 0 },
+        { q: "২৬. বৃত্তের পরিধি (r ব্যাসার্ধ)?", options: ["πr", "2πr", "πr²", "None"], correct: 1 },
+        { q: "২৭. ত্রিভুজের তিন কোণের সমষ্টি?", options: ["90°", "180°", "360°", "None"], correct: 1 },
+        { q: "২৮. বর্গক্ষেত্রের ক্ষেত্রফল?", options: ["a", "a²", "4a", "None"], correct: 1 },
+        { q: "২৯. (a+b)² = ?", options: ["a²+b²", "a²+2ab+b²", "a²-2ab+b²", "None"], correct: 1 },
+        { q: "৩০. (a-b)² = ?", options: ["a²+2ab+b²", "a²-2ab+b²", "a²-b²", "None"], correct: 1 },
+        { q: "৩১. a²-b² = ?", options: ["(a+b)(a-b)", "(a-b)²", "(a+b)²", "None"], correct: 0 },
+        { q: "৩২. sin²θ + cos²θ = ?", options: ["1", "0", "sinθ", "None"], correct: 0 },
+        { q: "৩৩. sec²θ - tan²θ = ?", options: ["1", "0", "sinθ", "None"], correct: 0 },
+        { q: "৩৪. cosec²θ - cot²θ = ?", options: ["1", "0", "None", "sinθ"], correct: 0 },
+        { q: "৩৫. sin 2θ = ?", options: ["2sinθcosθ", "sin²θ", "cos²θ", "None"], correct: 0 },
+        { q: "৩৬. cos 2θ এর মান?", options: ["cos²θ-sin²θ", "2cos²θ-1", "1-2sin²θ", "সবগুলি"], correct: 3 },
+        { q: "৩৭. sin(A+B) = ?", options: ["sinAcosB+cosAsinB", "sinAcosB-cosAsinB", "cosAcosB-sinAsinB", "None"], correct: 0 },
+        { q: "৩৮. cos(A+B) = ?", options: ["cosAcosB-sinAsinB", "cosAcosB+sinAsinB", "sinAcosB+cosAsinB", "None"], correct: 0 },
+        { q: "৩৯. tan(A+B) = ?", options: ["(tanA+tanB)/(1-tanAtanB)", "(tanA-tanB)/(1+tanAtanB)", "None", "tanA+tanB"], correct: 0 },
+        { q: "৪০. 1 radian = ?", options: ["57.3°", "90°", "180°", "None"], correct: 0 },
+        { q: "৪১. পরিসংখ্যানে গড় = ?", options: ["Σfx/Σf", "Σf/Σx", "Σx", "None"], correct: 0 },
+        { q: "৪২. সম্ভাবনা সীমা?", options: ["0 to 1", "-1 to 1", "0 to 100", "None"], correct: 0 },
+        { q: "৪৩. দূরত্ব সূত্র?", options: ["√(x2-x1)²+(y2-y1)²", "√(x1+x2)²+(y1+y2)²", "None", "None"], correct: 0 },
+        { q: "৪৪. ঢাল m = ?", options: ["(y2-y1)/(x2-x1)", "(x2-x1)/(y2-y1)", "None", "None"], correct: 0 },
+        { q: "৪৫. d/dx(e^x) = ?", options: ["e^x", "e", "x", "None"], correct: 0 },
+        { q: "৪৬. d/dx(log x) = ?", options: ["1/x", "x", "log x", "None"], correct: 0 },
+        { q: "৪৭. d/dx(c) = ?", options: ["0", "1", "c", "None"], correct: 0 },
+        { q: "৪৮. A∪A' = ?", options: ["Universal Set", "Null Set", "A", "None"], correct: 0 },
+        { q: "৪৯. A∩A' = ?", options: ["Null Set", "Universal Set", "A", "None"], correct: 0 },
+        { q: "৫০. সম্ভাবনার সর্বোচ্চ মান?", options: ["1", "0", "∞", "None"], correct: 0 },
+        { q: "৫১. i³ = ?", options: ["-i", "i", "1", "-1"], correct: 0 },
+        { q: "৫২. i⁴ = ?", options: ["1", "-1", "i", "-i"], correct: 0 },
+        { q: "৫৩. tan 30° = ?", options: ["1/√3", "1", "√3", "None"], correct: 0 },
+        { q: "৫৪. sin 60° = ?", options: ["√3/2", "1/2", "1", "None"], correct: 0 },
+        { q: "৫৫. cos 60° = ?", options: ["1/2", "√3/2", "1", "None"], correct: 0 },
+        { q: "৫৬. 0! = ?", options: ["1", "0", "∞", "None"], correct: 0 },
+        { q: "৫৭. 5! = ?", options: ["120", "60", "24", "None"], correct: 0 },
+        { q: "৫৮. x² = 0 মূল কি?", options: ["0,0", "1,1", "1,-1", "None"], correct: 0 },
+        { q: "৫৯. log 1 = ?", options: ["0", "1", "e", "None"], correct: 0 },
+        { q: "৬০. বিন্দুর সেট কি?", options: ["Line", "Plane", "Point", "None"], correct: 0 },
+        { q: "৬১. সমকোণী ত্রিভুজ?", options: ["Pythagoras", "Newton", "Einstein", "None"], correct: 0 },
+        { q: "৬২. আয়তক্ষেত্রের পরিসীমা?", options: ["2(L+W)", "LW", "2LW", "None"], correct: 0 },
+        { q: "৬৩. লম্ব উপাংশ?", options: ["cosθ", "sinθ", "None", "None"], correct: 1 },
+        { q: "৬৪. ভিত্তি উপাংশ?", options: ["cosθ", "sinθ", "None", "None"], correct: 0 },
+        { q: "৬৫. ভেক্টরের মান?", options: ["Magnitude", "Direction", "Both", "None"], correct: 2 },
+        { q: "৬৬. d/dx(x) = ?", options: ["1", "0", "x", "None"], correct: 0 },
+        { q: "৬৭. d/dx(x²) = ?", options: ["2x", "x", "1", "None"], correct: 0 },
+        { q: "৬৮. সেট কয় প্রকার?", options: ["2", "3", "4", "None"], correct: 1 },
+        { q: "৬৯. নাল সেট কি?", options: ["Empty", "Full", "Set", "None"], correct: 0 },
+        { q: "৭০. উপসেট কি?", options: ["Subset", "Superset", "None", "None"], correct: 0 },
+        { q: "৭১. পূরক সেট কি?", options: ["Complement", "Union", "None", "None"], correct: 0 },
+        { q: "৭২. ক্রমিক সংখ্যা?", options: ["1,2,3", "2,4,6", "None", "None"], correct: 0 },
+        { q: "৭৩. মৌলিক সংখ্যা?", options: ["2,3,5", "1,4,6", "None", "None"], correct: 0 },
+        { q: "৭৪. লসাগু?", options: ["LCM", "HCF", "None", "None"], correct: 0 },
+        { q: "৭৫. গসাগু?", options: ["HCF", "LCM", "None", "None"], correct: 0 },
+        { q: "৭৬. অনুপাত?", options: ["Ratio", "Sum", "None", "None"], correct: 0 },
+        { q: "৭৭. সমানুপাত?", options: ["Proportion", "Ratio", "None", "None"], correct: 0 },
+        { q: "৭৮. শতকরা?", options: ["Percentage", "Ratio", "None", "None"], correct: 0 },
+        { q: "৭৯. সরল সুদ?", options: ["Simple", "Compound", "None", "None"], correct: 0 },
+        { q: "৮০. চক্রবৃদ্ধি সুদ?", options: ["Compound", "Simple", "None", "None"], correct: 0 },
+        { q: "৮১. লাভ?", options: ["Profit", "Loss", "None", "None"], correct: 0 },
+        { q: "৮২. ক্ষতি?", options: ["Loss", "Profit", "None", "None"], correct: 0 },
+        { q: "৮৩. কোণ?", options: ["Angle", "Line", "None", "None"], correct: 0 },
+        { q: "৮৪. ত্রিভুজ?", options: ["Triangle", "Circle", "None", "None"], correct: 0 },
+        { q: "৮৫. চতুর্ভুজ?", options: ["Quadrilateral", "Triangle", "None", "None"], correct: 0 },
+        { q: "৮৬. বৃত্ত?", options: ["Circle", "Square", "None", "None"], correct: 0 },
+        { q: "৮৭. গোলক?", options: ["Sphere", "Circle", "None", "None"], correct: 0 },
+        { q: "৮৮. সিলিন্ডার?", options: ["Cylinder", "Cone", "None", "None"], correct: 0 },
+        { q: "৮৯. শঙ্কু?", options: ["Cone", "Sphere", "None", "None"], correct: 0 },
+        { q: "৯০. পিরামিড?", options: ["Pyramid", "Cone", "None", "None"], correct: 0 },
+        { q: "৯১. ঘনক?", options: ["Cube", "Cuboid", "None", "None"], correct: 0 },
+        { q: "৯২. আয়তঘন?", options: ["Cuboid", "Cube", "None", "None"], correct: 0 },
+        { q: "৯৩. জ্যামিতিক প্রগতি?", options: ["GP", "AP", "None", "None"], correct: 0 },
+        { q: "৯৪. সমান্তর প্রগতি?", options: ["AP", "GP", "None", "None"], correct: 0 },
+        { q: "৯৫. হারমোনিক প্রগতি?", options: ["HP", "AP", "None", "None"], correct: 0 },
+        { q: "৯৬. ফাংশন?", options: ["Function", "Relation", "None", "None"], correct: 0 },
+        { q: "৯৭. ডোমেন?", options: ["Domain", "Range", "None", "None"], correct: 0 },
+        { q: "৯৮. রেঞ্জ?", options: ["Range", "Domain", "None", "None"], correct: 0 },
+        { q: "৯৯. গ্রাফ?", options: ["Graph", "Map", "None", "None"], correct: 0 },
+        { q: "১০০. অংক?", options: ["Digit", "Letter", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
