@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Political Science 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি রাষ্ট্রবিজ্ঞান: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. 'কোল্ড ওয়ার' বা স্নায়ুযুদ্ধ কথাটি কে প্রথম ব্যবহার করেন?", options: ["বার্নার্ড বারুচ", "স্ট্যালিন", "ট্রুম্যান", "চার্চিল"], correct: 0 },
+        { q: "২. ঠান্ডা লড়াইয়ের মূল প্রেক্ষাপট ছিল—", options: ["মিত্রশক্তির বিভাজন", "অক্ষশক্তির পরাজয়", "বিশ্বযুদ্ধোত্তর রাজনীতি", "সবকটি"], correct: 3 },
+        { q: "৩. ন্যাটো (NATO) কত সালে গঠিত হয়?", options: ["১৯৪৯", "১৯৪৫", "১৯৫০", "১৯৫৫"], correct: 0 },
+        { q: "৪. ওয়ারশ চুক্তি কার নেতৃত্বে গঠিত হয়?", options: ["সোভিয়েত ইউনিয়ন", "আমেরিকা", "ব্রিটেন", "ফ্রান্স"], correct: 0 },
+        { q: "৫. জোটনিরপেক্ষ আন্দোলনের (NAM) প্রথম সম্মেলন কোথায় হয়?", options: ["বেলগ্রেড", "নতুন দিল্লি", "কায়রো", "হাভানা"], correct: 0 },
+        { q: "৬. 'পঞ্চশীল' নীতি কে ঘোষণা করেন?", options: ["জওহরলাল নেহেরু", "ইন্দিরা গান্ধী", "গান্ধীজি", "অটল বিহারী"], correct: 0 },
+        { q: "৭. সার্ক (SAARC) কত সালে গঠিত হয়?", options: ["১৯৮৫", "১৯৯০", "১৯৮০", "১৯৯১"], correct: 0 },
+        { q: "৮. সার্কের প্রথম সদর দপ্তর কোথায় ছিল?", options: ["কাঠমান্ডু", "ঢাকা", "দিল্লি", "কলম্বো"], correct: 0 },
+        { q: "৯. সম্মিলিত জাতিপুঞ্জ (UN) কত সালে প্রতিষ্ঠিত হয়?", options: ["১৯৪৫", "১৯৪৬", "১৯৪৫", "১৯৫০"], correct: 0 },
+        { q: "১০. জাতিপুঞ্জের নিরাপত্তা পরিষদের স্থায়ী সদস্য সংখ্যা কত?", options: ["৫", "৭", "১০", "১৫"], correct: 0 },
+        { q: "১১. জাতিপুঞ্জের সাধারণ সভায় প্রতিটি সদস্য রাষ্ট্র কয়টি ভোট দিতে পারে?", options: ["১টি", "২টি", "৫টি", "একটিও নয়"], correct: 0 },
+        { q: "১২. আন্তর্জাতিক আদালতের বিচারপতির কার্যকাল কত?", options: ["৯ বছর", "৫ বছর", "৬ বছর", "১০ বছর"], correct: 0 },
+        { q: "১৩. 'এজেন্সি অফ পলিটিক্যাল রিয়ালিজম' গ্রন্থের লেখক কে?", options: ["মর্গেনথাউ", "পামার", "পারকিন্স", "কপল্যান্ড"], correct: 0 },
+        { q: "১৪. ক্ষমতা স্বতন্ত্রীকরণ নীতিটি কে প্রবর্তন করেন?", options: ["মঁতেস্কু", "অ্যারিস্টটল", "প্লেটো", "হবস"], correct: 0 },
+        { q: "১৫. দ্বিকক্ষবিশিষ্ট আইনসভার একটি সমর্থক কে?", options: ["জে.এস. মিল", "মাক্সিম", "গান্ধী", "সবকটি"], correct: 0 },
+        { q: "১৬. ভারতের পার্লামেন্টের উচ্চকক্ষ কোনটি?", options: ["রাজ্যসভা", "লোকসভা", "বিধানসভা", "বিধান পরিষদ"], correct: 0 },
+        { q: "১৭. রাজ্যসভার সদস্য হওয়ার ন্যূনতম বয়স কত?", options: ["৩০ বছর", "২৫ বছর", "৩৫ বছর", "৪০ বছর"], correct: 0 },
+        { q: "১৮. লোকসভার স্পিকারকে নির্বাচিত করেন—", options: ["লোকসভার সদস্যরা", "রাষ্ট্রপতি", "প্রধানমন্ত্রী", "জনগণ"], correct: 0 },
+        { q: "১৯. ভারতের উপরাষ্ট্রপতিকে কে নির্বাচন করেন?", options: ["সংসদ সদস্যগণ", "লোকসভা", "রাজ্যসভা", "জনগণ"], correct: 0 },
+        { q: "২০. ভারতের রাষ্ট্রপতিকে পদচ্যুত করার পদ্ধতি—", options: ["ইমপিচমেন্ট", "অভিশংসন", "পদত্যাগ", "মৃত্যু"], correct: 0 },
+        { q: "২১. প্রধানমন্ত্রীর প্রধান উপদেষ্টা হলেন—", options: ["ক্যাবিনেট", "রাষ্ট্রপতি", "স্পিকার", "প্রধানমন্ত্রী"], correct: 0 },
+        { q: "২২. ভারতের বিচার ব্যবস্থার শীর্ষে কে?", options: ["সুপ্রিম কোর্ট", "হাইকোর্ট", "জেলা আদালত", "লোক আদালত"], correct: 0 },
+        { q: "২৩. সুপ্রিম কোর্টের বিচারপতিদের অবসরের বয়স—", options: ["৬৫ বছর", "৬০ বছর", "৬২ বছর", "৭০ বছর"], correct: 0 },
+        { q: "২৪. হাইকোর্টের বিচারপতিদের কে নিয়োগ করেন?", options: ["রাষ্ট্রপতি", "রাজ্যপাল", "মুখ্যমন্ত্রী", "প্রধানমন্ত্রী"], correct: 0 },
+        { q: "২৫. হাইকোর্টের এলাকা বা এক্তিয়ার আছে—", options: ["মূল, আপিল ও পরামর্শদান", "মূল ও আপিল", "কেবল আপিল", "কোনটিই নয়"], correct: 1 },
+        { q: "২৬. লোক আদালত কোথায় প্রথম শুরু হয়?", options: ["গুজরাট", "বাংলা", "দিল্লি", "মহারাষ্ট্র"], correct: 0 },
+        { q: "২৭. ভারতের প্রতিটি রাজ্যে বিধানসভার প্রধান কে?", options: ["মুখ্যমন্ত্রী", "রাজ্যপাল", "স্পিকার", "রাষ্ট্রপতি"], correct: 0 },
+        { q: "২৮. অর্থবিল প্রথম পেশ করা হয় কোথায়?", options: ["লোকসভায়", "রাজ্যসভায়", "বিধান পরিষদে", "রাষ্ট্রপতির কক্ষে"], correct: 0 },
+        { q: "২৯. সংবিধানের রক্ষক কাকে বলা হয়?", options: ["সুপ্রিম কোর্ট", "সংসদ", "রাষ্ট্রপতি", "প্রধানমন্ত্রী"], correct: 0 },
+        { q: "৩০. ভারতের কেন্দ্র-রাজ্য সম্পর্কের প্রধান ভিত্তি—", options: ["তফশিল ৭", "তফশিল ৮", "তফশিল ৯", "তফশিল ১০"], correct: 0 },
+        { q: "৩১. পঞ্চায়েত রাজ ব্যবস্থা কততম সংশোধনীর মাধ্যমে গৃহীত হয়?", options: ["৭৩তম", "৭৪তম", "৪২তম", "৪৪তম"], correct: 0 },
+        { q: "৩২. পৌরসভার নির্বাচিত প্রধানকে কী বলা হয়?", options: ["মেয়র", "চেয়ারম্যান", "কাউন্সিলর", "সদস্য"], correct: 0 },
+        { q: "৩৩. 'গ্লাসনোস্ত' ও ' পেরেস্ত্রোইকা' নীতি কে প্রবর্তন করেন?", options: ["গর্বাচেভ", "স্ট্যালিন", "লেনিন", "ক্রুশ্চেভ"], correct: 0 },
+        { q: "৩৪. জোটনিরপেক্ষ আন্দোলনের অন্যতম নেতা কে ছিলেন?", options: ["জওহরলাল নেহেরু", "চার্চিল", "রুজভেল্ট", "হিটলার"], correct: 0 },
+        { q: "৩৫. ভারতের বৈদেশিক নীতির মূল ভিত্তি—", options: ["শান্তিপূর্ণ সহাবস্থান", "যুদ্ধ", "জোট", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ভারতের সংবিধানে মৌলিক অধিকারের সংখ্যা—", options: ["৬টি", "৭টি", "৫টি", "৮টি"], correct: 0 },
+        { q: "৩৭. প্রস্তাবনায় 'সমাজতান্ত্রিক' শব্দটি যোগ করা হয় কততম সংশোধনীতে?", options: ["৪২তম", "৪৪তম", "৪৬তম", "৫২তম"], correct: 0 },
+        { q: "৩৮. ভারতের শাসনব্যবস্থা কেমন?", options: ["যুক্তরাষ্ট্রীয়", "এককেন্দ্রিক", "স্বৈরাচারী", "রাজতন্ত্র"], correct: 0 },
+        { q: "৩৯. লোকসভার অধিবেশনে সভাপতিত্ব করেন—", options: ["স্পিকার", "প্রধানমন্ত্রী", "রাষ্ট্রপতি", "বিরোধী দলনেতা"], correct: 0 },
+        { q: "৪০. রাজ্য আইনসভার উচ্চকক্ষ কোনটি?", options: ["বিধান পরিষদ", "বিধানসভা", "লোকসভা", "সংসদ"], correct: 0 },
+        { q: "৪১. বিচার বিভাগীয় পর্যালোচনার ক্ষমতা ভোগ করে—", options: ["সুপ্রিম কোর্ট", "সংসদ", "প্রধানমন্ত্রী", "মন্ত্রিসভা"], correct: 0 },
+        { q: "৪২. ডিস্ট্রিক্ট জজকে কে নিয়োগ করেন?", options: ["রাজ্যপাল", "রাষ্ট্রপতি", "হাইকোর্টের প্রধান বিচারপতি", "মুখ্যমন্ত্রী"], correct: 2 },
+        { q: "৪৩. গ্রাম পঞ্চায়েতের প্রধান—", options: ["প্রধান", "সদস্য", "বিডিও", "জেলাশাসক"], correct: 0 },
+        { q: "৪৪. জেলা পরিষদের প্রধান—", options: ["সভাধিপতি", "জেলাশাসক", "সাংসদ", "বিধায়ক"], correct: 0 },
+        { q: "৪৫. মিউনিসিপ্যাল কর্পোরেশন কোথায় থাকে?", options: ["বড় শহরে", "গ্রামে", "রাজ্যে", "দেশে"], correct: 0 },
+        { q: "৪৬. একদলীয় ব্যবস্থা দেখা যায়—", options: ["চীন", "ভারত", "ব্রিটেন", "আমেরিকা"], correct: 0 },
+        { q: "৪৭. নির্বাচন কমিশন—", options: ["সাংবিধানিক সংস্থা", "বেসরকারি", "অ-সাংবিধানিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. ভারতের রাজনৈতিক দলগুলি—", options: ["জাতীয় ও আঞ্চলিক", "শুধুমাত্র জাতীয়", "শুধুমাত্র আঞ্চলিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. 'গ্লোবাল ভিলেজ' বা বিশ্বগ্রামের রূপকার কে?", options: ["মার্শাল ম্যাকলুহান", "নেহেরু", "গান্ধী", "সবকটি"], correct: 0 },
+        { q: "৫০. উদারনীতিবাদের জনক—", options: ["জন লক", "হবস", "রুশো", "প্লেটো"], correct: 0 },
+        { q: "৫১. মার্কসবাদের মূল গ্রন্থ—", options: ["দাস ক্যাপিটাল", "কমিউনিস্ট ইশতেহার", "ক এবং খ", "কোনটিই নয়"], correct: 2 },
+        { q: "৫২. ভারতের সংবিধানে কয়টি তফশিল আছে?", options: ["১২টি", "১০টি", "৮টি", "১৪টি"], correct: 0 },
+        { q: "৫৩. মৌলিক অধিকার রক্ষার দায়িত্ব—", options: ["সুপ্রিম কোর্ট", "রাষ্ট্রপতি", "সংসদ", "জনগণ"], correct: 0 },
+        { q: "৫৪. রাষ্ট্রপতি নিয়োগ করেন—", options: ["প্রধানমন্ত্রী", "সুপ্রিম কোর্টের প্রধান বিচারপতি", "সবকটি", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৫. রাজ্যপালের প্রধান পরামর্শদাতা—", options: ["মুখ্যমন্ত্রী", "রাষ্ট্রপতি", "হাইকোর্ট", "প্রধানমন্ত্রী"], correct: 0 },
+        { q: "৫৬. আমলাতন্ত্রের প্রধান বৈশিষ্ট্য—", options: ["স্থায়িত্ব", "নিরপেক্ষতা", "যোগ্যতা", "সবকটি"], correct: 3 },
+        { q: "৫৭. ভারতের পরিকল্পনা কমিশন কে বিলুপ্ত করে?", options: ["নরেন্দ্র মোদী", "মনমোহন সিং", "অটল বিহারী", "ইন্দিরা গান্ধী"], correct: 0 },
+        { q: "৫৮. নীতি আয়োগ (NITI Aayog) কবে গঠিত হয়?", options: ["২০১৫", "২০১৪", "২০১৬", "২০১৭"], correct: 0 },
+        { q: "৫৯. রাষ্ট্রপতি পদপ্রার্থীর ন্যূনতম বয়স—", options: ["৩৫ বছর", "৩০ বছর", "৪০ বছর", "২৫ বছর"], correct: 0 },
+        { q: "৬০. ভারত কোন ব্যবস্থার সমর্থক?", options: ["জোটনিরপেক্ষ", "ব্লক রাজনীতি", "যুদ্ধ", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. সার্কের সদর দপ্তর কোথায়?", options: ["কাঠমান্ডু", "ঢাকা", "দিল্লি", "কলম্বো"], correct: 0 },
+        { q: "৬২. ইউএনও (UNO) সনদে কয়টি ধারা আছে?", options: ["১১১", "১০১", "১২১", "৯১"], correct: 0 },
+        { q: "৬৩. নিরাপত্তা পরিষদের অস্থায়ী সদস্য সংখ্যা—", options: ["১০", "৫", "৭", "১৫"], correct: 0 },
+        { q: "৬৪. আন্তর্জাতিক বিচারালয় কোথায় অবস্থিত?", options: ["হেগ", "নিউ ইয়র্ক", "লন্ডন", "জেনেভা"], correct: 0 },
+        { q: "৬৫. ক্ষমতার স্বতন্ত্রীকরণ—", options: ["মঁতেস্কু", "হবস", "লক", "রুশো"], correct: 0 },
+        { q: "৬৬. দ্বিকক্ষবিশিষ্ট আইনসভা—", options: ["ভারত", "আমেরিকা", "ব্রিটেন", "সবকটি"], correct: 3 },
+        { q: "৬৭. লোকসভার মেয়াদ—", options: ["৫ বছর", "৪ বছর", "৬ বছর", "৭ বছর"], correct: 0 },
+        { q: "৬৮. রাজ্যসভার মেয়াদ—", options: ["স্থায়ী কক্ষ", "৬ বছর", "৫ বছর", "৪ বছর"], correct: 0 },
+        { q: "৬৯. প্রধানমন্ত্রীর কার্যকাল—", options: ["আস্থা থাকা পর্যন্ত", "৫ বছর", "৬ বছর", "১০ বছর"], correct: 0 },
+        { q: "৭০. রাজ্যপাল নিয়োগ করেন—", options: ["রাষ্ট্রপতি", "প্রধানমন্ত্রী", "মুখ্যমন্ত্রী", "হাইকোর্ট"], correct: 0 },
+        { q: "৭১. লোক আদালত—", options: ["দ্রুত বিচার", "সস্তা বিচার", "সহজ বিচার", "সবকটি"], correct: 3 },
+        { q: "৭২. পঞ্চায়েত সমিতি—", options: ["ব্লক স্তর", "জেলা স্তর", "গ্রাম স্তর", "শহর স্তর"], correct: 0 },
+        { q: "৭৩. ইউনিয়ন টেরিটরি—", options: ["কেন্দ্রশাসিত অঞ্চল", "রাজ্য", "দেশ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. ভারতের সংবিধানে ৪২তম সংশোধনী—", options: ["১৯৭৬", "১৯৭৫", "১৯৭৭", "১৯৭৮"], correct: 0 },
+        { q: "৭৫. ভারতের সংবিধানে মৌলিক কর্তব্য—", options: ["১১টি", "১০টি", "৮টি", "১২টি"], correct: 0 },
+        { q: "৭৬. রাষ্ট্রপতি লোকসভায় সদস্য মনোনীত করতে পারেন—", options: ["২জন (বর্তমানে পরিবর্তন হয়েছে)", "৪জন", "৫জন", "১০জন"], correct: 0 },
+        { q: "৭৭. রাজ্যসভায় সদস্য মনোনীত করেন—", options: ["রাষ্ট্রপতি", "প্রধানমন্ত্রী", "স্পিকার", "রাজ্যপাল"], correct: 0 },
+        { q: "৭৮. কেন্দ্রীয় তালিকা—", options: ["কেন্দ্রের হাতে", "রাজ্যের হাতে", "যৌথ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. রাজ্য তালিকা—", options: ["রাজ্যের হাতে", "কেন্দ্রের হাতে", "যৌথ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. যুগ্ম তালিকা—", options: ["কেন্দ্র ও রাজ্য উভয়", "শুধুমাত্র কেন্দ্র", "শুধুমাত্র রাজ্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. সার্কের বর্তমান সদস্য সংখ্যা—", options: ["৮", "৭", "৬", "৫"], correct: 0 },
+        { q: "৮২. নিরাপত্তা পরিষদের স্থায়ী সদস্য—", options: ["আমেরিকা, রাশিয়া, চীন, ব্রিটেন, ফ্রান্স", "ভারত", "পাকিস্তান", "সবকটি"], correct: 0 },
+        { q: "৮৩. সম্মিলিত জাতিপুঞ্জের মহাসচিব নিয়োগ করেন—", options: ["সাধারণ সভা", "নিরাপত্তা পরিষদ", "সবকটি", "কোনটিই নয়"], correct: 1 },
+        { q: "৮৪. এককক্ষবিশিষ্ট আইনসভা—", options: ["চীন", "ব্রিটেন", "আমেরিকা", "ভারত"], correct: 0 },
+        { q: "৮৫. ভারতের পার্লামেন্টীয় ব্যবস্থা—", options: ["ব্রিটেন থেকে গৃহীত", "আমেরিকা থেকে", "ফ্রান্স থেকে", "রাশিয়া থেকে"], correct: 0 },
+        { q: "৮৬. সুপ্রিম কোর্টের বিচারপতিদের সংখ্যা—", options: ["সংসদ দ্বারা নির্ধারিত", "রাষ্ট্রপতি", "প্রধানমন্ত্রী", "হাইকোর্ট"], correct: 0 },
+        { q: "৮৭. হাইকোর্টের বিচারপতিদের বয়স—", options: ["৬২ বছর", "৬৫ বছর", "৬০ বছর", "৫৮ বছর"], correct: 0 },
+        { q: "৮৮. জেলাশাসকের কাজ—", options: ["প্রশাসনিক", "বিচারিক", "উন্নয়ন", "সবকটি"], correct: 3 },
+        { q: "৮৯. আমলাতন্ত্রের জনক—", options: ["ম্যাক্স ওয়েবার", "কার্ল মার্কস", "গান্ধী", "নেহেরু"], correct: 0 },
+        { q: "৯০. রাজনৈতিক দল—", options: ["গণতন্ত্রের প্রাণ", "একনায়কতন্ত্র", "রাজতন্ত্র", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. নির্বাচন কমিশন—", options: ["৩ সদস্যবিশিষ্ট", "১ সদস্যবিশিষ্ট", "২ সদস্যবিশিষ্ট", "৫ সদস্যবিশিষ্ট"], correct: 0 },
+        { q: "৯২. ভোটদানের অধিকার—", options: ["রাজনৈতিক অধিকার", "মৌলিক অধিকার", "নাগরিক অধিকার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. ভারতের সংবিধানে 'ধর্মনিরপেক্ষতা'—", options: ["মূল বৈশিষ্ট্য", "অতিরিক্ত", "সাময়িক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. রাষ্ট্রপতি অধ্যাদেশ জারি করতে পারেন—", options: ["সংসদ না থাকলে", "সংসদ থাকলে", "রাজ্যসভায়", "হাইকোর্টে"], correct: 0 },
+        { q: "৯৫. অর্থবিল কি লোকসভায় পেশ হয়?", options: ["হ্যাঁ", "না", "রাজ্যসভায়", "হাইকোর্টে"], correct: 0 },
+        { q: "৯৬. ভারতের নাগরিকত্ব—", options: ["একক", "দ্বৈত", "নাই", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. মৌলিক অধিকার—", options: ["বিচারযোগ্য", "বিচারযোগ্য নয়", "সাময়িক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. নির্দেশমূলক নীতি—", options: ["বিচারযোগ্য নয়", "বিচারযোগ্য", "বাধ্যতামূলক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. দলত্যাগ বিরোধী আইন—", options: ["৫২তম সংশোধনী", "৭৩তম", "৭৪তম", "৪২তম"], correct: 0 },
+        { q: "১০০. বিশ্বায়ন—", options: ["অর্থনৈতিক ও সামাজিক", "শুধুমাত্র রাজনৈতিক", "শুধুমাত্র সাংস্কৃতিক", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
