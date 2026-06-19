@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Economics 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 650px; margin: auto; padding: 25px; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 25px; }
+        .q-box { font-size: 20px; line-height: 1.6; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 6px solid #38bdf8; border-radius: 10px; color: #f8fafc; }
+        .opt-btn { background: #1e293b; padding: 18px; margin-bottom: 12px; width: 100%; border-radius: 10px; border: 1px solid #475569; color: #e2e8f0; cursor: pointer; text-align: left; font-size: 18px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #38bdf8; }
+        .finish-btn { background: #0369a1; color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; }
+        .result-item { background: #1e293b; padding: 12px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #f87171; font-size: 16px; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ অর্থনীতি ১০০ কমন প্রশ্ন (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:15px; color:#38bdf8; font-weight:bold;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#38bdf8; margin-bottom: 20px;">আপনার স্কোর</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় পরীক্ষা দিন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. সুযোগ ব্যয় (Opportunity Cost) কী?", options: ["একটি বিকল্প ত্যাগ করা", "খরচ", "মুনাফা", "None"], correct: 0 },
+        { q: "২. চাহিদার স্থিতিস্থাপকতা কয় প্রকার?", options: ["তিন", "পাঁচ", "দুই", "চার"], correct: 1 },
+        { q: "৩. মোট উপযোগ সর্বাধিক হয় যখন প্রান্তিক উপযোগ?", options: ["শূন্য", "ধনাত্মক", "ঋণাত্মক", "সর্বোচ্চ"], correct: 0 },
+        { q: "৪. চাহিদা রেখা সাধারণত কোন দিকে ঢালু হয়?", options: ["বাম থেকে ডান", "ডান থেকে বাম", "লম্বালম্বি", "None"], correct: 0 },
+        { q: "৫. গিফেন পণ্যের ক্ষেত্রে চাহিদা রেখা কেমন হয়?", options: ["উর্ধ্বমুখী", "নিম্নমুখী", "সরলরেখা", "None"], correct: 0 },
+        { q: "৬. উৎপাদন সম্ভাবনা রেখা (PPC) মূলবিন্দুর দিকে কেমন হয়?", options: ["অবতল (Concave)", "উত্তল (Convex)", "সোজা", "None"], correct: 0 },
+        { q: "৭. পূর্ণ প্রতিযোগিতামূলক বাজারে দাম নির্ধারণ করে কে?", options: ["শিল্প (Industry)", "প্রতিষ্ঠান", "ক্রেতা", "None"], correct: 0 },
+        { q: "৮. একচেটিয়া বাজারে দাম কেমন হয়?", options: ["বেশি", "কম", "বাজারের সমান", "None"], correct: 0 },
+        { q: "৯. চাহিদার আয় স্থিতিস্থাপকতা শূন্য হলে পণ্যটি?", options: ["নিরপেক্ষ", "বিলাসবহুল", "প্রয়োজনীয়", "None"], correct: 0 },
+        { q: "১০. গড় খরচ (AC) রেখা দেখতে কেমন?", options: ["U আকৃতির", "V আকৃতির", "সোজা", "None"], correct: 0 },
+        { q: "১১. জাতীয় আয় পরিমাপের প্রধান পদ্ধতি?", options: ["তিনটি", "দুটি", "একটি", "None"], correct: 0 },
+        { q: "১২. GDP = GNP - কী?", options: ["বিদেশি আয়", "অবচয়", "None", "None"], correct: 0 },
+        { q: "১৩. প্রকৃত জাতীয় আয় কী?", options: ["স্থির দামে", "চলতি দামে", "None", "None"], correct: 0 },
+        { q: "১৪. ভোগ অপেক্ষক (Consumption Function) কী?", options: ["C = a + bY", "C = a - bY", "None", "None"], correct: 0 },
+        { q: "১৫. প্রান্তিক ভোগ প্রবণতা (MPC) এর মান সাধারণত কত?", options: ["০ ও ১ এর মধ্যে", "১ এর বেশি", "None", "None"], correct: 0 },
+        { q: "১৬. সঞ্চয় ও বিনিয়োগ সমতা কোথায় থাকে?", options: ["ভারসাম্য আয়স্তরে", "অসম আয়ে", "None", "None"], correct: 0 },
+        { q: "১৭. কেন্দ্রীয় ব্যাংকের প্রধান কাজ কী?", options: ["মুদ্রা নিয়ন্ত্রণ", "ব্যক্তি ঋণ", "None", "None"], correct: 0 },
+        { q: "১৮. বাণিজ্যিক ব্যাংকের আমানত সৃষ্টির ক্ষমতা কীসের ওপর নির্ভর?", options: ["CRR/SLR", "ঋণ", "None", "None"], correct: 0 },
+        { q: "১৯. মুদ্রার বিকল্প নয় কোনটি?", options: ["বার্টার", "কাগজী মুদ্রা", "None", "None"], correct: 0 },
+        { q: "২০. মুদ্রাস্ফীতিতে কার ক্ষতি হয়?", options: ["স্থির আয়ের মানুষ", "ঋণগ্রহীতা", "None", "None"], correct: 0 },
+        { q: "২১. বাজেট কয় প্রকার?", options: ["তিন", "দুই", "None", "None"], correct: 0 },
+        { q: "২২. রাজস্ব নীতি কার হাতিয়ার?", options: ["সরকার", "ব্যাংক", "None", "None"], correct: 0 },
+        { q: "২৩. সরকারি বাজেট পেশ করা হয় কোন সালে?", options: ["প্রতি অর্থবছর", "প্রতি মাস", "None", "None"], correct: 0 },
+        { q: "২৪. পরোক্ষ করের উদাহরণ?", options: ["GST", "আয়কর", "None", "None"], correct: 0 },
+        { q: "২৫. প্রত্যক্ষ করের উদাহরণ?", options: ["আয়কর", "GST", "None", "None"], correct: 0 },
+        { q: "২৬. ব্যালেন্স অফ পেমেন্ট (BOP) কয়টি অংশ?", options: ["দুই", "তিন", "None", "None"], correct: 0 },
+        { q: "২৭. চলতি খাত কী দেখায়?", options: ["পণ্য ও সেবার বাণিজ্য", "মূলধন", "None", "None"], correct: 0 },
+        { q: "২৮. মূলধনী খাত কী দেখায়?", options: ["বিনিয়োগ ও ঋণ", "পণ্য", "None", "None"], correct: 0 },
+        { q: "২৯. অবমূল্যায়ন (Devaluation) কী?", options: ["মুদ্রার দাম কমানো", "বাড়ানো", "None", "None"], correct: 0 },
+        { q: "৩০. অর্থের যোগান বাড়ে যখন কেন্দ্রীয় ব্যাংক?", options: ["বন্ড কেনে", "বন্ড বেচে", "None", "None"], correct: 0 },
+        { q: "৩১. দাম ও যোগানের সম্পর্ক কেমন?", options: ["সরাসরি", "বিপরীত", "None", "None"], correct: 0 },
+        { q: "৩২. পূর্ণ প্রতিযোগিতায় AR = কী?", options: ["MR", "দাম", "None", "None"], correct: 2 },
+        { q: "৩৩. দীর্ঘকালীন গড় খরচ রেখা (LAC) কী?", options: ["পরিকল্পনা রেখা", "সোজা রেখা", "None", "None"], correct: 0 },
+        { q: "৩৪. উৎপাদন বিধির কয়টি পর্যায়?", options: ["তিনটি", "দুটি", "None", "None"], correct: 0 },
+        { q: "৩৫. পরিবর্তনশীল অনুপাত বিধি কার?", options: ["স্বল্পকালীন", "দীর্ঘকালীন", "None", "None"], correct: 0 },
+        { q: "৩৬. মোট উপযোগ (TU) সর্বোচ্চ হয় যখন?", options: ["MU = 0", "MU > 0", "None", "None"], correct: 0 },
+        { q: "৩৭. ভোক্তার ভারসাম্য কোথায়?", options: ["MUx/Px = MUy/Py", "MUx > Px", "None", "None"], correct: 0 },
+        { q: "৩৮. লরেন্স রেখা কী পরিমাপ করে?", options: ["আয়ের বৈষম্য", "দাম", "None", "None"], correct: 0 },
+        { q: "৩৯. গিনি সহগ ০ হলে কী বোঝায়?", options: ["সম্পূর্ণ সমতা", "বৈষম্য", "None", "None"], correct: 0 },
+        { q: "৪০. স্থির ব্যয় (TFC) রেখা দেখতে কেমন?", options: ["ভূমি অক্ষের সমান্তরাল", "লম্ব অক্ষের", "None", "None"], correct: 0 },
+        { q: "৪১. উৎপাদন অপেক্ষকের রূপ?", options: ["Q = f(K, L)", "Q = f(P)", "None", "None"], correct: 0 },
+        { q: "৪২. পূর্ণ প্রতিযোগিতায় ফার্মের দাম গ্রহণকারী?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "৪৩. একচেটিয়া বাজারে কি দামের বৈষম্য হয়?", options: ["হয়", "হয় না", "None", "None"], correct: 0 },
+        { q: "৪৪. অলিগোপলি বাজারে বিক্রেতা?", options: ["অল্প কয়েকজন", "অনেক", "None", "None"], correct: 0 },
+        { q: "৪৫. জিডিপি ডিফ্লেটর কী?", options: ["নামমাত্র/প্রকৃত", "প্রকৃত/নামমাত্র", "None", "None"], correct: 0 },
+        { q: "৪৬. সঞ্চয় = কী?", options: ["আয় - ভোগ", "আয় + ভোগ", "None", "None"], correct: 0 },
+        { q: "৪৭. গুণক (K) =?", options: ["1/(1-MPC)", "1/MPC", "None", "None"], correct: 0 },
+        { q: "৪৮. মুদ্রাস্ফীতি নিয়ন্ত্রণে কেন্দ্রীয় ব্যাংকের হাতিয়ার?", options: ["CRR বৃদ্ধি", "CRR কমানো", "None", "None"], correct: 0 },
+        { q: "৪৯. ব্যাংক রেট বাড়লে ঋণের চাহিদা?", options: ["কমে", "বাড়ে", "None", "None"], correct: 0 },
+        { q: "৫০. রাজস্ব নীতির প্রধান অঙ্গ?", options: ["কর ও ব্যয়", "মুদ্রা", "None", "None"], correct: 0 },
+        { q: "৫১. ঘাটতি বাজেট কী?", options: ["ব্যয় > আয়", "আয় > ব্যয়", "None", "None"], correct: 0 },
+        { q: "৫২. BOP ভারসাম্যহীন হলে?", options: ["ঘাটতি বা উদ্বৃত্ত", "সবসময় সমান", "None", "None"], correct: 0 },
+        { q: "৫৩. বৈদেশিক মুদ্রার হার নির্ধারণ করে?", options: ["বাজার", "সরকার", "None", "None"], correct: 0 },
+        { q: "৫৪. স্থির বিনিময় হার মানে?", options: ["সরকার নির্ধারিত", "বাজার নির্ধারিত", "None", "None"], correct: 0 },
+        { q: "৫৫. চাহিদা ও যোগানের ভারসাম্য বিন্দুতে?", options: ["বাজার দাম নির্ধারিত", "দাম অস্থিতিশীল", "None", "None"], correct: 0 },
+        { q: "৫৬. উপযোগের একক কী?", options: ["ইউটিল", "টাকা", "None", "None"], correct: 0 },
+        { q: "৫৭. ক্রমহ্রাসমান প্রান্তিক উপযোগ বিধি?", options: ["গসেনের প্রথম সূত্র", "দ্বিতীয়", "None", "None"], correct: 0 },
+        { q: "৫৮. চাহিদা রেখা ডানে সরলে?", options: ["চাহিদা বাড়ে", "চাহিদা কমে", "None", "None"], correct: 0 },
+        { q: "৫৯. যোগান রেখা বামে সরলে?", options: ["যোগান কমে", "যোগান বাড়ে", "None", "None"], correct: 0 },
+        { q: "৬০. পূর্ণ প্রতিযোগিতায় গড় আয়?", options: ["দাম", "দাম+লাভ", "None", "None"], correct: 0 },
+        { q: "৬১. একচেটিয়া বাজারে কি বিজ্ঞাপন দরকার?", options: ["কম", "বেশি", "None", "None"], correct: 0 },
+        { q: "৬২. জাতীয় আয় = কী?", options: ["NNP at Factor Cost", "GDP", "None", "None"], correct: 0 },
+        { q: "৬৩. মাথাপিছু আয় বৃদ্ধি মানে কী?", options: ["উন্নয়ন", "বৃদ্ধি", "None", "None"], correct: 0 },
+        { q: "৬৪. বিনিয়োগের উৎস?", options: ["সঞ্চয়", "ভোগ", "None", "None"], correct: 0 },
+        { q: "৬৫. কেন্দ্রীয় ব্যাংক নোট ছাপে?", options: ["একচ্ছত্র ক্ষমতা", "শেয়ারড", "None", "None"], correct: 0 },
+        { q: "৬৬. মুদ্রা ও ব্যাংকিং কোন অধ্যায়?", options: ["সামষ্টিক অর্থনীতি", "ব্যষ্টিক", "None", "None"], correct: 0 },
+        { q: "৬৭. লিকুইডিটি প্রেফারেন্স থিওরি কার?", options: ["কেইনস", "স্মিথ", "None", "None"], correct: 0 },
+        { q: "৬৮. করের চাপ কোথায় থাকে?", options: ["সরাসরি", "পরোক্ষ", "None", "None"], correct: 0 },
+        { q: "৬৯. বাজেট ঘাটতি হলে কী হয়?", options: ["ঋণ বাড়ে", "ঋণ কমে", "None", "None"], correct: 0 },
+        { q: "৭০. বৈদেশিক বিনিয়োগ কেন?", options: ["মূলধন বাড়াতে", "কম করতে", "None", "None"], correct: 0 },
+        { q: "৭১. পণ্য বিনিময় কী?", options: ["বার্টার", "মুদ্রা", "None", "None"], correct: 0 },
+        { q: "৭২. অর্থের কাজ কী?", options: ["বিনিময় ও সঞ্চয়", "ভোগ", "None", "None"], correct: 0 },
+        { q: "৭৩. জাতীয় আয় বৃদ্ধি মানে?", options: ["আর্থিক প্রবৃদ্ধি", "উন্নয়ন", "None", "None"], correct: 0 },
+        { q: "৭৪. বেকারত্ব কী?", options: ["অনিচ্ছুক কর্মহীনতা", "স্বেচ্ছায়", "None", "None"], correct: 0 },
+        { q: "৭৫. মুদ্রাস্ফীতি কেন হয়?", options: ["চাহিদা আধিক্য", "যোগান আধিক্য", "None", "None"], correct: 0 },
+        { q: "৭৬. রেপো রেট কী?", options: ["ঋণ নেওয়ার হার", "জমার হার", "None", "None"], correct: 0 },
+        { q: "৭৭. রিভার্স রেপো রেট?", options: ["জমা রাখার হার", "ঋণের হার", "None", "None"], correct: 0 },
+        { q: "৭৮. রাজস্ব নীতি কী?", options: ["সরকারি আয়-ব্যয়", "মুদ্রা নীতি", "None", "None"], correct: 0 },
+        { q: "৭৯. আমদানির প্রভাব?", options: ["মুদ্রা বহির্গমন", "অন্তর্গমন", "None", "None"], correct: 0 },
+        { q: "৮০. রপ্তানির প্রভাব?", options: ["মুদ্রা অন্তর্গমন", "বহির্গমন", "None", "None"], correct: 0 },
+        { q: "৮১. চাহিদার অস্থিতিস্থাপক পণ্য?", options: ["নিত্য প্রয়োজনীয়", "বিলাসী", "None", "None"], correct: 0 },
+        { q: "৮২. চাহিদার স্থিতিস্থাপক পণ্য?", options: ["বিলাসী", "প্রয়োজনীয়", "None", "None"], correct: 0 },
+        { q: "৮৩. উৎপাদন রেখা?", options: ["উৎপাদনসম্ভাবনা", "চাহিদা", "None", "None"], correct: 0 },
+        { q: "৮৪. ফার্ম ও শিল্পের পার্থক্য?", options: ["ফার্ম ছোট, শিল্প বড়", "সমান", "None", "None"], correct: 0 },
+        { q: "৮৫. দীর্ঘকালীন ভারসাম্য?", options: ["অস্বাভাবিক মুনাফা শূন্য", "অস্বাভাবিক", "None", "None"], correct: 0 },
+        { q: "৮৬. দামের বৈষম্য কেন?", options: ["মুনাফা বাড়াতে", "কমাতে", "None", "None"], correct: 0 },
+        { q: "৮৭. জাতীয় আয় = কী?", options: ["C + I + G + (X-M)", "C+I+G", "None", "None"], correct: 0 },
+        { q: "৮৮. বিনিয়োগ গুণক?", options: ["1/MPS", "1/MPC", "None", "None"], correct: 0 },
+        { q: "৮৯. অর্থের চাহিদা কেন?", options: ["লেনদেন ও সাবধানতা", "ভোগ", "None", "None"], correct: 0 },
+        { q: "৯০. ব্যাংক ড্রাফট কী?", options: ["অর্থের দলিল", "মুদ্রা", "None", "None"], correct: 0 },
+        { q: "৯১. বাজেট সারপ্লাস?", options: ["আয় > ব্যয়", "ব্যয় > আয়", "None", "None"], correct: 0 },
+        { q: "৯২. BOP এর ভারসাম্য কেন?", options: ["রপ্তানি = আমদানি", "অসম", "None", "None"], correct: 0 },
+        { q: "৯৩. অর্থনৈতিক কল্যাণ?", options: ["উন্নয়নের লক্ষ্য", "আয়ের লক্ষ্য", "None", "None"], correct: 0 },
+        { q: "৯৪. মুদ্রাস্ফীতি পরিমাপ?", options: ["WPI/CPI", "GDP", "None", "None"], correct: 0 },
+        { q: "৯৫. সরকারি ব্যয় বৃদ্ধি?", options: ["চাহিদা বাড়ে", "কমে", "None", "None"], correct: 0 },
+        { q: "৯৬. ট্যাক্স রেট বৃদ্ধি?", options: ["ভোগ কমে", "বাড়ে", "None", "None"], correct: 0 },
+        { q: "৯৭. অর্থনৈতিক মন্দা?", options: ["চাহিদা সংকট", "উৎপাদন", "None", "None"], correct: 0 },
+        { q: "৯৮. মূলধনের কাম্য ব্যবহার?", options: ["দক্ষতা বাড়ায়", "কমায়", "None", "None"], correct: 0 },
+        { q: "৯৯. বাজার অর্থনীতির সমস্যা?", options: ["অসমতা", "সমতা", "None", "None"], correct: 0 },
+        { q: "১০০. অর্থনীতির প্রধান ভিত্তি?", options: ["সম্পদ ও অভাব", "দাম", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+    
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            if(opt !== "None") {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                container.appendChild(btn);
+            }
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3 style='margin-bottom:15px; color:#38bdf8;'>সঠিক উত্তর মিলিয়ে নিন:</h3>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p style='color:#f87171'>সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
