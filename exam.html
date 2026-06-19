@@ -3,33 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Factory Test</title>
+<title>Exam Factory - Full Mock Test</title>
 
 <style>
 body{
 font-family:Arial;
-background:#0f172a;
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
 color:white;
 text-align:center;
 padding:20px;
 }
 
 .box{
-background:#1e293b;
+background:rgba(255,255,255,0.08);
 padding:20px;
 border-radius:15px;
 max-width:700px;
 margin:auto;
+backdrop-filter:blur(10px);
 }
 
 button{
-padding:10px 15px;
+padding:10px;
 margin:8px;
 border:none;
 border-radius:10px;
 cursor:pointer;
-display:block;
 width:100%;
+background:#2563eb;
+color:white;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
 }
 </style>
 </head>
@@ -38,11 +46,12 @@ width:100%;
 
 <div class="box">
 
-<h2>Exam Factory Mock Test</h2>
+<div class="top">
+<p id="qno">Question 1</p>
+<p id="timer">60:00</p>
+</div>
 
-<p id="timer">Time: 60:00</p>
-
-<div id="question">লোড হচ্ছে...</div>
+<h3 id="question">Loading...</h3>
 
 <div id="options"></div>
 
@@ -52,45 +61,37 @@ width:100%;
 
 <script>
 
-let questions = [
-{
-q:"ভারতের রাজধানী কী?",
-o:["কলকাতা","মুম্বাই","নতুন দিল্লি","চেন্নাই"],
-a:2
-},
-{
-q:"2+2 কত?",
-o:["3","4","5","6"],
-a:1
-},
-{
-q:"বাংলাদেশের রাজধানী কী?",
-o:["ঢাকা","চট্টগ্রাম","খুলনা","রাজশাহী"],
-a:0
-}
-];
+// 🔥 50 Questions System (sample structure)
+let questions = Array.from({length:50}, (_,i)=>({
+q:`Sample Question ${i+1}: West Bengal Board Practice`,
+o:["Option A","Option B","Option C","Option D"],
+a: Math.floor(Math.random()*4)
+}));
 
 let index = 0;
 let score = 0;
 let time = 3600;
 
-function loadQ(){
+function loadQuestion(){
+
 let q = questions[index];
 
-document.getElementById("question").innerText = (index+1)+". "+q.q;
+document.getElementById("qno").innerText = "Question "+(index+1)+"/50";
+document.getElementById("question").innerText = q.q;
 
-let opt = document.getElementById("options");
-opt.innerHTML="";
+let optDiv = document.getElementById("options");
+optDiv.innerHTML="";
 
 q.o.forEach((val,i)=>{
 let btn = document.createElement("button");
 btn.innerText = val;
-btn.onclick = ()=>check(i);
-opt.appendChild(btn);
+btn.onclick = ()=>checkAnswer(i);
+optDiv.appendChild(btn);
 });
 }
 
-function check(i){
+function checkAnswer(i){
+
 if(i === questions[index].a){
 score++;
 }
@@ -98,24 +99,30 @@ score++;
 index++;
 
 if(index < questions.length){
-loadQ();
+loadQuestion();
 }else{
-document.getElementById("question").innerText = "Test Finished";
-document.getElementById("options").innerHTML="";
-document.getElementById("result").innerText = "Your Score: "+score+"/"+questions.length;
+showResult();
 }
+}
+
+function showResult(){
+document.getElementById("question").innerText="Exam Finished 🎉";
+document.getElementById("options").innerHTML="";
+document.getElementById("result").innerHTML=
+"Score: "+score+"/50<br>Percentage: "+(score*2)+"%";
 }
 
 setInterval(()=>{
 let m = Math.floor(time/60);
 let s = time%60;
-document.getElementById("timer").innerText =
-"Time: "+m+":"+String(s).padStart(2,"0");
+
+document.getElementById("timer").innerText=
+m+":"+String(s).padStart(2,"0");
 
 if(time>0) time--;
 },1000);
 
-loadQ();
+loadQuestion();
 
 </script>
 
