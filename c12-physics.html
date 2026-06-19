@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Physics 2026 Quiz (100 Questions)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি পদার্থবিজ্ঞান: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. তড়িৎ আধানের এসআই একক কী?", options: ["কুলম্ব", "অ্যাম্পিয়ার", "ভোল্ট", "ওয়াট"], correct: 0 },
+        { q: "২. শূন্যস্থানের তড়িৎ ভেদ্যতা (ε₀) এর মান কত?", options: ["8.854 × 10^-12", "9 × 10^9", "8.854 × 10^12", "6.67 × 10^-11"], correct: 0 },
+        { q: "৩. কুলম্বের সূত্রটি কোনটির ওপর প্রযোজ্য?", options: ["বিন্দু আধান", "বৃহৎ বস্তু", "নিরপেক্ষ বস্তু", "কোনটিই নয়"], correct: 0 },
+        { q: "৪. তড়িৎ দ্বিমেরু ভ্রামকের একক কী?", options: ["কুলম্ব-মিটার", "কুলম্ব", "নিউটন", "ভোল্ট"], correct: 0 },
+        { q: "৫. গাউসের সূত্র কোনটির সঙ্গে সম্পর্কিত?", options: ["তড়িৎ ফ্লাক্স", "চৌম্বক ফ্লাক্স", "তড়িৎ প্রবাহ", "বিভব"], correct: 0 },
+        { q: "৬. ধারকত্বের একক কী?", options: ["ফ্যারাড", "ওহম", "হেনরি", "টেসলা"], correct: 0 },
+        { q: "৭. পরিবাহীর রোধ কোনটির ওপর নির্ভর করে?", options: ["দৈর্ঘ্য ও প্রস্থচ্ছেদ", "আধান", "সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮. অহমের সূত্রের গাণিতিক রূপ?", options: ["V=IR", "I=VR", "R=VI", "V=I/R"], correct: 0 },
+        { q: "৯. কার্শফের প্রথম সূত্র কিসের সংরক্ষণ প্রকাশ করে?", options: ["আধান", "শক্তি", "ভরবেগ", "ভর"], correct: 0 },
+        { q: "১০. কার্শফের দ্বিতীয় সূত্র কিসের সংরক্ষণ প্রকাশ করে?", options: ["শক্তি", "আধান", "ভর", "ভরবেগ"], correct: 0 },
+        { q: "১১. বিয়ো-সাভার্টের সূত্র কিসের সঙ্গে সম্পর্কিত?", options: ["চৌম্বক ক্ষেত্র", "তড়িৎ ক্ষেত্র", "বিভব", "আধান"], correct: 0 },
+        { q: "১২. চৌম্বক ক্ষেত্রের এসআই একক কী?", options: ["টেসলা", "ওয়েবার", "হেনরি", "ফ্যারাড"], correct: 0 },
+        { q: "১৩. লোরেন্জ বলের রাশিমালা কোনটি?", options: ["F=q(v×B)", "F=qvB", "F=B/v", "F=qv"], correct: 0 },
+        { q: "১৪. সাইক্লোট্রন কীসের জন্য ব্যবহৃত হয়?", options: ["আধান ত্বরান্বিত করতে", "চৌম্বক ক্ষেত্র মাপতে", "আধান মাপতে", "কোনটিই নয়"], correct: 0 },
+        { q: "১৫. অ্যাম্পিয়ারের সন্তরণ নিয়ম কিসের সাথে সম্পর্কিত?", options: ["চৌম্বক দিক", "তড়িৎ প্রবাহের মান", "রোদ", "বিভব"], correct: 0 },
+        { q: "১৬. স্বাবেশাঙ্ক (Self-inductance) এর একক কী?", options: ["হেনরি", "ফ্যারাড", "ওয়েবার", "টেসলা"], correct: 0 },
+        { q: "১৭. লেন্জের সূত্র কিসের সংরক্ষণ নীতি মেনে চলে?", options: ["শক্তি", "আধান", "ভর", "ভরবেগ"], correct: 0 },
+        { q: "১৮. এসি সার্কিটে ক্ষমতার গুণক (Power Factor) =?", options: ["R/Z", "Z/R", "L/R", "C/R"], correct: 0 },
+        { q: "১৯. ট্রান্সফরমার কোন বিদ্যুৎ প্রবাহে কাজ করে?", options: ["AC", "DC", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. তড়িৎচৌম্বকীয় তরঙ্গে শক্তির প্রবাহের অভিমুখ—", options: ["E×B এর দিক", "E এর দিক", "B এর দিক", "কোনটিই নয়"], correct: 0 },
+        { q: "২১. আলোর প্রতিসরাঙ্ক (μ) =?", options: ["sin i / sin r", "sin r / sin i", "tan i", "cos i"], correct: 0 },
+        { q: "২২. সংকট কোণ (Critical angle) কখন হয়?", options: ["ঘন থেকে লঘু মাধ্যম", "লঘু থেকে ঘন মাধ্যম", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. লেন্সের ক্ষমতার একক কী?", options: ["ডায়োপ্টার", "মিটার", "সেমি", "ওয়াট"], correct: 0 },
+        { q: "২৪. ফোকাস দূরত্ব (f) ও বক্রতা ব্যাসার্ধের (R) সম্পর্ক?", options: ["f=R/2", "f=R", "f=2R", "f=R^2"], correct: 0 },
+        { q: "২৫. পূর্ণ অভ্যন্তরীণ প্রতিফলনের শর্ত—", options: ["ঘন থেকে লঘু মাধ্যম", "আপতন কোণ > সংকট কোণ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "২৬. মানুষের চোখের লেন্স কেমন?", options: ["উত্তল", "অবতল", "সমতল", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. আলোর ব্যতিচারের জন্য প্রয়োজন—", options: ["সুসংগত উৎস", "অসংগত উৎস", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. অপবর্তন (Diffraction) কখন হয়?", options: ["তরঙ্গদৈর্ঘ্যের সাথে বাধার তুলনা", "বাধা বিশাল হলে", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. ফোটন কণার আধান কত?", options: ["শূন্য", "ধনাত্মক", "ঋণাত্মক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. আলোকতড়িৎ সমীকরণটি কার দেওয়া?", options: ["আইনস্টাইন", "প্ল্যাঙ্ক", "নিউটন", "বোর"], correct: 0 },
+        { q: "৩১. ডি-ব্রগলি তরঙ্গদৈর্ঘ্য (λ) =?", options: ["h/p", "p/h", "h*p", "h+p"], correct: 0 },
+        { q: "৩২. বোর পরমাণু মডেল অনুসারে ইলেকট্রনের কৌণিক ভরবেগ?", options: ["L = nh/2π", "L = nh", "L = h/n", "L = π/nh"], correct: 0 },
+        { q: "৩৩. তেজস্ক্রিয়তা পরিমাপের একক?", options: ["বেকারেল", "জুল", "ওয়াট", "নিউটন"], correct: 0 },
+        { q: "৩৪. অর্ধায়ু (Half-life) ও ক্ষয় ধ্রুবকের (λ) সম্পর্ক?", options: ["T = 0.693/λ", "T = λ/0.693", "T = λ", "T = 0.693*λ"], correct: 0 },
+        { q: "৩৫. নিউক্লীয় বিভাজনে কোনটির ব্যবহার হয়?", options: ["নিউট্রন", "প্রোটন", "ইলেকট্রন", "আলফা কণা"], correct: 0 },
+        { q: "৩৬. সেমিকন্ডাক্টর কয় প্রকার?", options: ["২টি (N-type, P-type)", "৩টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "৩৭. ডায়োড কীসের জন্য ব্যবহৃত হয়?", options: ["রেকটিফিকেশন", "অ্যাম্প্লিফিকেশন", "অসিলেশন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. ট্রানজিস্টরের কয়টি সংযোগস্থল (Junction) থাকে?", options: ["২টি", "১টি", "৩টি", "০টি"], correct: 0 },
+        { q: "৩৯. গেট (Logic Gate) কয় প্রকার?", options: ["৩টি (AND, OR, NOT)", "২টি", "৫টি", "৪টি"], correct: 0 },
+        { q: "৪০. AND গেটের আউটপুট কী?", options: ["A.B", "A+B", "A'", "A⊕B"], correct: 0 },
+        { q: "৪১. OR গেটের আউটপুট কী?", options: ["A+B", "A.B", "A'", "A⊕B"], correct: 0 },
+        { q: "৪২. NOT গেটের আউটপুট কী?", options: ["A'", "A+B", "A.B", "A⊕B"], correct: 0 },
+        { q: "৪৩. তড়িৎ প্রাবল্যের একক কী?", options: ["N/C", "C/N", "V/A", "J/C"], correct: 0 },
+        { q: "৪৪. সমবিভব তলে কাজ করার জন্য প্রয়োজনীয় শক্তি—", options: ["শূন্য", "অসীম", "ধ্রুবক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. পরিবাহীর ভেতরে তড়িৎ ক্ষেত্র কত?", options: ["শূন্য", "সর্বোচ্চ", "অসীম", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. আপেক্ষিক রোধের একক কী?", options: ["ওহম-মিটার", "ওহম", "মিটার", "সিমেন্স"], correct: 0 },
+        { q: "৪৭. গ্যালভানোমিটারকে অ্যামিটারে বদলাতে কী ব্যবহার হয়?", options: ["সমান্তরাল শান্ট", "শ্রেণি রোধ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. গ্যালভানোমিটারকে ভোল্টমিটারে বদলাতে কী ব্যবহার হয়?", options: ["শ্রেণি উচ্চ রোধ", "সমান্তরাল রোধ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. ফেরোম্যাগনেটিক পদার্থ কোনটি?", options: ["লোহা", "তামা", "জল", "কাচ"], correct: 0 },
+        { q: "৫০. ডায়াম্যাগনেটিক পদার্থ কোনটি?", options: ["জল", "লোহা", "নিকেল", "কোবাল্ট"], correct: 0 },
+        { q: "৫১. তড়িৎচৌম্বকীয় আবেশের সূত্র কার?", options: ["ফ্যারাডে", "লেন্জ", "নিউটন", "অ্যাম্পিয়ার"], correct: 0 },
+        { q: "৫২. এসি কারেন্টের গড় মান কত?", options: ["শূন্য", "সর্বোচ্চ", "ই/২", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. আর.এম.এস (RMS) মান =?", options: ["I₀/√2", "I₀", "I₀/2", "I₀*√2"], correct: 0 },
+        { q: "৫৪. আলোর বেগ কোথায় সর্বোচ্চ?", options: ["শূন্যস্থান", "জল", "কাচ", "হীরা"], correct: 0 },
+        { q: "৫৫. একটি উত্তল লেন্সের ক্ষমতা ধনাত্মক না ঋণাত্মক?", options: ["ধনাত্মক", "ঋণাত্মক", "শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. একটি অবতল লেন্সের ক্ষমতা ধনাত্মক না ঋণাত্মক?", options: ["ঋণাত্মক", "ধনাত্মক", "শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. প্রিজমে আলোর চ্যুতিকোণ কিসের ওপর নির্ভর করে?", options: ["আপতন কোণ", "প্রতিসরাঙ্ক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৮. মাইকেলসন-মোর্লি পরীক্ষার গুরুত্ব কী?", options: ["ইথার অস্তিত্বহীন", "আলোর বেগ ধ্রুবক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৯. কার্য-অপেক্ষক (Work function) কী?", options: ["ইলেকট্রন নির্গমনের শক্তি", "শক্তির একক", "তরঙ্গবেগ", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. আইসোটোপে কী সমান থাকে?", options: ["প্রোটন", "নিউট্রন", "ভর সংখ্যা", "উভয়"], correct: 0 },
+        { q: "৬১. আইসোবার-এ কী সমান থাকে?", options: ["ভর সংখ্যা", "প্রোটন", "নিউট্রন", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. জেনার ডায়োড কিসের জন্য ব্যবহৃত হয়?", options: ["ভোল্টেজ রেগুলেশন", "অ্যাম্প্লিফিকেশন", " রেকটিফিকেশন", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৩. এলইডি (LED) কী নির্গত করে?", options: ["আলোক শক্তি", "তাপ শক্তি", "শব্দ শক্তি", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. ফোটোডায়োড কিসের ওপর ভিত্তি করে কাজ করে?", options: ["আলো", "তাপ", "চাপ", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. ট্রানজিস্টরের তিনটি অংশ—", options: ["এমিটার, বেস, কালেক্টর", "প্রোটন, নিউট্রন, ইলেকট্রন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. তড়িৎ প্রবাহ মাত্রা একটি—", options: ["স্কেলার রাশি", "ভেক্টর রাশি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. বিভব প্রভেদ একটি—", options: ["স্কেলার রাশি", "ভেক্টর রাশি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. ইলেকট্রনের আধান কত?", options: ["-1.6 × 10^-19 C", "1.6 × 10^-19 C", "0", "1.6 × 10^19 C"], correct: 0 },
+        { q: "৬৯. প্রোটনের আধান কত?", options: ["+1.6 × 10^-19 C", "-1.6 × 10^-19 C", "0", "1.6 × 10^19 C"], correct: 0 },
+        { q: "৭০. কুলম্বের সূত্র অনুযায়ী বল দূরত্বে কীভাবে পরিবর্তিত হয়?", options: ["বর্গের ব্যস্তানুপাতিক", "সমানুপাতিক", "বর্গানুপাতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. তড়িৎ ক্ষেত্রের অভিমুখ ধনাত্মক আধানের—", options: ["বাইরের দিকে", "ভেতরের দিকে", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. তড়িৎ ক্ষেত্রের অভিমুখ ঋণাত্মক আধানের—", options: ["ভেতরের দিকে", "বাইরের দিকে", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. পরিবাহীর রোধকত্ব (ρ) কিসের ওপর নির্ভর করে?", options: ["উপাদান ও তাপমাত্রা", "দৈর্ঘ্য", "প্রস্থচ্ছেদ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. তড়িৎক্ষমতার একক কী?", options: ["ওয়াট", "জুল", "নিউটন", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. বিউট-স্যাভার্ট সূত্র অনুযায়ী magnetic field, দৈর্ঘ্যের—", options: ["সমানুপাতিক", "ব্যস্তানুপাতিক", "বর্গানুপাতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. একটি চলমান আধান কী উৎপন্ন করে?", options: ["তড়িৎ ও চৌম্বক ক্ষেত্র", "শুধুমাত্র তড়িৎ", "শুধুমাত্র চৌম্বক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. চৌম্বক বলরেখাগুলো—", options: ["বন্ধ পথ তৈরি করে", "মুক্ত পথ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. ডায়াম্যাগনেটিক পদার্থের প্রবণতা (Susceptibility) কেমন?", options: ["ঋণাত্মক", "ধনাত্মক", "শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. প্যারাম্যাগনেটিক পদার্থের প্রবণতা কেমন?", options: ["অল্প ধনাত্মক", "ঋণাত্মক", "অসীম", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. ফেরোম্যাগনেটিক পদার্থের প্রবণতা কেমন?", options: ["খুব বেশি ধনাত্মক", "অল্প", "শূন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. ফ্যারাডের সূত্র অনুযায়ী তড়িচ্চালক বল কিসের সমানুপাতিক?", options: ["চৌম্বক ফ্লাক্সের পরিবর্তনের হার", "ফ্লাক্স", "সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. এসি কারেন্টের কম্পাঙ্ক ভারতে কত?", options: ["50 Hz", "60 Hz", "100 Hz", "0 Hz"], correct: 0 },
+        { q: "৮৩. তড়িৎচৌম্বকীয় তরঙ্গ—", options: ["অনুপ্রস্থ", "অনুদৈর্ঘ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. আলোর প্রতিফলন সূত্র—", options: ["আপতন কোণ = প্রতিফলন কোণ", "আপতন কোণ > প্রতিফলন কোণ", "আপতন কোণ < প্রতিফলন কোণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. আলোর প্রতিসরণ সূত্র (স্নেলের সূত্র)—", options: ["sin i / sin r = μ", "sin i * sin r = μ", "sin r / sin i = μ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. লেন্সের সমীকরণ—", options: ["1/v - 1/u = 1/f", "1/v + 1/u = 1/f", "1/u - 1/v = 1/f", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. আলোর বিচ্ছুরণ (Dispersion) কীসের জন্য হয়?", options: ["প্রতিসরাঙ্ক ভিন্ন হওয়া", "আলোর বেগ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. রামধনু তৈরির কারণ—", options: ["প্রতিসরণ ও প্রতিফলন", "শুধু প্রতিফলন", "শুধু প্রতিসরণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. হাইগেনসের নীতি কিসের জন্য প্রযোজ্য?", options: ["তরঙ্গতত্ত্ব", "কণাতত্ত্ব", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. সমবর্তনের (Polarization) জন্য প্রয়োজন—", options: ["অনুপ্রস্থ তরঙ্গ", "অনুদৈর্ঘ্য তরঙ্গ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. ব্ল্যাক বডি রেডিয়েশন—", options: ["প্ল্যাঙ্কের তত্ত্ব", "চিরায়ত তত্ত্ব", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. পরমাণুর মডেল প্রথম কে দেন?", options: ["থমসন", "রাদারফোর্ড", "বোর", "ডাল্টন"], correct: 0 },
+        { q: "৯৩. রাদারফোর্ডের মডেল কিসের দ্বারা ভুল প্রমাণিত হয়?", options: ["শক্তির বিকিরণ", "ইলেকট্রন ঘূর্ণন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. নিউক্লিয়াসের ভেতরে থাকে—", options: ["প্রোটন ও নিউট্রন", "ইলেকট্রন", "সবকটি", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. নিউক্লীয় বল কেমন?", options: ["শক্তিশালী আকর্ষণীয়", "বিকর্ষণীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. সূর্য ও তারায় শক্তির উৎস—", options: ["নিউক্লীয় সংযোজন", "বিভাজন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. এনার্জি ব্যান্ড (Energy Band) কয় প্রকার?", options: ["২টি (Valence, Conduction)", "৩টি", "৪টি", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. পরিবাহীর ক্ষেত্রে ব্যান্ড গ্যাপ কত?", options: ["শূন্য", "অনেক বেশি", "অল্প", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. অন্তরকের ক্ষেত্রে ব্যান্ড গ্যাপ কত?", options: ["অনেক বেশি", "শূন্য", "অল্প", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. পদার্থবিজ্ঞান মানে কী?", options: ["প্রকৃতির নিয়ম বোঝা", "মুখস্থ করা", "উভয়", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
