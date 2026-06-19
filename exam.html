@@ -138,8 +138,8 @@ loadQuestion();
 }else{
 document.getElementById("question").innerText="Exam Finished 🎉";
 document.getElementById("options").innerHTML="";
-document.getElementById("result").innerHTML=
-"Score: "+score+"/50<br>Percentage: "+(score*2)+"%";
+localStorage.setItem("score", score);
+window.location.href = "result.html";
 }
 }
 
