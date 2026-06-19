@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Factory - Test</title>
+
+<style>
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.box{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+max-width:600px;
+margin:auto;
+}
+
+.question{
+font-size:20px;
+margin-bottom:20px;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Mock Test</h2>
+
+<p id="timer">Time: 60:00</p>
+
+<div class="question">
+1. ভারতের রাজধানী কী?
+</div>
+
+<button onclick="answer(0)">কলকাতা</button>
+<button onclick="answer(1)">নিউ দিল্লি</button>
+<button onclick="answer(0)">মুম্বাই</button>
+<button onclick="answer(0)">চেন্নাই</button>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+let time = 3600;
+
+setInterval(()=>{
+let m = Math.floor(time/60);
+let s = time%60;
+document.getElementById("timer").innerText =
+"Time: " + m + ":" + s;
+
+if(time>0) time--;
+},1000);
+
+function answer(x){
+if(x===1){
+document.getElementById("result").innerText="✔ সঠিক উত্তর!";
+}else{
+document.getElementById("result").innerText="❌ ভুল উত্তর!";
+}
+}
+</script>
+
+</body>
+</html>
