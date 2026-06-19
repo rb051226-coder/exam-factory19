@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Education 2026 Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি শিক্ষাবিজ্ঞান: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. 'Education' শব্দটি এসেছে কোন ল্যাটিন শব্দ থেকে?", options: ["Educare", "Educatum", "Educere", "সবকটি"], correct: 3 },
+        { q: "২. শিক্ষার সংকীর্ণ অর্থ কী?", options: ["পুঁথিগত বিদ্যা", "সার্বিক বিকাশ", "জীবনব্যাপী শিক্ষা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩. শিক্ষা একটি দ্বিমেরু প্রক্রিয়া—কার মতে?", options: ["অ্যাডামস", "জন ডিউই", "রুশো", "প্লেটো"], correct: 0 },
+        { q: "৪. শিক্ষা একটি ত্রিমেরু প্রক্রিয়া—কার মতে?", options: ["জন ডিউই", "অ্যাডামস", "গান্ধী", "রবীন্দ্রনাথ"], correct: 0 },
+        { q: "৫. শিক্ষার ব্যক্তিগত লক্ষ্য কী?", options: ["আত্মপ্রকাশ", "সামাজিক উন্নয়ন", "রাষ্ট্রের উন্নয়ন", "সবকটি"], correct: 0 },
+        { q: "৬. শিক্ষার সামাজিক লক্ষ্য কী?", options: ["সামাজিক সচেতনতা", "আত্মকেন্দ্রিকতা", "ব্যক্তিগত লাভ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭. শিক্ষার প্রধান উপাদান কয়টি?", options: ["৪টি", "২টি", "৩টি", "৫টি"], correct: 0 },
+        { q: "৮. প্রথাগত শিক্ষা বা Formal Education দেখা যায়—", options: ["স্কুলে", "পরিবারে", "সমাজে", "সবকটি"], correct: 0 },
+        { q: "৯. অপ্রথাগত বা Non-formal শিক্ষা—", options: ["উন্মুক্ত বিশ্ববিদ্যালয়", "স্কুল", "পরিবার", "কোনটিই নয়"], correct: 0 },
+        { q: "১০. গণমাধ্যম কী ধরনের শিক্ষা সংস্থা?", options: ["অপ্রথাগত", "প্রথাগত", "কোনটিই নয়", "পারিবারিক"], correct: 0 },
+        { q: "১১. পরিবার শিক্ষার কী রূপ সংস্থা?", options: ["অনানুষ্ঠানিক", "প্রথাগত", "পেশাগত", "কোনটিই নয়"], correct: 0 },
+        { q: "১২. প্রকৃতিবাদী দার্শনিক কে?", options: ["রুশো", "প্লেটো", "অ্যারিস্টটল", "ডিউই"], correct: 0 },
+        { q: "১৩. ভাববাদী দার্শনিক কে?", options: ["প্লেটো", "রুশো", "গান্ধী", "ডিউই"], correct: 0 },
+        { q: "১৪. প্রয়োগবাদী দার্শনিক কে?", options: ["জন ডিউই", "প্লেটো", "রুশো", "সক্রেটিস"], correct: 0 },
+        { q: "১৫. মনোবিজ্ঞানের জনক কে?", options: ["উইলিয়াম জেমস", "ফ্রয়েড", "ওয়াটসন", "প্যাভলভ"], correct: 0 },
+        { q: "১৬. শিক্ষাশ্রয়ী মনোবিজ্ঞান হলো—", options: ["মনোবিজ্ঞানের প্রয়োগ", "দর্শনের শাখা", "বিজ্ঞানের শাখা", "সবকটি"], correct: 0 },
+        { q: "১৭. মনোযোগ কী ধরনের প্রক্রিয়া?", options: ["নির্বাচনমূলক", "স্থির", "স্বয়ংক্রিয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৮. মনোযোগের ব্যক্তিগত শর্ত কী?", options: ["আগ্রহ", "উজ্জ্বলতা", "নিউটালিটি", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. মনোযোগের বস্তুগত শর্ত কী?", options: ["আকার", "আবেগ", "মনোভাব", "শিক্ষা"], correct: 0 },
+        { q: "২০. আগ্রহ ও মনোযোগ—", options: ["পরস্পর সম্পর্কযুক্ত", "বিপরীত", "সম্পর্কহীন", "কোনটিই নয়"], correct: 0 },
+        { q: "২১. বিকাশের পর্যায় কয়টি?", options: ["৪টি", "৩টি", "৫টি", "২টি"], correct: 0 },
+        { q: "২২. কৈশোরকালকে কী বলা হয়?", options: ["ঝড়ঝঞ্ঝার কাল", "শান্তিকাল", "শিক্ষার কাল", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. শৈশবকাল বলতে কোন বয়স বোঝায়?", options: ["জন্ম থেকে ৫ বছর", "৬-১২", "১৩-১৮", "১৮+"], correct: 0 },
+        { q: "২৪. প্রাক-প্রাথমিক শিক্ষার প্রয়োজনীয়তা—", options: ["সামাজিকীকরণ", "পড়াশোনা শুরু", "খেলাধুলা", "সবকটি"], correct: 3 },
+        { q: "২৫. প্রজেক্ট পদ্ধতির প্রবক্তা কে?", options: ["কিলপ্যাট্রিক", "ডিউই", "ফ্রয়েবেল", "মন্টেসরি"], correct: 0 },
+        { q: "২৬. ডাল্টন পদ্ধতির প্রবর্তক কে?", options: ["হেলেন পার্কহার্স্ট", "ডিউই", "মন্টেসরি", "ফ্রয়েবেল"], correct: 0 },
+        { q: "২৭. কিন্ডারগার্টেন পদ্ধতির প্রবর্তক কে?", options: ["ফ্রয়েবেল", "মন্টেসরি", "ডিউই", "রুশো"], correct: 0 },
+        { q: "২৮. মন্টেসরি পদ্ধতি কীসের ওপর জোর দেয়?", options: ["ইন্দ্রিয় শিক্ষা", "পুঁথি", "শাসন", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. বুনিয়াদী শিক্ষার প্রবক্তা কে?", options: ["গান্ধীজি", "রবীন্দ্রনাথ", "বিদ্যাসাগর", "নেহেরু"], correct: 0 },
+        { q: "৩০. শান্তি নিকেতন কে প্রতিষ্ঠা করেন?", options: ["রবীন্দ্রনাথ", "গান্ধী", "নেহেরু", "বিদ্যাসাগর"], correct: 0 },
+        { q: "৩১. শিক্ষার সংকীর্ণ অর্থের বৈশিষ্ট্য—", options: ["সময়বদ্ধ", "জীবনব্যাপী", "মুক্ত", "সবকটি"], correct: 0 },
+        { q: "৩২. শিক্ষার ব্যাপক অর্থের বৈশিষ্ট্য—", options: ["জীবনব্যাপী", "সীমিত", "পরীক্ষাকেন্দ্রিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. 'Education is the manifestation of perfection already in man'—কার উক্তি?", options: ["স্বামী বিবেকানন্দ", "গান্ধী", "অরবিন্দ", "রবীন্দ্রনাথ"], correct: 0 },
+        { q: "৩৪. শিক্ষার লক্ষ্য—", options: ["ব্যক্তিগত", "সামাজিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৩৫. বিদ্যালয়কে সমাজের ক্ষুদ্র সংস্করণ কে বলেছেন?", options: ["জন ডিউই", "রুশো", "প্লেটো", "গান্ধী"], correct: 0 },
+        { q: "৩৬. পাঠক্রম নির্ধারণে কী প্রয়োজন?", options: ["শিক্ষার্থীর চাহিদা", "সমাজের চাহিদা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৩৭. সহ-পাঠক্রমিক কার্যাবলি—", options: ["খেলারাম", "বিতর্ক", "গান", "সবকটি"], correct: 3 },
+        { q: "৩৮. মনস্তত্ত্ববিদ্যায় শিক্ষার অবদান—", options: ["শিক্ষার্থীকে বোঝা", "পদ্ধতি উন্নত করা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৩৯. বুদ্ধির সংজ্ঞা কে দিয়েছেন?", options: ["টারম্যান", "উইক্সলার", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৪০. বুদ্ধি কীসের ওপর নির্ভর করে?", options: ["বংশগতি ও পরিবেশ", "শুধু বংশগতি", "শুধু পরিবেশ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. সৃজনশীলতার মূল উপাদান—", options: ["মৌলিকতা", "সাবলীলতা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৪২. প্রেরণা বা মোটিভেশন—", options: ["শিক্ষার চালিকাশক্তি", "শিক্ষার বাধা", "সহায়ক নয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৩. থর্নডাইকের শিখনের নিয়ম—", options: ["ফলপ্রসূ নিয়ম", "অনুশীলন", "প্রস্তুতি", "সবকটি"], correct: 3 },
+        { q: "৪৪. প্রাচীন অনুবর্তনবাদের জনক—", options: ["প্যাভলভ", "স্কিনার", "ওয়াটসন", "থর্নডাইক"], correct: 0 },
+        { q: "৪৫. সক্রিয় অনুবর্তনবাদের জনক—", options: ["স্কিনার", "প্যাভলভ", "ওয়াটসন", "থর্নডাইক"], correct: 0 },
+        { q: "৪৬. অন্তঃদৃষ্টিমূলক শিখন—", options: ["গেস্টাল্টবাদী", "আচরণবাদী", "মনস্তাত্ত্বিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. কোহলার কোন প্রাণীর ওপর পরীক্ষা করেন?", options: ["শিম্পাঞ্জি", "কুকুর", "বিড়াল", "ইঁদুর"], correct: 0 },
+        { q: "৪৮. পাঠদানের পদ্ধতি—", options: ["বক্তৃতা", "আলোচনা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৪৯. আধুনিক শিক্ষা—", options: ["শিক্ষার্থী কেন্দ্রিক", "শিক্ষক কেন্দ্রিক", "পুঁথি কেন্দ্রিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. মূল্যায়ন—", options: ["পরিমাপের চেয়ে ব্যাপক", "পরিমাপের সমান", "পরিমাপের চেয়ে সংকীর্ণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. শিক্ষার লক্ষ্য কী?", options: ["ব্যক্তিত্ব বিকাশ", "বেকারত্ব দূর", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫২. পরিবার হলো—", options: ["প্রাথমিক শিক্ষা সংস্থা", "মাধ্যমিক", "উচ্চশিক্ষা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. রাষ্ট্রের শিক্ষা বিষয়ক দায়িত্ব—", options: ["অবৈতনিক শিক্ষা", "বিদ্যালয় স্থাপন", "সবকটি", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৪. গণমাধ্যম কী?", options: ["রেডিও", "টেলিভিশন", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৫. প্রকৃতিবাদের মূল কথা—", options: ["প্রকৃতির কাছে ফিরে যাওয়া", "পুঁথি শিক্ষা", "শাসন", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. ভাববাদের মূল কথা—", options: ["আধ্যাত্মিক বিকাশ", "বস্তুবাদ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. প্রয়োগবাদের মূল কথা—", options: ["উপযোগিতা", "মূল্যবোধ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. মনোবিজ্ঞানের পদ্ধতি—", options: ["পর্যবেক্ষণ", "পরীক্ষণ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৯. মনোযোগ—", options: ["চঞ্চল", "স্থির", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. আগ্রহের প্রকাশ—", options: ["পছন্দের মাধ্যমে", "কাজের মাধ্যমে", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬১. বিকাশের ধারা—", options: ["নিরবিচ্ছিন্ন", "ছিন্ন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. কৈশোরের চাহিদা—", options: ["মানসিক", "শারীরিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬৩. শিক্ষায় প্রযুক্তির ব্যবহার—", options: ["সহায়ক", "অপ্রয়োজনীয়", "ক্ষতিকারক", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. কম্পিউটার—", options: ["শিক্ষার সহায়ক", "শিক্ষক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. ইন্টারনেট—", options: ["তথ্যের উৎস", "অপ্রয়োজনীয়", "ক্ষতিকর", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. পাঠক্রমের বৈশিষ্ট্য—", options: ["গতিশীল", "স্থির", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. সহ-পাঠক্রমিক কার্যাবলি—", options: ["সুপ্ত প্রতিভা বিকাশে সহায়ক", "সময় নষ্ট", "অপ্রয়োজনীয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. শৃঙ্খলা—", options: ["আত্মশৃঙ্খলা", "শাসন", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬৯. শাস্তি—", options: ["অন্তিম পথ", "প্রথম পথ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. শিক্ষক—", options: ["পথপ্রদর্শক", "শাসক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. শিক্ষার অধিকার—", options: ["মৌলিক অধিকার", "বিলাসী অধিকার", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. বয়স্ক শিক্ষা—", options: ["প্রয়োজনীয়", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. নারী শিক্ষা—", options: ["জাতীয় উন্নয়নের শর্ত", "অপচয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. সর্বজনীন প্রাথমিক শিক্ষা—", options: ["লক্ষ্য", "অসম্ভব", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. শিক্ষায় অপচয়—", options: ["সমস্যা", "স্বাভাবিক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. শিক্ষায় স্থবিরতা—", options: ["সমস্যা", "স্বাভাবিক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. বৃত্তিগত শিক্ষা—", options: ["চাকরি উপযোগী", "তাত্ত্বিক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. মূল্যবোধ শিক্ষা—", options: ["নৈতিকতা শেখায়", "বর্জনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. পরিবেশ শিক্ষা—", options: ["সংরক্ষণ শেখায়", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. বিশ্বশান্তি শিক্ষায়—", options: ["সহায়ক", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. শিক্ষার মান—", options: ["উন্নতি প্রয়োজন", "স্থির", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. পরীক্ষার গুরুত্ব—", options: ["মূল্যায়নের জন্য", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. পাঠ্যপুস্তক—", options: ["জ্ঞান অর্জনের মাধ্যম", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. লাইব্রেরি—", options: ["শিক্ষার মন্দির", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. মিউজিয়াম—", options: ["শিক্ষার সহায়ক", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. পিকনিক—", options: ["শিক্ষামূলক ভ্রমণ", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. বিতর্ক—", options: ["চিন্তাশক্তি বাড়ায়", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. খেলাধুলা—", options: ["শারীরিক বিকাশে সহায়ক", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. সংগীত—", options: ["মানসিক বিকাশে সহায়ক", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. আর্ট ও ক্রাফট—", options: ["সৃজনশীলতা বাড়ায়", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. যোগব্যায়াম—", options: ["স্বাস্থ্যের জন্য ভালো", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. এনসিসি (NCC)—", options: ["শৃঙ্খলার শিক্ষা", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. স্কাউট—", options: ["সেবার শিক্ষা", "সময় নষ্ট", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. শিক্ষকের গুণ—", options: ["ধৈর্য", "জ্ঞান", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৫. শিক্ষার্থীর গুণ—", options: ["অনুরাগ", "শৃংখলা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৬. শিক্ষার পরিবেশ—", options: ["শান্ত", "কোলাহলপূর্ণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. পাঠ পরিকল্পনা—", options: ["শিক্ষাদানের নীল নকশা", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. শিক্ষক নির্দেশিকা—", options: ["সহায়ক", "অপ্রয়োজনীয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. শিক্ষা প্রযুক্তি—", options: ["আধুনিক শিক্ষা", "পুরানো শিক্ষা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. শিক্ষাবিজ্ঞান—", options: ["বিজ্ঞান ও শিল্পকলা", "কেবল বিজ্ঞান", "কেবল শিল্পকলা", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
