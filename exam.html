@@ -134,9 +134,20 @@ score++;
 index++;
 
 if(index < questions.length){
-loadQuestion();
+    loadQuestion();
+}else{
+    showResult();
+}
 function showResult(){
+document.getElementById("question").innerText="Exam Finished 🎉";
+document.getElementById("options").innerHTML="";
 
+document.getElementById("result").innerHTML=
+"Score: "+score+"/50<br>Percentage: "+(score*2)+"%";
+
+localStorage.setItem("score", score);
+
+}
 // Supabase এ save (এখন dummy version)
 fetch("https://YOUR_SUPABASE_URL/rest/v1/results", {
 method: "POST",
