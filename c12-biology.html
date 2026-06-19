@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 12 Biology 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #10b981; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #10b981; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #10b981; }
+        .finish-btn { background: #065f46; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি জীববিজ্ঞান সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#10b981;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#10b981;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. শুক্রাণু উৎপাদনের পদ্ধতিকে কী বলে?", options: ["উওজেনেসিস", "স্পার্মাটোজেনেসিস", "নিষেচন", "ভ্রূণোজেনেসিস"], correct: 1 },
+        { q: "২. মেন্ডেলের প্রথম সূত্রের অনুপাত কত?", options: ["১:২:১", "৩:১", "৯:৩:৩:১", "১:১:১:১"], correct: 1 },
+        { q: "৩. DNA-এর দ্বিসূত্রক মডেল কে প্রবর্তন করেন?", options: ["ডারউইন", "ওয়াটসন ও ক্রিক", "মেন্ডেল", "ল্যামার্ক"], correct: 1 },
+        { q: "৪. AIDS ভাইরাসের নাম কী?", options: ["HIV", "HBV", "HCV", "SARS"], correct: 0 },
+        { q: "৫. রিকম্বিন্যান্ট DNA প্রযুক্তিতে কোন এনজাইম ব্যবহৃত হয়?", options: ["লাইগেজ", "পলিমারেজ", "হাইড্রোলেজ", "ডিহাইড্রোজেনেজ"], correct: 0 },
+        { q: "৬. জীববৈচিত্র্যের প্রধান কারণ কী?", options: ["বিবর্তন", "মিউটেশন", "প্রজনন", "সবগুলো"], correct: 3 },
+        { q: "৭. ম্যালেরিয়া পরজীবীর বাহক কে?", options: ["কিউলেক্স", "অ্যানোফিলিস", "মাছি", "আরশোলা"], correct: 1 },
+        { q: "৮. ভ্রূণস্থলী কোথায় থাকে?", options: ["গর্ভাশয়", "পরাগরেণু", "পাপড়ি", "সেপাল"], correct: 0 },
+        { q: "৯. ডাউন সিনড্রোমের কারণ কী?", options: ["ট্রাইসোমি ২১", "মনোজোমি", "ডিলিশন", "ইনভার্সন"], correct: 0 },
+        { q: "১০. ট্রান্সক্রিপশন ঘটে কোথায়?", options: ["নিউক্লিয়াস", "রাইবোসোম", "গলগি বডি", "মাইটোকন্ড্রিয়া"], correct: 0 },
+        { q: "১১. পিসিআর (PCR) এর পূর্ণরূপ কী?", options: ["পলিমারেজ চেইন রিঅ্যাকশন", "প্রোটিন চেইন রিঅ্যাকশন", "প্লাজমিড চেইন", "None"], correct: 0 },
+        { q: "১২. মেন্ডেলের দ্বিতীয় সূত্রের অনুপাত কত?", options: ["৯:৩:৩:১", "৩:১", "১:২:১", "১:১:১:১"], correct: 0 },
+        { q: "১৩. অসম্পূর্ণ প্রকটতার ক্ষেত্রে অনুপাত কত?", options: ["১:২:১", "৩:১", "২:১", "৯:৩:৩:১"], correct: 0 },
+        { q: "১৪. ক্যানসার সৃষ্টিকারী জিনকে কী বলে?", options: ["অঙ্কোজিন", "মিউটাজিন", "কার্সিনোজেন", "None"], correct: 0 },
+        { q: "১৫. টি-লিম্ফোসাইট কোথায় পরিপক্ক হয়?", options: ["থাইমাস", "প্লীহা", "অস্থিমজ্জা", "যকৃৎ"], correct: 0 },
+        { q: "১৬. গোল্ডেন রাইসে কী ভিটামিন থাকে?", options: ["ভিটামিন A", "ভিটামিন B", "ভিটামিন C", "ভিটামিন D"], correct: 0 },
+        { q: "১৭. জেনেটিক কোড কয়টি নিউক্লিওটাইড নিয়ে গঠিত?", options: ["১", "২", "৩", "৪"], correct: 2 },
+        { q: "১৮. মানুষের যৌন ক্রোমোজোম কী?", options: ["XY", "XX", "AA", "XY/XX"], correct: 3 },
+        { q: "১৯. অ্যান্টিবডি তৈরি করে কে?", options: ["বি-লিম্ফোসাইট", "টি-লিম্ফোসাইট", "মনোসাইট", "নিউট্রোফিল"], correct: 0 },
+        { q: "২০. ল্যামার্কবাদের মূল কথা কী?", options: ["অর্জিত বৈশিষ্ট্যের বংশগতি", "প্রাকৃতিক নির্বাচন", "মিউটেশন", "None"], correct: 0 },
+        { q: "২১. বাঘের বৈজ্ঞানিক নাম কী?", options: ["Panthera tigris", "Panthera leo", "Homo sapiens", "None"], correct: 0 },
+        { q: "২২. পপুলেশনের হার্ডি-ওয়াইনবার্গ সূত্রটি প্রযোজ্য হয় যদি-", options: ["মিউটেশন না ঘটে", "নির্বাচন না ঘটে", "পপুলেশন বড় হয়", "সবগুলো"], correct: 3 },
+        { q: "২৩. ব্যাকটেরিওফায কী?", options: ["ভাইরাস", "ব্যাকটেরিয়া", "ছত্রাক", "প্রোটোজোয়া"], correct: 0 },
+        { q: "২৪. প্যালিনড্রোমিক DNA অনুক্রম চেনে কে?", options: ["রেস্ট্রিকশন এনজাইম", "লাইগেজ", "DNA পলিমারেজ", "None"], correct: 0 },
+        { q: "২৫. অমরা থেকে নিঃসৃত হরমোন কোনটি?", options: ["HCG", "LH", "FSH", "ACTH"], correct: 0 },
+        { q: "২৬. শুক্রাশয়ে কোন হরমোন নিঃসৃত হয়?", options: ["টেস্টোস্টেরন", "প্রোজেস্টেরন", "এস্ট্রোজেন", "None"], correct: 0 },
+        { q: "২৭. কপার-টি (Copper-T) কী?", options: ["গর্ভনিরোধক", "ভ্যাকসিন", "অ্যান্টিবায়োটিক", "None"], correct: 0 },
+        { q: "২৮. গ্রাফটিং কী ধরণের প্রজনন?", options: ["কৃত্রিম অযৌন", "যৌন", "প্রাকৃতিক", "None"], correct: 0 },
+        { q: "২৯. পামিরুভিক অ্যাসিড গ্লাইকোলাইসিসে কতটি?", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
+        { q: "৩০. হিউম্যান জিনোম প্রজেক্ট কত সালে শেষ হয়?", options: ["২০০৩", "১৯৯০", "২০০০", "২০১০"], correct: 0 },
+        { q: "৩১. ট্রান্সলেশন কোথায় হয়?", options: ["রাইবোসোম", "নিউক্লিয়াস", "গলগি বডি", "None"], correct: 0 },
+        { q: "৩২. কোনটি লিঙ্গ সংযোজিত রোগ?", options: ["হিমোফিলিয়া", "ক্যানসার", "যক্ষ্মা", "None"], correct: 0 },
+        { q: "৩৩. ইকোসিস্টেমের শক্তির উৎস?", options: ["সূর্য", "খাদ্য", "মাটি", "None"], correct: 0 },
+        { q: "৩৪. বায়োডাইভার্সিটি হটস্পটের ধারণা কে দেন?", options: ["নরম্যান মায়ার্স", "ডারউইন", "মেন্ডেল", "None"], correct: 0 },
+        { q: "৩৫. ওজোন স্তরের ক্ষয়কারী গ্যাস?", options: ["CFC", "CO2", "N2", "O2"], correct: 0 },
+        { q: "৩৬. ব্ল্যাক ফুট রোগ কিসের কারণে হয়?", options: ["আর্সেনিক", "পারদ", "সীসা", "ক্যাডমিয়াম"], correct: 0 },
+        { q: "৩৭. মিনামাটা রোগ কিসের কারণে?", options: ["পারদ", "আর্সেনিক", "ক্যাডমিয়াম", "None"], correct: 0 },
+        { q: "৩৮. ইউট্রোফিকেশন কিসের কারণে?", options: ["নাইট্রোজেন ও ফসফরাস", "অক্সিজেন", "কার্বন", "None"], correct: 0 },
+        { q: "৩৯. মানুষের ডিম্বাশয়ে কয়টি ডিম্বাণু তৈরি হয়?", options: ["১টি", "৪টি", "২টি", "None"], correct: 0 },
+        { q: "৪০. গর্ভধারণে সাহায্যকারী হরমোন?", options: ["প্রোজেস্টেরন", "টেস্টোস্টেরন", "থাইরক্সিন", "None"], correct: 0 },
+        { q: "৪১. মেন্ডেলের সাফল্যের কারণ?", options: ["সঠিক উদ্ভিদ নির্বাচন", "গাণিতিক বিশ্লেষণ", "পদ্ধতিগত কাজ", "সবগুলো"], correct: 3 },
+        { q: "৪২. DNA অনুলিপন কোন পদ্ধতিতে?", options: ["সেমি-কনজারভেটিভ", "কনজারভেটিভ", "ডিসপারসিভ", "None"], correct: 0 },
+        { q: "৪৩. ট্রান্সক্রিপশনের এনজাইম?", options: ["RNA পলিমারেজ", "DNA পলিমারেজ", "লাইগেজ", "None"], correct: 0 },
+        { q: "৪৪. কোডন ও অ্যান্টিকোডন কোথায় থাকে?", options: ["mRNA ও tRNA", "tRNA ও mRNA", "DNA ও RNA", "None"], correct: 0 },
+        { q: "৪৫. অ্যারিস্টটলকে কী বলে?", options: ["জীববিজ্ঞানের জনক", "জেনেটিক্সের জনক", "None", "None"], correct: 0 },
+        { q: "৪৬. কোনটি গৌণ প্রজনন অঙ্গ?", options: ["জরায়ু", "শুক্রাশয়", "ডিম্বাশয়", "None"], correct: 0 },
+        { q: "৪৭. নিষেক কোথায় ঘটে?", options: ["ফ্যালোপিয়ান নালিকা", "জরায়ু", "ডিম্বাশয়", "None"], correct: 0 },
+        { q: "৪৮. ভ্রূণ কত দিন জরায়ুতে থাকে?", options: ["২৮০ দিন", "২০০ দিন", "১৫০ দিন", "None"], correct: 0 },
+        { q: "৪৯. এমটিপি (MTP) কী?", options: ["গর্ভপাত", "গর্ভধারণ", "জন্মনিয়ন্ত্রণ", "None"], correct: 0 },
+        { q: "৫০. টেস্ট টিউব বেবি কী?", options: ["IVF", "গবেষণাগার শিশু", "কৃত্রিম শিশু", "সবগুলো"], correct: 3 },
+        { q: "৫১. হিমোফিলিয়াতে কী সমস্যা হয়?", options: ["রক্ত জমাট বাঁধে না", "রক্তের অভাব", "লোহিত রক্তকণিকা কম", "None"], correct: 0 },
+        { q: "৫২. বর্ণান্ধতার জন্য দায়ী?", options: ["X ক্রোমোজোম", "Y ক্রোমোজোম", "অটোজোম", "None"], correct: 0 },
+        { q: "৫৩. DNA-তে কোন ক্ষারক নেই?", options: ["ইউরাসিল", "অ্যাডেনিন", "গুয়ানিন", "সাইটোসিন"], correct: 0 },
+        { q: "৫৪. আরএনএ-তে কোন ক্ষারক নেই?", options: ["থাইমিন", "ইউরাসিল", "অ্যাডেনিন", "গুয়ানিন"], correct: 0 },
+        { q: "৫৫. অ্যারোসল কী?", options: ["বায়ু দূষক", "পানি দূষক", "মাটি দূষক", "None"], correct: 0 },
+        { q: "৫৬. অম্লবৃষ্টির কারণ?", options: ["SO2, NO2", "CO2", "N2", "None"], correct: 0 },
+        { q: "৫৭. গ্রিনহাউস গ্যাসের প্রধান?", options: ["CO2", "N2", "O2", "H2"], correct: 0 },
+        { q: "৫৮. জীববৈচিত্র্য সংরক্ষণের আইন?", options: ["Wildlife Act", "Forest Act", "None", "None"], correct: 0 },
+        { q: "৫৯. রেড ডাটা বুক কী প্রকাশ করে?", options: ["বিপন্ন প্রাণী", "উদ্ভিদ", "মাটি", "None"], correct: 0 },
+        { q: "৬০. জাতীয় উদ্যান কী?", options: ["সংরক্ষিত অঞ্চল", "চিড়িয়াখানা", "পার্ক", "None"], correct: 0 },
+        { q: "৬১. জিন ক্লোনিং-এ ব্যবহৃত হয়?", options: ["প্লাজমিড", "ক্রোমোজোম", "RNA", "None"], correct: 0 },
+        { q: "৬২. গোল্ডেন রাইস জিন প্রকৌশলের ফসল?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "৬৩. বিটি তুলা কী?", options: ["ট্রান্সজেনিক", "প্রাকৃতিক", "None", "None"], correct: 0 },
+        { q: "৬৪. ইন্টারফেরন কী?", options: ["ভাইরাস প্রতিরোধক", "ব্যাকটেরিয়া প্রতিরোধক", "None", "None"], correct: 0 },
+        { q: "৬৫. জিন থেরাপি কী?", options: ["জিনের চিকিৎসা", "ভ্যাকসিন", "None", "None"], correct: 0 },
+        { q: "৬৬. টিকা কী?", options: ["প্রতিরোধক", "নিরাময়ক", "None", "None"], correct: 0 },
+        { q: "৬৭. বসন্ত রোগের টিকা কে দেন?", options: ["এডওয়ার্ড জেনার", "লুই পাস্তুর", "None", "None"], correct: 0 },
+        { q: "৬৮. অ্যান্টিজেন কী?", options: ["প্রতিরক্ষায় উদ্দীপক", "None", "None", "None"], correct: 0 },
+        { q: "৬৯. অ্যালার্জি কী?", options: ["অতিসংবেদনশীলতা", "রোগ", "None", "None"], correct: 0 },
+        { q: "৭০. মাদকের প্রভাব?", options: ["মানসিক ভারসাম্যহীনতা", "শারীরিক ক্ষতি", "সবগুলো", "None"], correct: 2 },
+        { q: "৭১. ম্যালেরিয়া পরজীবী কোথায় বংশবৃদ্ধি করে?", options: ["মানুষ ও মশা", "শুধু মানুষ", "শুধু মশা", "None"], correct: 0 },
+        { q: "৭২. টাইফয়েড কী ঘটিত রোগ?", options: ["ব্যাকটেরিয়া", "ভাইরাস", "None", "None"], correct: 0 },
+        { q: "৭৩. যক্ষ্মা কী ঘটিত?", options: ["ব্যাকটেরিয়া", "ভাইরাস", "None", "None"], correct: 0 },
+        { q: "৭৪. পেনিসিলিন কী?", options: ["অ্যান্টিবায়োটিক", "ভ্যাকসিন", "None", "None"], correct: 0 },
+        { q: "৭৫. আহার্য শৃঙ্খল কী?", options: ["খাদ্য জাল", "খাদ্য পিরামিড", "None", "None"], correct: 0 },
+        { q: "৭৬. খাদক কয় ধরণের?", options: ["৩", "২", "৪", "None"], correct: 0 },
+        { q: "৭৭. ডিকম্পোজার কী?", options: ["বিয়োজক", "উৎপাদক", "None", "None"], correct: 0 },
+        { q: "৭৮. শক্তি পিরামিড সবসময়?", options: ["সোজা", "উল্টো", "None", "None"], correct: 0 },
+        { q: "৭৯. সংখ্যার পিরামিড?", options: ["সোজা/উল্টো", "সোজা", "উল্টো", "None"], correct: 0 },
+        { q: "৮০. বায়োম কী?", options: ["বৃহৎ বাস্তুসংস্থান", "None", "None", "None"], correct: 0 },
+        { q: "৮১. নগ্নবীজী উদ্ভিদের ফল হয় না কেন?", options: ["গর্ভাশয় নেই", "ফুল নেই", "বীজ নেই", "None"], correct: 0 },
+        { q: "৮২. ম্যান্ডেলের অনুপাত ১:১:১:১?", options: ["টেস্ট ক্রস", "ব্যাক ক্রস", "None", "None"], correct: 0 },
+        { q: "৮৩. মিউটেশন শব্দের প্রবর্তক?", options: ["ডি ভ্রিস", "মেন্ডেল", "None", "None"], correct: 0 },
+        { q: "৮৪. সলিড বর্জ্য ব্যবস্থাপনার উপায়?", options: ["পুনর্ব্যবহার", "সরাসরি বর্জন", "None", "None"], correct: 0 },
+        { q: "৮৫. বায়োমাস কী?", options: ["জৈব জ্বালানি", "কয়লা", "None", "None"], correct: 0 },
+        { q: "৮৬. অরণ্য নিধন কী ক্ষতি করে?", options: ["সবগুলো", "মাটি ক্ষয়", "খরা", "None"], correct: 0 },
+        { q: "৮৭. বন্যপ্রাণী সংরক্ষণের গুরুত্ব?", options: ["বাস্তুসংস্থান রক্ষা", "None", "None", "None"], correct: 0 },
+        { q: "৮৮. আইইউসিএন (IUCN) কী করে?", options: ["সংরক্ষণ", "গবেষণা", "None", "None"], correct: 0 },
+        { q: "৮৯. বাঘ সংরক্ষণ প্রকল্প?", options: ["প্রজেক্ট টাইগার", "None", "None", "None"], correct: 0 },
+        { q: "৯০. অভয়ারণ্য কী?", options: ["বন্যপ্রাণী আশ্রয়স্থল", "None", "None", "None"], correct: 0 },
+        { q: "৯১. DNA-এর দ্বিতন্ত্রী গঠনের ব্যাস?", options: ["২ ন্যানোমিটার", "১ ন্যানোমিটার", "None", "None"], correct: 0 },
+        { q: "৯২. পলি-এ টেইল কিসে থাকে?", options: ["mRNA", "tRNA", "None", "None"], correct: 0 },
+        { q: "৯৩. ওকাজাকি খণ্ড কোথায়?", options: ["ল্যাগিং স্ট্র্যান্ড", "লিডিং স্ট্র্যান্ড", "None", "None"], correct: 0 },
+        { q: "৯৪. রেপ্লিকেশন ফর্ক?", options: ["DNA অনুলিপন", "RNA অনুলিপন", "None", "None"], correct: 0 },
+        { q: "৯৫. জেনেটিক কোড ডিকোড করেন কে?", options: ["খোরানা", "মেন্ডেল", "None", "None"], correct: 0 },
+        { q: "৯৬. সিসট্রন কী?", options: ["DNA-এর কার্যকরী একক", "None", "None", "None"], correct: 0 },
+        { q: "৯৭. ইন্ট্রন কী?", options: ["নন-কোডিং অংশ", "কোডিং অংশ", "None", "None"], correct: 0 },
+        { q: "৯৮. এক্সন কী?", options: ["কোডিং অংশ", "নন-কোডিং অংশ", "None", "None"], correct: 0 },
+        { q: "৯৯. রাইবোমোজাইম কী?", options: ["RNA এনজাইম", "DNA এনজাইম", "None", "None"], correct: 0 },
+        { q: "১০০. বায়োটেকনোলজির জনক?", options: ["কার্ল এরিকি", "None", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
