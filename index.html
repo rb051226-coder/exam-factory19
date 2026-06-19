@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | West Bengal Board Premium Mock Test 2026</title>
+    <title>Exam Factory | Premium Mock Test Dashboard</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -35,25 +35,43 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.2);
             width: 100%;
-            max-width: 750px;
+            max-width: 700px;
             padding: 40px 30px;
             text-align: center;
-            transform-style: preserve-3d;
-            perspective: 1000px;
         }
 
-        /* 🔥 ৩ডি গ্লোয়িং লোগো/ব্র্যান্ডিং (EXAM FACTORY) */
+        /* 🖼️ লোগো বক্স স্টাইল */
+        .logo-container {
+            margin: 0 auto 20px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(134, 85, 250, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(134, 85, 250, 0.2);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 🔥 ৩ডি গ্লোয়িং ব্র্যান্ড নেম */
         .brand-logo {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             background: linear-gradient(to right, #ff7e5f, #feb47b, #8655faf5, #00f2fe);
             background-size: 300% 300%;
             animation: glowText 6s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 15px 30px rgba(134, 85, 250, 0.3);
             margin-bottom: 5px;
         }
 
@@ -65,21 +83,21 @@
 
         .subtitle {
             color: #94a3b8;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 35px;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
 
         .screen { display: none; }
-        .active { display: block; animation: fadeIn 0.5s ease-out; }
+        .active { display: block; animation: fadeIn 0.4s ease-out; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🔐 পাসওয়ার্ড ইনপুট ও ৩ডি বাটন */
+        /* 🔐 পাসওয়ার্ড ইনপুট */
         input {
             width: 100%;
             padding: 16px;
@@ -92,7 +110,6 @@
             outline: none;
             transition: all 0.3s;
             margin-bottom: 20px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
         input:focus {
@@ -100,7 +117,6 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
         }
 
-        /* 🛠️ রিয়েল ৩ডি বাটন স্টাইল */
         .btn-3d {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
@@ -111,46 +127,16 @@
             border-radius: 14px;
             cursor: pointer;
             width: 100%;
-            position: relative;
-            box-shadow: 0 6px 0 #1e40af, 0 12px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 0 #1e40af, 0 12px 20px rgba(0, 0, 0, 0.3);
             transition: all 0.1s ease;
-            transform: translateY(0);
-        }
-
-        .btn-3d:hover {
-            background: linear-gradient(135deg, #60a5fa, #2563eb);
         }
 
         .btn-3d:active {
             transform: translateY(4px);
-            box-shadow: 0 2px 0 #1e40af, 0 4px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 0 #1e40af, 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* 📊 সাবজেক্ট গ্রিড লেআউট */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .card-3d {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 15px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-
-        .card-3d:hover {
-            transform: translateY(-8px) scale(1.03);
-            background: rgba(255, 255, 255, 0.12);
-            border-color: #a855f7;
-            box-shadow: 0 15px 30px rgba(168, 85, 247, 0.3);
-        }
-
+        /* 📊 ক্লাস বাটন */
         .class-toggle {
             display: flex;
             background: rgba(0, 0, 0, 0.3);
@@ -168,7 +154,7 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 25px;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
 
         .class-btn.active-class {
@@ -177,101 +163,43 @@
             box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
-        /* 🗂️ চ্যাপ্টার ও ডিফিকাল্টি স্টাইল */
-        .list-container {
-            max-height: 200px;
-            overflow-y: auto;
-            margin: 20px 0;
-            padding-right: 5px;
-        }
-
-        .list-item {
-            background: rgba(15, 23, 42, 0.4);
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            text-align: left;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
-        }
-
-        .list-item:hover, .list-item.selected {
-            background: rgba(56, 189, 248, 0.2);
-            border-color: #38bdf8;
-        }
-
-        .level-container {
-            display: flex;
-            gap: 10px;
+        /* 🎛️ সাবজেক্ট গ্রিড */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
 
-        .level-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
+        .card-3d {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 15px;
+            border-radius: 16px;
             cursor: pointer;
-            color: white;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.3);
-            transition: 0.1s;
-        }
-        .level-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
-        .easy { background: #10b981; box-shadow: 0 4px 0 #047857; }
-        .medium { background: #f59e0b; box-shadow: 0 4px 0 #b45309; }
-        .hard { background: #ef4444; box-shadow: 0 4px 0 #b91c1c; }
-
-        /* ⏱️ পরীক্ষা স্ক্রিন ও ৩ডি অপশন বাটন */
-        .quiz-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            font-weight: 600;
-            background: rgba(0,0,0,0.2);
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
-        #timer { color: #f43f5e; animation: pulse 1s infinite; }
-        @keyframes pulse { 50% { opacity: 0.6; } }
-
-        .q-box {
-            font-size: 18px;
-            text-align: left;
-            margin-bottom: 25px;
-            line-height: 1.6;
-            background: rgba(255,255,255,0.03);
-            padding: 20px;
-            border-radius: 14px;
-            border-left: 5px solid #38bdf8;
-        }
-
-        .opt-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .opt-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
-            border-radius: 12px;
-            color: white;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .opt-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .card-3d:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.1);
             border-color: #38bdf8;
-            transform: translateX(5px);
+            box-shadow: 0 12px 24px rgba(56, 189, 248, 0.2);
+        }
+
+        .card-title {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .footer-credit {
+            margin-top: 35px;
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 1px;
         }
 
         .error { color: #ef4444; margin-top: 10px; font-weight: 600; display: none; }
@@ -280,8 +208,13 @@
 <body>
 
 <div class="glass-card">
+    
+    <div class="logo-container">
+        <img id="app-logo" src="logo.png" alt="RB">
+    </div>
+
     <div class="brand-logo">Exam Factory</div>
-    <div class="subtitle">West Bengal Board Mock Test Studio</div>
+    <div class="subtitle">West Bengal Board Testing Studio</div>
 
     <div id="lock-screen" class="screen active">
         <p style="margin-bottom: 20px; color: #cbd5e1;">সুরক্ষিত পোর্টালে প্রবেশ করতে অ্যাক্সেস কোডটি লিখুন</p>
@@ -295,85 +228,25 @@
             <button id="c11" class="class-btn active-class" onclick="setClass('Class 11')">Class 11 (একাদশ)</button>
             <button id="c12" class="class-btn" onclick="setClass('Class 12')">Class 12 (দ্বাদশ)</button>
         </div>
-        <p style="text-align: left; color: #a855f7; font-weight: 600; margin-bottom: 10px;">আপনার বিষয়টি বেছে নিন:</p>
-        <div class="grid">
-            <div class="card-3d" onclick="selectSubject('বাংলা')">📖<br><br><b>বাংলা</b></div>
-            <div class="card-3d" onclick="selectSubject('English')">🔤<br><br><b>English</b></div>
-            <div class="card-3d" onclick="selectSubject('গণিত')">📐<br><br><b>গণিত</b></div>
-            <div class="card-3d" onclick="selectSubject('ইতিহাস')">📜<br><br><b>ইতিহাস</b></div>
-            <div class="card-3d" onclick="selectSubject('ভূগোল')">🗺️<br><br><b>ভূগোল</b></div>
-            <div class="card-3d" onclick="selectSubject('পদার্থবিজ্ঞান')">⚛️<br><br><b>পদার্থবিদ্যা</b></div>
-            <div class="card-3d" onclick="selectSubject('রসায়ন')">🧪<br><br><b>রসায়ন</b></div>
-            <div class="card-3d" onclick="selectSubject('জীববিজ্ঞান')">🧬<br><br><b>জীববিজ্ঞান</b></div>
-        </div>
-    </div>
-
-    <div id="chapter-screen" class="screen">
-        <h3 id="chapter-title" style="color: #38bdf8; margin-bottom: 10px;"></h3>
-        <p style="text-align: left; color: #94a3b8; font-size: 14px;">অধ্যায় সিলেক্ট করুন:</p>
         
-        <div class="list-container" id="chapter-list">
-            </div>
-
-        <p style="text-align: left; color: #94a3b8; font-size: 14px; margin-top: 15px;">মক টেস্টের স্তর নির্বাচন করুন (৫০টি প্রশ্ন):</p>
-        <div class="level-container">
-            <button class="level-btn easy" onclick="startQuiz('Easy')">Easy</button>
-            <button class="level-btn medium" onclick="startQuiz('Medium')">Medium</button>
-            <button class="level-btn hard" onclick="startQuiz('Hard')">Hard</button>
+        <p style="text-align: left; color: #38bdf8; font-weight: 600; margin-bottom: 15px; font-size: 14px;">আপনার বিষয়টি বেছে নিন:</p>
+        
+        <div class="grid">
+            <div class="card-3d" onclick="navigateToSubject('bengali.html')">📖<span class="card-title">বাংলা</span></div>
+            <div class="card-3d" onclick="navigateToSubject('english.html')">🔤<span class="card-title">English</span></div>
+            <div class="card-3d" onclick="navigateToSubject('history.html')">📜<span class="card-title">ইতিহাস</span></div>
+            <div class="card-3d" onclick="navigateToSubject('geography.html')">🗺️<span class="card-title">ভূগোল</span></div>
         </div>
-        <button class="btn-3d" style="margin-top:20px; background:#475569; box-shadow:0 6px 0 #334155;" onclick="showScreen('dash-screen')">পেছনে যান</button>
+
+        <div class="footer-credit">POWERED BY @RB_creations._in</div>
     </div>
 
-    <div id="quiz-screen" class="screen">
-        <div class="quiz-meta">
-            <span id="q-count" style="color:#38bdf8;">প্রশ্ন: ১ / ৫০</span>
-            <span id="timer">সময়: ৫০:০০</span>
-        </div>
-        <div class="q-box" id="q-text">লোড হচ্ছে...</div>
-        <div class="opt-grid">
-            <button class="opt-btn" onclick="handleAnswer()">[A] প্রথম সম্ভাব্য উত্তর বিকল্প</button>
-            <button class="opt-btn" onclick="handleAnswer()">[B] দ্বিতীয় সম্ভাব্য উত্তর বিকল্প</button>
-            <button class="opt-btn" onclick="handleAnswer()">[C] তৃতীয় সম্ভাব্য উত্তর বিকল্প</button>
-            <button class="opt-btn" onclick="handleAnswer()">[D] চতুর্থ সম্ভাব্য উত্তর বিকল্প</button>
-        </div>
-    </div>
-
-    <div id="result-screen" class="screen">
-        <h2 style="color: #4ade80; font-size: 28px; margin-bottom: 15px;">🎉 মক টেস্ট সম্পূর্ণ!</h2>
-        <p id="result-details" style="font-size: 18px; margin-bottom: 30px; color:#cbd5e1;"></p>
-        <button class="btn-3d" onclick="restartApp()">আবার পরীক্ষা দিন</button>
-    </div>
 </div>
 
 <script>
-    // 🔑 মাস্টার পাসওয়ার্ড কনফিগারেশন
+    // 🔑 মাস্টার পাসওয়ার্ড 
     const APP_PASSWORD = "2026";
-
-    // স্টেট ভেরিয়েবল
     let currentClass = "Class 11";
-    let selectedSubject = "";
-    let selectedChapter = "";
-    let currentQuestion = 1;
-    let score = 0;
-    let timerInterval;
-    let timeLeft = 3000; // ৫০ মিনিট = ৩০০০ সেকেন্ড
-
-    // চ্যাপ্টারের ডামি লিস্ট (ওয়েস্ট বেঙ্গল বোর্ড ভিত্তিক)
-    const chaptersData = {
-        'বাংলা': ['গল্প: কর্তার ভূত / কে বাঁচায় কে বাঁচে', 'কবিতা: রূপনারানের কূলে / ক্রন্দনরতা জননীর পাশে', 'প্রবন্ধ ও নাটক', 'ভাষাতত্ত্ব ও সাহিত্যের ইতিহাস'],
-        'English': ['Prose: Leela\'s Friend / The Eyes Have It', 'Poetry: Upon Westminster Bridge / Shall I Compare Thee', 'Play & Grammar Rules', 'Composition & Writing Skills'],
-        'গণিত': ['সেট তত্ত্ব ও অপেক্ষক (Sets & Functions)', 'ত্রিকোণমিতি (Trigonometry)', 'কলনবিদ্যা (Calculus)', 'বীজগণিত ও স্থানাঙ্ক জ্যামিতি'],
-        'ইতিহাস': ['ইতিহাসের ধারণা ও উপাদান', 'ঐতিহাসিক বিবর্তন ও সাম্রাজ্য', 'রাষ্ট্রের রূপরেখা ও অর্থনীতি', 'সামাজিক ও ধর্মীয় আন্দোলন'],
-        'ভূগোল': ['প্রাকৃতিক ভূগোল ও ভূমিরূপ প্রক্রিয়া', 'বায়ুমণ্ডল ও বারিমণ্ডল', 'অর্থনৈতিক ভূগোল ও সম্পদ', 'ভারতের ম্যাপ ও আঞ্চলিক ভূগোল'],
-        'পদার্থবিজ্ঞান': ['একক, পরিমাপ ও গতিবিদ্যা', 'নিউটনের গতিসূত্র ও কার্য-ক্ষমতা-শক্তি', 'তাপগতিবিদ্যা ও মহাকর্ষ', 'স্থির তড়িৎ ও আলোর প্রতিফলন-প্রতিসরণ'],
-        'রসায়ন': ['রসায়নের প্রাথমিক ধারণা ও পরমাণুর গঠন', 'পর্যায় সারণী ও রাসায়নিক বন্ধন', 'পদার্থের গ্যাসীয় ও তরল অবস্থা', 'জৈব রসায়ন (Organic Chemistry)'],
-        'জীববিজ্ঞান': ['জীবজগতের বৈচিত্র্য ও শ্রেণীবিন্যাস', 'উদ্ভিদ ও প্রাণীর গাঠনিক সংগঠন', 'কোষের গঠন ও বিভাজন', 'মানব শারীরবিদ্যা ও বংশগতি বিজ্ঞান']
-    };
-
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
 
     function verifyPassword() {
         const input = document.getElementById('access-code').value;
@@ -385,87 +258,29 @@
         }
     }
 
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
     function setClass(className) {
         currentClass = className;
         document.getElementById('c11').classList.toggle('active-class', className === 'Class 11');
         document.getElementById('c12').classList.toggle('active-class', className === 'Class 12');
+        // ক্লাস অনুযায়ী আলাদা ফাইল লিংক করতে চাইলে ফিউচারে এখানে লজিক যোগ করা যাবে
     }
 
-    function selectSubject(sub) {
-        selectedSubject = sub;
-        document.getElementById('chapter-title').innerText = `${currentClass} ➔ ${selectedSubject}`;
-        
-        const listContainer = document.getElementById('chapter-list');
-        listContainer.innerHTML = '';
-        
-        chaptersData[sub].forEach((ch, idx) => {
-            const div = document.createElement('div');
-            div.className = 'list-item' + (idx === 0 ? ' selected' : '');
-            div.innerText = ch;
-            div.onclick = function() {
-                document.querySelectorAll('.list-item').forEach(i => i.classList.remove('selected'));
-                div.classList.add('selected');
-                selectedChapter = ch;
-            };
-            listContainer.appendChild(div);
-        });
-        
-        selectedChapter = chaptersData[sub][0]; 
-        showScreen('chapter-screen');
+    // 🚀 সাবজেক্টের আলাদা ফাইলে যাওয়ার ফাংশন
+    function navigateToSubject(pageName) {
+        window.location.href = pageName;
     }
 
-    function startQuiz(level) {
-        currentQuestion = 1;
-        score = 0;
-        timeLeft = 3000; // ৫০ মিনিট ফিক্সড টাইমার
-        showScreen('quiz-screen');
-        updateQuestionUI();
-        
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            if(timeLeft <= 0) {
-                endQuiz();
-            } else {
-                timeLeft--;
-                let min = Math.floor(timeLeft / 60);
-                let sec = timeLeft % 60;
-                document.getElementById('timer').innerText = `সময়: ${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }
-        }, 1000);
-    }
-
-    function updateQuestionUI() {
-        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestion} / ৫০`;
-        document.getElementById('q-text').innerText = `[${selectedChapter}] অধ্যায়ের ওপর মক টেস্টের প্রশ্ন নম্বর ${currentQuestion}: সঠিক বিকল্পটি নির্বাচন করুন।`;
-    }
-
-    function handleAnswer() {
-        if(Math.random() > 0.3) score++; // সিমুলেটেড সঠিক উত্তর ট্র্যাকিং
-        
-        if(currentQuestion < 50) {
-            currentQuestion++;
-            updateQuestionUI();
-        } else {
-            endQuiz();
-        }
-    }
-
-    function endQuiz() {
-        clearInterval(timerInterval);
-        showScreen('result-screen');
-        document.getElementById('result-details').innerHTML = `
-            বিষয়: <b style="color:#38bdf8;">${selectedSubject}</b><br>
-            অধ্যায়: <b>${selectedChapter}</b><br><br>
-            আপনি ৫০ টি প্রশ্নের মধ্যে মোট <b style="color:#4ade80; font-size:24px;">${score}</b> টি সঠিক উত্তর দিয়েছেন।
-        `;
-    }
-
-    function restartApp() {
-        document.getElementById('access-code').value = '';
-        showScreen('dash-screen');
-    }
+    // যদি লোগো ইমেজ খুঁজে না পায়, তবে ব্যাকআপ হিসেবে একটা টেক্সট বা সুন্দর ডিজাইন দেখাবে
+    document.getElementById('app-logo').onerror = function() {
+        this.style.display = 'none';
+        document.querySelector('.logo-container').innerHTML = "<b style='color:#38bdf8; font-size:24px;'>RB</b>";
+    };
 </script>
 
 </body>
 </html>
-
