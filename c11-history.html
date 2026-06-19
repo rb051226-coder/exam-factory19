@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C11-History Random Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">C11-History প্র্যাকটিস (Randomized)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. মেসোপটেমিয়ার সভ্যতা কোথায় গড়ে ওঠে?", options: ["দজলা ও ফোরাত", "নীল", "সিন্ধু", "হোয়াংহো"], correct: 0 },
+        { q: "২. প্রাচীন মিশরের রাজাদের বলা হতো?", options: ["সেন্ট", "ফারাও", "সামন্ত", "পোপ"], correct: 1 },
+        { q: "৩. সিন্ধু সভ্যতার প্রধান বন্দর কী?", options: ["লোথাল", "হরপ্পা", "মহেনজোদারো", "কালিবঙ্গান"], correct: 0 },
+        { q: "৪. স্পার্টার শাসন ব্যবস্থা কেমন ছিল?", options: ["গণতন্ত্র", "অভিজাততন্ত্র", "একনায়কতন্ত্র", "সামন্ততন্ত্র"], correct: 1 },
+        { q: "৫. হ্যামুরাবি কোন দেশের আইন প্রণেতা?", options: ["ব্যাবিলন", "মিশর", "রোম", "চীন"], correct: 0 },
+        { q: "৬. 'জিগুরাত' কী?", options: ["মন্দির", "পিরামিড", "দুর্গ", "বাজার"], correct: 0 },
+        { q: "৭. সক্রেটিসের শিষ্য কে ছিলেন?", options: ["প্লেটো", "অ্যারিস্টটল", "আলেকজান্ডার", "হোমার"], correct: 0 },
+        { q: "৮. রোম সাম্রাজ্যের প্রতিষ্ঠাতা কে?", options: ["অগাস্টাস সিজার", "জুলিয়াস সিজার", "নীরো", "কনস্টানটাইন"], correct: 0 },
+        { q: "৯. ম্যানর ব্যবস্থা কোথায় গড়ে উঠেছিল?", options: ["ইউরোপে", "ভারতে", "চীনে", "জাপানে"], correct: 0 },
+        { q: "১০. ‘পোলিস’ বলতে কী বোঝায়?", options: ["নগর-রাষ্ট্র", "গ্রাম", "রাজ্য", "বাজার"], correct: 0 },
+        { q: "১১. কৌটিল্য কার প্রধানমন্ত্রী ছিলেন?", options: ["চন্দ্রগুপ্ত মৌর্য", "অশোক", "বিম্বিসার", "কনিষ্ক"], correct: 0 },
+        { q: "১২. আলেকজান্ডার কবে ভারত আক্রমণ করেন?", options: ["৩২৬ খ্রিঃপূঃ", "৩০০ খ্রিঃপূঃ", "৩৫০ খ্রিঃপূঃ", "৪০৫ খ্রিঃপূঃ"], correct: 0 },
+        { q: "১৩. কনফুসিয়াস কে ছিলেন?", options: ["চীনা দার্শনিক", "সম্রাট", "কবি", "পণ্ডিত"], correct: 0 },
+        { q: "১৪. প্রাচীন ভারতে বর্ণপ্রথা ছিল কয়টি?", options: ["৪টি", "৫টি", "৩টি", "৬টি"], correct: 0 },
+        { q: "১৫. রেনেসাঁ কথাটির অর্থ কী?", options: ["পুনর্জন্ম", "বিপ্লব", "পরিবর্তন", "আবিষ্কার"], correct: 0 },
+        { q: "১৬. ইতালির কোন শহরে রেনেসাঁ শুরু হয়?", options: ["ফ্লোরেন্স", "রোম", "ভেনিস", "মিলান"], correct: 0 },
+        { q: "১৭. 'মোনালিসা' চিত্রটি কে এঁকেছিলেন?", options: ["লিওনার্দো দ্য ভিঞ্চি", "মাইকেল এঞ্জেলো", "রাফায়েল", "দানতে"], correct: 0 },
+        { q: "১৮. মার্টিন লুথার কে ছিলেন?", options: ["ধর্মসংস্কারক", "রাজা", "কবি", "চিত্রশিল্পী"], correct: 0 },
+        { q: "১৯. পঞ্চদশ লুই কে ছিলেন?", options: ["ফরাসি রাজা", "ইংরেজ রাজা", "জার্মান রাজা", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. শিল্প বিপ্লব কোথায় শুরু হয়?", options: ["ইংল্যান্ডে", "ফ্রান্সে", "জার্মানিতে", "ইতালিতে"], correct: 0 },
+        { q: "২১. কোন যুগে সামন্ততন্ত্রের বিকাশ ঘটে?", options: ["মধ্যযুগ", "প্রাচীন যুগ", "আধুনিক যুগ", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. ‘সার্ফ’ কাদের বলা হতো?", options: ["ভূমিদাস", "রাজা", "পুরোহিত", "সামন্ত"], correct: 0 },
+        { q: "২৩. গিল্ড ব্যবস্থা কী সংক্রান্ত?", options: ["শিল্প ও বাণিজ্য", "ধর্ম", "শিক্ষা", "খেলাধুলা"], correct: 0 },
+        { q: "২৪. ক্যাসেল বা দুর্গ কাদের বাসস্থান ছিল?", options: ["সামন্তপ্রভু", "কৃষক", "দোকানদার", "পুরোহিত"], correct: 0 },
+        { q: "২৫. মধ্যযুগের প্রধান ধর্ম কী ছিল?", options: ["খ্রিস্টধর্ম", "ইসলাম", "হিন্দুধর্ম", "বৌদ্ধধর্ম"], correct: 0 },
+        { q: "২৬. ধর্মযুদ্ধ বা ক্রুসেড কাদের মধ্যে হয়েছিল?", options: ["খ্রিস্টান ও মুসলিম", "রাজা ও প্রজা", "ভারত ও চীন", "রোম ও গ্রিস"], correct: 0 },
+        { q: "২৭. মধ্যযুগের শেষ দিকে কোন নতুন অর্থনৈতিক ব্যবস্থা আসে?", options: ["বাণিজ্যিক পুঁজিবাদ", "সামন্তবাদ", "দাসপ্রথা", "কৃষিভিত্তিক"], correct: 0 },
+        { q: "২৮. ইউরোপে রেনেসাঁর সময়কাল কী?", options: ["চতুর্দশ-ষোড়শ শতাব্দী", "দশম-দ্বাদশ", "অষ্টাদশ", "বিংশ"], correct: 0 },
+        { q: "২৯. ‘ডিসকোর্স অন মেথড’ গ্রন্থটির রচয়িতা?", options: ["দেকার্ত", "বেকন", "গ্যালিলিও", "নিউটন"], correct: 0 },
+        { q: "৩০. দূরবীন কে আবিষ্কার করেন?", options: ["গ্যালিলিও", "নিউটন", "কেপলার", "কোপারনিকাস"], correct: 0 },
+        { q: "৩১. ‘উইথ অল মাই হার্ট’—এটি কার উক্তি?", options: ["রাণী এলিজাবেথ", "নেপোলিয়ন", "ম্যাকিয়াভেলি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. ‘প্রিন্স’ গ্রন্থটি কার লেখা?", options: ["ম্যাকিয়াভেলি", "দান্তে", "পেত্রার্ক", "ইরাস্মাস"], correct: 0 },
+        { q: "৩৩. ধর্মসংস্কার আন্দোলনের জনক কে?", options: ["মার্টিন লুথার", "ক্যালভিন", "জুইংলি", "পোপ"], correct: 0 },
+        { q: "৩৪. ‘ইনডালজেন্স’ কী?", options: ["পাপমোচনের পত্র", "রাজকর", "ধর্মগ্রন্থ", "ভোজ"], correct: 0 },
+        { q: "৩৫. কোন শতাব্দীকে ‘যুক্তিবাদী যুগ’ বলা হয়?", options: ["অষ্টাদশ", "সপ্তদশ", "ষোড়শ", "পঞ্চদশ"], correct: 0 },
+        { q: "৩৬. শিল্প বিপ্লবের ফলে কী বৃদ্ধি পায়?", options: ["উৎপাদন", "দারিদ্র্য", "যুদ্ধ", "ধর্ম"], correct: 0 },
+        { q: "৩৭. স্টিম ইঞ্জিন কে আবিষ্কার করেন?", options: ["জেমস ওয়াট", "স্টিফেনসন", "আর্করাইট", "নিউকমেন"], correct: 0 },
+        { q: "৩৮. ‘কমিউনিস্ট ম্যানিফেস্টো’ কার লেখা?", options: ["মার্কস ও এঙ্গেলস", "লেনিন", "স্টালিন", "রুশো"], correct: 0 },
+        { q: "৩৯. আমেরিকার স্বাধীনতা যুদ্ধে কে নেতৃত্ব দেন?", options: ["জর্জ ওয়াশিংটন", "লিংকন", "জেফারসন", "ফ্রাঙ্কলিন"], correct: 0 },
+        { q: "৪০. ফরাসি বিপ্লব কবে হয়?", options: ["১৭৮৯", "১৭৭৬", "১৮১৫", "১৮৩০"], correct: 0 },
+        { q: "৪১. ‘হায়ারোগ্লিফিক’ লিপির অর্থ কী?", options: ["পবিত্র লিপি", "চিত্র লিপি", "কীলক লিপি", "বর্ণ লিপি"], correct: 0 },
+        { q: "৪২. ‘জিগুরাত’ কোথায় দেখা যেত?", options: ["সুমেরীয় সভ্যতা", "মিশরীয়", "সিন্ধু", "চীনা"], correct: 0 },
+        { q: "৪৩. আলেকজান্ডার কোন দেশের রাজা ছিলেন?", options: ["ম্যাসিডোনিয়া", "রোম", "পারস্য", "মিশর"], correct: 0 },
+        { q: "৪৪. ‘ইলিয়াড’ ও ‘ওডিসি’ কার লেখা?", options: ["হোমার", "হেসিয়ড", "সক্রটিস", "প্লেটো"], correct: 0 },
+        { q: "৪৫. গ্রিসের শ্রেষ্ঠ শহর কোনটি ছিল?", options: ["অ্যাথেন্স", "স্পার্টা", "করিন্থ", "থিবস"], correct: 0 },
+        { q: "৪৬. রোমান আইন ছিল?", options: ["লিখিত", "অলিখিত", "মুখস্থ", "ধর্মীয়"], correct: 0 },
+        { q: "৪৭. ‘সম্রাট’ উপাধি কে গ্রহণ করেন?", options: ["অগাস্টাস", "জুলিয়াস সিজার", "নীরো", "টাইবেরিয়াস"], correct: 0 },
+        { q: "৪৮. প্রথম গিল্ড ব্যবস্থা কোথায় দেখা যায়?", options: ["মধ্যযুগীয় ইউরোপ", "ভারত", "চীন", "মিশর"], correct: 0 },
+        { q: "৪৯. সামন্ততন্ত্রের ভিত্তি ছিল কী?", options: ["ভূমি", "ব্যবসা", "দোকান", "যুদ্ধ"], correct: 0 },
+        { q: "৫০. রেনেসাঁ কথাটির মানে কী?", options: ["পুনর্জাগরণ", "বিনাশ", "অগ্রগতি", "শান্তি"], correct: 0 },
+        { q: "৫১. লিওনার্দো দা ভিঞ্চি কে ছিলেন?", options: ["বহুগুণী শিল্পী", "কবি", "রাজা", "সেনাপতি"], correct: 0 },
+        { q: "৫২. প্রিন্টিং প্রেস কে আবিষ্কার করেন?", options: ["গুটেনবার্গ", "কাক্সটন", "ম্যাক্সিমিলিয়ান", "লুথার"], correct: 0 },
+        { q: "৫৩. মার্টিন লুথার কোন দেশের মানুষ ছিলেন?", options: ["জার্মানি", "ফ্রান্স", "ইতালি", "ইংল্যান্ড"], correct: 0 },
+        { q: "৫৪. শিল্প বিপ্লব সর্বপ্রথম কোন শিল্পে শুরু হয়?", options: ["বস্ত্র শিল্প", "লোহা শিল্প", "কয়লা", "পরিবহন"], correct: 0 },
+        { q: "৫৫. জেমস হারগ্রিভস কী আবিষ্কার করেন?", options: ["স্পিনিং জেনি", "বাষ্পীয় ইঞ্জিন", "পাওয়ার লুম", "সেফটি ল্যাম্প"], correct: 0 },
+        { q: "৫৬. ‘ওয়েলথ অফ নেশনস’ কার বই?", options: ["অ্যাডাম স্মিথ", "মার্কস", "রিকার্ডো", "ম্যালথাস"], correct: 0 },
+        { q: "৫৭. আমেরিকার স্বাধীনতা যুদ্ধ কত সালে শেষ হয়?", options: ["১৭৮৩", "১৭৭৬", "১৭৮৯", "১৮০০"], correct: 0 },
+        { q: "৫৮. বাস্টিল দুর্গের পতন কবে হয়?", options: ["১৪ জুলাই ১৭৮৯", "৪ জুলাই ১৭৭৬", "১০ আগস্ট ১৭৯২", "২৫ ডিসেম্বর ১৭৯৯"], correct: 0 },
+        { q: "৫৯. ‘সাম্য, মৈত্রী, স্বাধীনতা’ কোন বিপ্লবের স্লোগান?", options: ["ফরাসি", "আমেরিকান", "রুশ", "শিল্প"], correct: 0 },
+        { q: "৬০. নেপোলিয়ন বোনাপার্ট কে ছিলেন?", options: ["ফরাসি সম্রাট", "ইংরেজ জেনারেল", "জার্মান রাজা", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. সিন্ধু সভ্যতার মানুষ কিসের পূজো করত?", options: ["পশুপতি", "সূর্য", "চন্দ্র", "অগ্নি"], correct: 0 },
+        { q: "৬২. মিশরীয় সভ্যতায় পিরামিড কেন বানানো হতো?", options: ["সমাধি হিসেবে", "মন্দির হিসেবে", "প্রাসাদ হিসেবে", "শস্যাগার হিসেবে"], correct: 0 },
+        { q: "৬৩. মেসোপটেমিয়ার প্রধান ঈশ্বর কে ছিলেন?", options: ["এনলিল", "রা", "ওসিরিস", "জুপিটার"], correct: 0 },
+        { q: "৬৪. পারস্য সম্রাট দরায়ুস কে ছিলেন?", options: ["মহান সম্রাট", "কবি", "পুরোহিত", "নাবিক"], correct: 0 },
+        { q: "৬৫. অ্যাথেন্সের গণতন্ত্রের জনক কে?", options: ["ক্লিসথিনিস", "পেরিক্লিস", "সোলোন", "ড্রাকো"], correct: 0 },
+        { q: "৬৬. স্পার্টানদের মূল জীবিকা কী ছিল?", options: ["যুদ্ধ", "ব্যবসা", "কৃষি", "শিল্প"], correct: 0 },
+        { q: "৬৭. রোমান স্থাপত্যের শ্রেষ্ঠ নিদর্শন?", options: ["কলসিয়াম", "পিরামিড", "পারথেনন", "জিগুরাত"], correct: 0 },
+        { q: "৬৮. সামন্ততান্ত্রিক সমাজে সর্বনিম্ন স্তরে কারা থাকত?", options: ["দাস বা ভূমিদাস", "নাইট", "ব্যারন", "রাজা"], correct: 0 },
+        { q: "৬৯. নাইটদের প্রধান কাজ কী ছিল?", options: ["যুদ্ধ", "চাষবাস", "বানিজ্য", "শিক্ষা"], correct: 0 },
+        { q: "৭০. মধ্যযুগের বিশ্ববিদ্যালয় কোথায় অবস্থিত ছিল?", options: ["বোলোগনা", "অক্সফোর্ড", "ক্যামব্রিজ", "সবকটি"], correct: 0 },
+        { q: "৭১. রেনেসাঁ যুগের বিখ্যাত ভাস্কর কে?", options: ["মাইকেল এঞ্জেলো", "দান্তে", "পেত্রার্ক", "মাচিয়াভেলি"], correct: 0 },
+        { q: "৭২. ‘ডিভাইন কমেডি’ কার লেখা?", options: ["দান্তে", "বোকাচ্চিও", "পেত্রার্ক", "চসার"], correct: 0 },
+        { q: "৭৩. ক্যালভিনবাদ কোথায় ছড়িয়েছিল?", options: ["সুইজারল্যান্ড", "ইংল্যান্ড", "ফ্রান্স", "জার্মানি"], correct: 0 },
+        { q: "৭৪. শিল্প বিপ্লবের ফলে কোন নতুন শ্রেণী তৈরি হয়?", options: ["সর্বহারা ও পুঁজিবাদী", "সামন্ত", "পুরোহিত", "কৃষক"], correct: 0 },
+        { q: "৭৫. রেলপথের জনক কাকে বলা হয়?", options: ["জর্জ স্টিফেনসন", "জেমস ওয়াট", "ফ্যারাডে", "নিউটন"], correct: 0 },
+        { q: "৭৬. আমেরিকার সংবিধানে কয়টি সংশোধনী ছিল?", options: ["অনেক", "দশটি", "পাঁচটি", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. ‘টেরর অফ রেইন’ বা সন্ত্রাসের রাজত্ব কার সময়ে হয়েছিল?", options: ["রোবেস্পিয়র", "নেপোলিয়ন", "লুই", "মারাত"], correct: 0 },
+        { q: "৭৮. নেপোলিয়নের শেষ যুদ্ধ কোনটি?", options: ["ওয়াটারলু", "লাইপজিগ", "অস্টেরলিটজ", "ট্রাফালগার"], correct: 0 },
+        { q: "৭৯. সিন্ধু সভ্যতায় কোন ধাতুর ব্যবহার ছিল না?", options: ["লোহা", "তামা", "ব্রোঞ্জ", "সোনা"], correct: 0 },
+        { q: "৮০. মিশরীয় লিপি কী নামে পরিচিত?", options: ["হায়ারোগ্লিফিক", "কিউনিফর্ম", "সংস্কৃত", "ল্যাটিন"], correct: 0 },
+        { q: "৮১. ব্যবিলনের ঝুলন্ত উদ্যান কার কীর্তি?", options: ["নেবুচাদনেজার", "হ্যামুরাবি", "সারগন", "দারিয়ুস"], correct: 0 },
+        { q: "৮২. গ্রিসের দার্শনিকরা কিসে বিশ্বাসী ছিলেন?", options: ["যুক্তিবাদ", "কুসংস্কার", "জাদু", "রাজতন্ত্র"], correct: 0 },
+        { q: "৮৩. ‘পেলোপনেসীয় যুদ্ধ’ কাদের মধ্যে হয়?", options: ["অ্যাথেন্স ও স্পার্টা", "রোম ও গ্রিস", "পারস্য ও গ্রিস", "রোম ও কার্থেজ"], correct: 0 },
+        { q: "৮৪. রোমের পতন কবে হয়?", options: ["৪৭৬ খ্রিস্টাব্দে", "৪০০", "৫০০", "৩০০"], correct: 0 },
+        { q: "৮৫. সামন্ততন্ত্রের মূল উদ্দেশ্য কী ছিল?", options: ["নিরাপত্তা", "ব্যবসা", "শিক্ষা", "বিনোদন"], correct: 0 },
+        { q: "৮৬. মধ্যযুগে গির্জার প্রধান কে ছিলেন?", options: ["পোপ", "রাজা", "সামন্ত", "নাইট"], correct: 0 },
+        { q: "৮৭. রেনেসাঁ কোথায় জন্ম নিয়েছিল?", options: ["ইতালি", "ফ্রান্স", "জার্মানি", "ইংল্যান্ড"], correct: 0 },
+        { q: "৮৮. ‘উথোপিয়া’ কার লেখা?", options: ["টমাস মোর", "ইরাস্মাস", "চসার", "দান্তে"], correct: 0 },
+        { q: "৮৯. কাউন্টার রিফর্মেশন বা প্রতি-ধর্মসংস্কার আন্দোলন কিসের বিরুদ্ধে ছিল?", options: ["প্রোটেস্ট্যান্ট", "ক্যাথলিক", "ইসলাম", "বৌদ্ধ"], correct: 0 },
+        { q: "৯০. প্রথম ফ্যাক্টরি আইন কবে হয়?", options: ["১৮৩৩", "১৮১৯", "১৮৫০", "১৮০০"], correct: 0 },
+        { q: "৯১. ‘ক্যাপিটাল’ কার লেখা?", options: ["কার্ল মার্কস", "এঙ্গেলস", "লেনিন", "রুশো"], correct: 0 },
+        { q: "৯২. আমেরিকা কবে স্বাধীন হয়?", options: ["১৭৭৬", "১৭৮৩", "১৭৮৯", "১৮০০"], correct: 0 },
+        { q: "৯৩. ‘সোশ্যাল কন্ট্রাক্ট’ কার লেখা?", options: ["রুশো", "ভলতেয়ার", "মন্টেস্কু", "লক"], correct: 0 },
+        { q: "৯৪. ফরাসি বিপ্লবের প্রতীক কী ছিল?", options: ["বাস্টিল দুর্গ", "রাজপ্রাসাদ", "পতাকা", "তলোয়ার"], correct: 0 },
+        { q: "৯৫. সিন্ধু সভ্যতার ঘরবাড়ি কিসের তৈরি?", options: ["পোড়া ইটের", "কাঠের", "পাথরের", "মাটির"], correct: 0 },
+        { q: "৯৬. মেসোপটেমিয়ার লিপির নাম?", options: ["কিউনিফর্ম", "হায়ারোগ্লিফিক", "ব্রাহ্মী", "ল্যাটিন"], correct: 0 },
+        { q: "৯৭. প্লেটো ছিলেন কে?", options: ["দার্শনিক", "রাজা", "সেনাপতি", "চিকিৎসক"], correct: 0 },
+        { q: "৯৮. রোমের বিখ্যাত বক্তা কে ছিলেন?", options: ["সিসারো", "সিজার", "অগাস্টাস", "ভার্জিল"], correct: 0 },
+        { q: "৯৯. মধ্যযুগের সমাজ কী ধরনের ছিল?", options: ["কৃষিভিত্তিক", "শিল্পভিত্তিক", "শহরভিত্তিক", "যাযাবর"], correct: 0 },
+        { q: "১০০. রেনেসাঁ যুগের শেষ দিকের প্রতিভা কে?", options: ["শেক্সপিয়র", "দান্তে", "চসার", "পেত্রার্ক"], correct: 0 }
+    ];
+
+    // শাফেল বা এলোমেলো করার ফাংশন
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // প্রশ্নগুলো শাফেল করে নেওয়া
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    
+    init();
+</script>
+</body>
+</html>
