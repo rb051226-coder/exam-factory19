@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Factory - Full Mock Test</title>
+<title>Exam Factory - Final System</title>
 
 <style>
 body{
@@ -18,13 +18,13 @@ padding:20px;
 background:rgba(255,255,255,0.08);
 padding:20px;
 border-radius:15px;
-max-width:700px;
+max-width:750px;
 margin:auto;
 backdrop-filter:blur(10px);
 }
 
 button{
-padding:10px;
+padding:12px;
 margin:8px;
 border:none;
 border-radius:10px;
@@ -39,6 +39,12 @@ display:flex;
 justify-content:space-between;
 margin-bottom:10px;
 }
+
+select{
+padding:10px;
+margin:10px;
+border-radius:10px;
+}
 </style>
 </head>
 
@@ -46,12 +52,30 @@ margin-bottom:10px;
 
 <div class="box">
 
+<h2>EXAM FACTORY MOCK TEST</h2>
+
+<!-- SUBJECT + DIFFICULTY -->
+<select id="subject">
+<option>বাংলা</option>
+<option>English</option>
+<option>Mathematics</option>
+<option>History</option>
+<option>Geography</option>
+<option>Science</option>
+</select>
+
+<select id="level">
+<option>Easy</option>
+<option>Medium</option>
+<option>Hard</option>
+</select>
+
 <div class="top">
-<p id="qno">Question 1</p>
+<p id="qno">Question 1/50</p>
 <p id="timer">60:00</p>
 </div>
 
-<h3 id="question">Loading...</h3>
+<h3 id="question">লোড হচ্ছে...</h3>
 
 <div id="options"></div>
 
@@ -61,19 +85,31 @@ margin-bottom:10px;
 
 <script>
 
-// 🔥 50 Questions System (sample structure)
-let questions = Array.from({length:50}, (_,i)=>({
-q:`Sample Question ${i+1}: West Bengal Board Practice`,
+// 🔥 FULL 50 QUESTIONS SYSTEM (Demo Structure)
+let questions = [];
+
+function generateQuestions(subject, level){
+questions = Array.from({length:50}, (_,i)=>({
+q:`${subject} (${level}) Question ${i+1}`,
 o:["Option A","Option B","Option C","Option D"],
 a: Math.floor(Math.random()*4)
 }));
+}
 
 let index = 0;
 let score = 0;
 let time = 3600;
 
-function loadQuestion(){
+// start exam
+function startExam(){
+let subject = document.getElementById("subject").value;
+let level = document.getElementById("level").value;
 
+generateQuestions(subject, level);
+loadQuestion();
+}
+
+function loadQuestion(){
 let q = questions[index];
 
 document.getElementById("qno").innerText = "Question "+(index+1)+"/50";
@@ -85,13 +121,12 @@ optDiv.innerHTML="";
 q.o.forEach((val,i)=>{
 let btn = document.createElement("button");
 btn.innerText = val;
-btn.onclick = ()=>checkAnswer(i);
+btn.onclick = ()=>check(i);
 optDiv.appendChild(btn);
 });
 }
 
-function checkAnswer(i){
-
+function check(i){
 if(i === questions[index].a){
 score++;
 }
@@ -101,17 +136,14 @@ index++;
 if(index < questions.length){
 loadQuestion();
 }else{
-showResult();
-}
-}
-
-function showResult(){
 document.getElementById("question").innerText="Exam Finished 🎉";
 document.getElementById("options").innerHTML="";
 document.getElementById("result").innerHTML=
 "Score: "+score+"/50<br>Percentage: "+(score*2)+"%";
 }
+}
 
+// timer
 setInterval(()=>{
 let m = Math.floor(time/60);
 let s = time%60;
@@ -122,7 +154,8 @@ m+":"+String(s).padStart(2,"0");
 if(time>0) time--;
 },1000);
 
-loadQuestion();
+// auto start
+startExam();
 
 </script>
 
