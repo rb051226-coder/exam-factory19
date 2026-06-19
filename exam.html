@@ -135,7 +135,29 @@ index++;
 
 if(index < questions.length){
 loadQuestion();
-}else{
+function showResult(){
+
+// Supabase এ save (এখন dummy version)
+fetch("https://YOUR_SUPABASE_URL/rest/v1/results", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+"apikey": "YOUR_SUPABASE_ANON_KEY",
+"Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"
+},
+body: JSON.stringify({
+name: "Student",
+score: score
+})
+});
+
+document.getElementById("question").innerText = "Exam Finished 🎉";
+document.getElementById("options").innerHTML = "";
+
+document.getElementById("result").innerHTML =
+"Score: " + score + "/50<br>Percentage: " + (score * 2) + "%";
+
+}
 document.getElementById("question").innerText="Exam Finished 🎉";
 document.getElementById("options").innerHTML="";
 localStorage.setItem("score", score);
