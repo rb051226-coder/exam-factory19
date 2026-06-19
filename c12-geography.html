@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Geography 2026 - 100 MCQs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি ভূগোল: ১০০ সাজেশন প্রশ্ন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. ভৌমজলের প্রধান উৎস কী?", options: ["উৎসগত জল", "আকাশ থেকে পড়া জল", "সমুদ্রের জল", "কোনটিই নয়"], correct: 1 },
+        { q: "২. কাষ্ট ভূমিরূপের প্রধান নিয়ন্ত্রক কে?", options: ["নদী", "বায়ু", "ভৌমজল", "হিমবাহ"], correct: 2 },
+        { q: "৩. স্ট্যালাকটাইট দেখা যায়—", options: ["নদীতে", "গুহায়", "মরুভূমিতে", "উপকূলে"], correct: 1 },
+        { q: "৪. ডেভিসের ক্ষয়চক্রের যৌবন অবস্থায় ভূমিরূপ—", options: ["উঁচু হয়", "নিচু হয়", "সমতল হয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫. অবরোহণ প্রক্রিয়ায় ভূমিরূপের উচ্চতা—", options: ["বৃদ্ধি পায়", "হ্রাস পায়", "স্থির থাকে", "কোনটিই নয়"], correct: 1 },
+        { q: "৬. গ্রেডেশন বা পর্যায়ন শব্দটি কে প্রবর্তন করেন?", options: ["জি. কে. গিলবার্ট", "ডেভিস", "পেনক", "হটন"], correct: 0 },
+        { q: "৭. স্বাভাবিক ক্ষয়চক্রের তাত্ত্বিক রূপকার হলেন—", options: ["উইলিয়াম মরিস ডেভিস", "পেনক", "কিংস", "হটন"], correct: 0 },
+        { q: "৮. একটি মুক্ত জলস্তর কী?", options: ["আর্টেজীয় কূপ", "গিজার", "ঝরনা", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. কোন প্রকার শিলাস্তরে ভৌমজল সঞ্চিত হয়?", options: ["অভেদ্য", "ভেদ্য", "অগ্নিজ", "কোয়ার্টজ"], correct: 1 },
+        { q: "১০. সামুদ্রিক গুহা গঠিত হয়—", options: ["ক্ষয়কার্যে", "সঞ্চয়কার্যে", "পরিবহনে", "কোনটিই নয়"], correct: 0 },
+        { q: "১১. ডালমেশিয়ান উপকূল কার উদাহরণ?", options: ["নিমজ্জিত", "উত্থিত", "অগ্নিজ", "কোনটিই নয়"], correct: 0 },
+        { q: "১২. প্রবাল প্রাচীর দেখা যায়—", options: ["ক্রান্তীয় সমুদ্রে", "মেরু সমুদ্রে", "নদীতে", "হ্রদে"], correct: 0 },
+        { q: "১৩. ল্যাপিজ (Lapies) গঠিত হয়—", options: ["চুনাপাথর অঞ্চলে", "হিমবাহে", "মরুভূমিতে", "নদীতে"], correct: 0 },
+        { q: "১৪. নদীর বাঁক বা মিয়েন্ডার সৃষ্টির প্রধান কারণ—", options: ["পার্শ্ব ক্ষয়", "উর্ধ্ব ক্ষয়", "বন্যা", "কোনটিই নয়"], correct: 0 },
+        { q: "১৫. নদী গ্রাস দেখা যায়—", options: ["উচ্চগতিতে", "মধ্যগতিতে", "নিম্নগতিতে", "মোহনায়"], correct: 0 },
+        { q: "১৬. মরুভূমি অঞ্চলে বায়ু দ্বারা গঠিত ক্ষয়জাত ভূমিরূপ—", options: ["ইয়ারদাং", "বালিয়াড়ি", "লোয়েস", "কোনটিই নয়"], correct: 0 },
+        { q: "১৭. শুষ্ক অঞ্চলে গঠিত গিরিখাতকে কী বলে?", options: ["ক্যানিয়ন", "আই-আকৃতির উপত্যকা", "ভি-আকৃতির উপত্যকা", "কোনটিই নয়"], correct: 0 },
+        { q: "১৮. মৃত্তিকার পিএইচ (pH) ৭-এর কম হলে তা—", options: ["অম্লীয়", "ক্ষারীয়", "নিরপেক্ষ", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. পলি মাটি প্রধানত—", options: ["অঞ্চলভেদে পরিবর্তিত", "অপরিবর্তিত", "চুনময়", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. কৃষ্ণ মৃত্তিকা বা রেগুর দেখা যায়—", options: ["মহারাষ্ট্রে", "বাংলায়", "পাঞ্জাবে", "অসম"], correct: 0 },
+        { q: "২১. মৃত্তিকার ক্ষয় রোধের প্রধান উপায়—", options: ["বৃক্ষরোপণ", "ঝুম চাষ", "বন নিধন", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. এল-নিনো দেখা যায়—", options: ["প্রশান্ত মহাসাগরে", "আটলান্টিক", "ভারত", "আর্কটিক"], correct: 0 },
+        { q: "২৩. ঘূর্ণিঝড়ের 'চোখ' থাকে—", options: ["কেন্দ্রে", "প্রান্তে", "ঊর্ধ্বে", "নিচে"], correct: 0 },
+        { q: "২৪. নাতিশীতোষ্ণ ঘূর্ণবাতের বায়ুর প্রকৃতি—", options: ["উষ্ণ ও শীতল বায়ুর মিলন", "শীতল বায়ু", "উষ্ণ বায়ু", "কোনটিই নয়"], correct: 0 },
+        { q: "২৫. একটি জীববৈচিত্র্য হটস্পট হলো—", options: ["পশ্চিমঘাট", "মরুভূমি", "গঙ্গাসাগর", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. ভারতের বৃহত্তম ম্যানগ্রোভ অরণ্য কোথায়?", options: ["সুন্দরবন", "অন্ধ্রপ্রদেশ", "ওড়িশা", "গুজরাট"], correct: 0 },
+        { q: "২৭. জলবায়ু পরিবর্তনের ফলে—", options: ["সমুদ্রতলের উচ্চতা বৃদ্ধি", "মরুকরণ", "অকাল বন্যা", "সবকটি"], correct: 3 },
+        { q: "২৮. শস্যাবর্তনের মূল উদ্দেশ্য—", options: ["মাটির উর্বরতা বৃদ্ধি", "উৎপাদন কমানো", "খরচ বৃদ্ধি", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. সবুজ বিপ্লব ভারতের কোন রাজ্যে প্রথম শুরু হয়?", options: ["পাঞ্জাব", "বাংলা", "কেরালা", "বিহার"], correct: 0 },
+        { q: "৩০. ভারতের চা রপ্তানিতে প্রথম—", options: ["ভারত", "চীন", "কেনিয়া", "শ্রীলঙ্কা"], correct: 0 },
+        { q: "৩১. হীরাকুড বাঁধ কোন নদীতে?", options: ["মহানদী", "গঙ্গা", "দামোদর", "নর্মদা"], correct: 0 },
+        { q: "৩২. কার্পাস বয়ন শিল্পের প্রধান কাঁচামাল—", options: ["তুলো", "পাট", "রেশম", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. তথ্যপ্রযুক্তি শিল্পের মূল কেন্দ্র—", options: ["বেঙ্গালুরু", "মুম্বাই", "কলকাতা", "দিল্লি"], correct: 0 },
+        { q: "৩৪. জনসংখ্যা পিরামিডের ভূমি প্রশস্ত হলে বোঝায়—", options: ["জন্মহার বেশি", "মৃত্যুহার বেশি", "উচ্চ সাক্ষরতা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. জনঘনত্ব নির্ণয়ের সূত্র—", options: ["মোট জনসংখ্যা/মোট ক্ষেত্রফল", "মোট ক্ষেত্রফল/মোট জনসংখ্যা", "জন্মহার/মৃত্যুহার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ভারতের বর্তমান জনঘনত্ব—", options: ["উচ্চ", "নিম্ন", "অত্যন্ত নিম্ন", "শূন্য"], correct: 0 },
+        { q: "৩৭. জনাকীর্ণতা দেখা যায়—", options: ["গঙ্গা সমভূমি", "মরুভূমি", "হিমালয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. বাষ্পীভবন পরিমাপের যন্ত্র—", options: ["লাইসিমিটার", "ব্যারোমিটার", "হাইগ্রোমিটার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. খরাপ্রবণ অঞ্চল—", options: ["পুরুলিয়া", "কলকাতা", "দার্জিলিং", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. দুর্যোগ ও বিপত্তির মধ্যে পার্থক্য—", options: ["প্রভাব", "কারণ", "সময়কাল", "সবকটি"], correct: 3 },
+        { q: "৪১. একটি মনুষ্যসৃষ্ট দুর্যোগ—", options: ["পারমাণবিক বিস্ফোরণ", "ভূমিকম্প", "বন্যা", "আগ্নেয়গিরি"], correct: 0 },
+        { q: "৪২. আঞ্চলিক পরিকল্পনার স্তর—", options: ["দুটি", "তিনটি", "চারটি", "পাঁচটি"], correct: 1 },
+        { q: "৪৩. হলদিয়া শিল্পাঞ্চল গড়ে ওঠার কারণ—", options: ["বন্দর", "খনিজ তেল", "শ্রমিক", "সবকটি"], correct: 3 },
+        { q: "৪৪. জামশেদপুর কোন শিল্পের জন্য বিখ্যাত?", options: ["লৌহ-ইস্পাত", "পাট", "বস্ত্র", "চিনি"], correct: 0 },
+        { q: "৪৫. ভারতের সিলিকন ভ্যালি বলা হয়—", options: ["বেঙ্গালুরু", "হায়দ্রাবাদ", "মুম্বাই", "চেন্নাই"], correct: 0 },
+        { q: "৪৬. মেগাসিটি বলতে বোঝায়—", জনসংখ্যা ৫০ লক্ষের বেশি", "১ কোটি", "১০ লক্ষ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. গঙ্গা নদীর উৎপত্তিস্থল—", options: ["গোমুখ", "যমুনোত্রী", "মানস সরোবর", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. ভারতের জলবায়ু—", options: ["মৌসুমি", "মরু", "ভূমধ্যসাগরীয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. রবারের প্রধান উৎপাদক—", options: ["কেরালা", "বাংলা", "পাঞ্জাব", "রাজস্থান"], correct: 0 },
+        { q: "৫০. কফি গবেষণাগার—", options: ["চিকমাগালুর", "কলকাতা", "দিল্লি", "চেন্নাই"], correct: 0 },
+        { q: "৫১. আমন ধান চাষ হয়—", options: ["শীতকালে", "বর্ষাকালে", "গ্রীষ্মকালে", "সব ঋতুতে"], correct: 1 },
+        { q: "৫২. ভারতের কোন রাজ্যে কফি বেশি হয়?", options: ["কর্ণাটক", "অন্ধ্রপ্রদেশ", "কেরালা", "তামিলনাড়ু"], correct: 0 },
+        { q: "৫৩. পেট্রোরসায়ন শিল্পের প্রধান কাঁচামাল—", options: ["ন্যাপথা", "কয়লা", "লোহা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. ভারতের বৃহত্তম বন্দর—", options: ["মুম্বাই", "কলকাতা", "চেন্নাই", "পারাদ্বীপ"], correct: 0 },
+        { q: "৫৫. পরিবহনের ধমনী বলা হয়—", options: ["রেলপথ", "সড়কপথ", "জলপথ", "আকাশপথ"], correct: 0 },
+        { q: "৫৬. স্বর্ণালী চতুর্ভুজ কীসের সাথে যুক্ত?", options: ["সড়কপথ", "রেলপথ", "জলপথ", "বিদ্যুৎ"], correct: 0 },
+        { q: "৫৭. ভারতের দীর্ঘতম জাতীয় সড়ক—", options: ["NH 44", "NH 2", "NH 6", "NH 10"], correct: 0 },
+        { q: "৫৮. জনবসতি গড়ে ওঠে—", options: ["জলাশয়ের কাছে", "মরুভূমিতে", "পাহাড়ে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. হ্যামলেট (Hamlet) কী?", options: ["ছোট বসতি", "শহর", "শিল্পনগরী", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. ছত্রিশগড় খনিজ ভাণ্ডার হলো—", options: ["দেল্লি-রাজহারা", "ঝরিয়া", "রাণীগঞ্জ", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. মালয়েশিয়ার প্রধান রপ্তানি দ্রব্য—", options: ["রবার", "চা", "পাট", "কফি"], correct: 0 },
+        { q: "৬২. শস্য সমন্বয় বা 'Crop Combination' পদ্ধতি—", options: ["জে. সি. উইভার", "ডেভিস", "পেনক", "হটন"], correct: 0 },
+        { q: "৬৩. ভারতের প্রধান খনিজ তেল ক্ষেত্র—", options: ["বম্বে হাই", "ডিগবয়", "আঙ্কলেশ্বর", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. কানাডায় নিউজপ্রিন্ট শিল্পের কেন্দ্র—", options: ["অটোয়া", "মন্ট্রিল", "টরন্টো", "ভ্যাঙ্কুভার"], correct: 1 },
+        { q: "৬৫. চা বাগিচার শ্রমিকরা—", options: ["দক্ষ", "অদক্ষ", "ভাসমান", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. শিল্প স্থাপনের সর্বনিম্ন ব্যয় তত্ত্ব—", options: ["ওয়েবার", "ক্রিস্টলার", "ডেভিস", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. কেন্দ্রস্থল বা 'Central Place' তত্ত্ব—", options: ["ক্রিস্টলার", "ওয়েবার", "পেনক", "হটন"], correct: 0 },
+        { q: "৬৮. অর্থনৈতিক উন্নয়নের প্রধান সূচক—", options: ["মাথাপিছু আয়", "সাক্ষরতা", "স্বাস্থ্য", "সবকটি"], correct: 3 },
+        { q: "৬৯. ভারতের কোন রাজ্যে সাক্ষরতা সর্বোচ্চ?", options: ["কেরালা", "বাংলা", "মহারাষ্ট্র", "গোয়া"], correct: 0 },
+        { q: "৭০. জনসংখ্যা বিস্ফোরণ ঘটে—", options: ["দ্বিতীয় পর্যায়ে", "প্রথম পর্যায়ে", "তৃতীয় পর্যায়ে", "চতুর্থ পর্যায়ে"], correct: 0 },
+        { q: "৭১. বসতি স্থাপনের প্রধান কারণ—", options: ["জল", "জমি", "পরিবহন", "সবকটি"], correct: 3 },
+        { q: "৭২. পরিকল্পনা অঞ্চলের প্রধান বৈশিষ্ট্য—", options: ["একজাতীয়তা", "স্বনির্ভরতা", "বিচ্ছিন্নতা", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. হলদিয়া শিল্পাঞ্চল—", options: ["গড় উৎপাদনশীল", "উচ্চ উৎপাদনশীল", "নিম্ন উৎপাদনশীল", "কোনটিই নয়"], correct: 1 },
+        { q: "৭৪. দণ্ডকারণ্যের প্রধান নদী—", options: ["মাজিরা", "গঙ্গা", "যমুনা", "নর্মদা"], correct: 0 },
+        { q: "৭৫. দুর্যোগ ব্যবস্থাপনার ধাপ—", options: ["তিনটি", "দুটি", "চারটি", "পাঁচটি"], correct: 0 },
+        { q: "৭৬. ফোরি (Fory) ঘূর্ণিঝড় কখন হয়?", options: ["বসন্তকাল", "বর্ষাকাল", "শীতকাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. অম্ল বৃষ্টির প্রধান কারণ—", options: ["SO2", "O2", "N2", "CH4"], correct: 0 },
+        { q: "৭৮. ভূ-উষ্ণায়ন রোধের উপায়—", options: ["বৃক্ষরোপণ", "বন নিধন", "গাড়ি বাড়ানো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. জীববৈচিত্র্য আইন ভারতে কবে পাস হয়?", options: ["২০০২", "১৯৯২", "২০১০", "২০২০"], correct: 0 },
+        { q: "৮০. ভারতের প্রথম পাটকল কোথায় স্থাপিত হয়?", options: ["রিশড়া", "কলকাতা", "হাওড়া", "চন্দননগর"], correct: 0 },
+        { q: "৮১. আধুনিক ইস্পাত শিল্পের প্রধান কেন্দ্র—", options: ["জামশেদপুর", "দুর্গাপুর", "বোকারো", "সবকটি"], correct: 3 },
+        { q: "৮২. পেট্রোরসায়ন শিল্পের জনক—", options: ["জুনকারস", "টাটা", "বিড়লা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. কুইনাইন উৎপাদন হয়—", options: ["সিনকোনা", "ইউক্যালিপটাস", "নিম", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. ধান উৎপাদনে ভারতের স্থান—", options: ["দ্বিতীয়", "প্রথম", "তৃতীয়", "চতুর্থ"], correct: 0 },
+        { q: "৮৫. ভারতের দীর্ঘতম বাঁধ—", options: ["হীরাকুড", "ভাকরা", "নাগার্জুন", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. ম্যানগ্রোভ অরণ্য বা লবনাক্ত অরণ্য দেখা যায়—", options: ["উপকূলীয় অঞ্চলে", "মরুভূমিতে", "পাহাড়ে", "সবখানে"], correct: 0 },
+        { q: "৮৭. গঙ্গা নদী পরিকল্পনা—", options: ["নমামি গঙ্গে", "পরিষ্কার গঙ্গা", "গঙ্গা বাঁচাও", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. বাণিজ্যের প্রধান মাধ্যম—", options: ["পরিবহন", "উৎপাদন", "কৃষি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. আমাজন অববাহিকা—", options: ["নিরক্ষীয় অঞ্চল", "মেরু অঞ্চল", "মরু অঞ্চল", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. ভূমধ্যসাগরীয় জলবায়ুর প্রধান বৈশিষ্ট্য—", options: ["শীতকালে বৃষ্টিপাত", "গ্রীষ্মকালে বৃষ্টিপাত", "সারা বছর বৃষ্টি", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. জনসংখ্যার বিবর্তন মডেল প্রবক্তা—", options: ["থম্পসন", "ডেভিস", "পেনক", "হটন"], correct: 0 },
+        { q: "৯২. ভারতের বৃহত্তম মেট্রো শহর—", options: ["মুম্বাই", "কলকাতা", "দিল্লি", "বেঙ্গালুরু"], correct: 0 },
+        { q: "৯৩. ছত্তিশগড়ের প্রধান খনিজ—", options: ["লোহা", "কয়লা", "ম্যাঙ্গানিজ", "সবকটি"], correct: 3 },
+        { q: "৯৪. হলদিয়া কোন নদীর সঙ্গমে?", options: ["হলদি ও হুগলী", "গঙ্গা ও যমুনা", "দামোদর", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. ভারতের কোন রাজ্যে সর্বাধিক পাট উৎপাদিত হয়?", options: ["পশ্চিমবঙ্গ", "বিহার", "অসম", "উড়িষ্যা"], correct: 0 },
+        { q: "৯৬. শিল্প নীতি—", options: ["সরকারি নিয়ন্ত্রণ", "উদারীকরণ", "বেসরকারিকরণ", "সবকটি"], correct: 3 },
+        { q: "৯৭. উন্নয়নের নির্দেশক—", options: ["HDI", "GDP", "GNP", "সবকটি"], correct: 3 },
+        { q: "৯৮. দুর্যোগ প্রশমন—", options: ["প্রাকৃতিক", "মানবসৃষ্ট", "মিশ্র", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৯. ভারতের দীর্ঘতম রেলপথ—", options: ["ডিব্রুগড়-কন্যাকুমারী", "কলকাতা-দিল্লি", "মুম্বাই-দিল্লি", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. ভূগোল পাঠের প্রয়োজনীয়তা—", options: ["পরিবেশ সচেতনতা", "ভ্রমণ", "মানচিত্র", "সবকটি"], correct: 3 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    init();
+</script>
+</body>
+</html>
