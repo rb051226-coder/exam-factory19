@@ -1,132 +1,50 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Factory - Final System</title>
-
-<style>
-body{
-font-family:Arial;
-background:linear-gradient(135deg,#0f172a,#1e3a8a);
-color:white;
-text-align:center;
-padding:20px;
+let questions = [
+{
+q:"ভারতের রাজধানী কী?",
+o:["কলকাতা","মুম্বাই","নতুন দিল্লি","চেন্নাই"],
+a:2
+},
+{
+q:"2+2 কত?",
+o:["3","4","5","6"],
+a:1
+},
+{
+q:"বাংলাদেশের রাজধানী কী?",
+o:["ঢাকা","চট্টগ্রাম","খুলনা","রাজশাহী"],
+a:0
 }
-
-.box{
-background:rgba(255,255,255,0.08);
-padding:20px;
-border-radius:15px;
-max-width:750px;
-margin:auto;
-backdrop-filter:blur(10px);
-}
-
-button{
-padding:12px;
-margin:8px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-width:100%;
-background:#2563eb;
-color:white;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-}
-
-select{
-padding:10px;
-margin:10px;
-border-radius:10px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="box">
-
-<h2>EXAM FACTORY MOCK TEST</h2>
-
-<!-- SUBJECT + DIFFICULTY -->
-<select id="subject">
-<option>বাংলা</option>
-<option>English</option>
-<option>Mathematics</option>
-<option>History</option>
-<option>Geography</option>
-<option>Science</option>
-</select>
-
-<select id="level">
-<option>Easy</option>
-<option>Medium</option>
-<option>Hard</option>
-</select>
-
-<div class="top">
-<p id="qno">Question 1/50</p>
-<p id="timer">60:00</p>
-</div>
-
-<h3 id="question">লোড হচ্ছে...</h3>
-
-<div id="options"></div>
-
-<p id="result"></p>
-
-</div>
-
-<script>
-
-// 🔥 FULL 50 QUESTIONS SYSTEM (Demo Structure)
-let questions = [];
-
-function generateQuestions(subject, level){
-questions = Array.from({length:50}, (_,i)=>({
-q:`${subject} (${level}) Question ${i+1}`,
-o:["Option A","Option B","Option C","Option D"],
-a: Math.floor(Math.random()*4)
-}));
-}
+];
 
 let index = 0;
 let score = 0;
 let time = 3600;
 
-// start exam
-function startExam(){
-let subject = document.getElementById("subject").value;
-let level = document.getElementById("level").value;
-
-generateQuestions(subject, level);
-loadQuestion();
-}
-
 function loadQuestion(){
+
 let q = questions[index];
 
-document.getElementById("qno").innerText = "Question "+(index+1)+"/50";
-document.getElementById("question").innerText = q.q;
+document.getElementById("question").innerText =
+(index+1)+". "+q.q;
 
-let optDiv = document.getElementById("options");
-optDiv.innerHTML="";
+let opt = document.getElementById("options");
+opt.innerHTML="";
 
 q.o.forEach((val,i)=>{
 let btn = document.createElement("button");
 btn.innerText = val;
-btn.onclick = ()=>check(i);
-optDiv.appendChild(btn);
+
+// 🔥 IMPORTANT FIX HERE
+btn.onclick = function(){
+checkAnswer(i);
+};
+
+opt.appendChild(btn);
 });
 }
 
-function check(i){
+function checkAnswer(i){
+
 if(i === questions[index].a){
 score++;
 }
@@ -134,11 +52,14 @@ score++;
 index++;
 
 if(index < questions.length){
-    loadQuestion();
+loadQuestion();
 }else{
-    showResult();
+showResult();
 }
+}
+
 function showResult(){
+
 document.getElementById("question").innerText="Exam Finished 🎉";
 document.getElementById("options").innerHTML="";
 
@@ -146,51 +67,16 @@ document.getElementById("result").innerHTML=
 "Score: "+score+"/50<br>Percentage: "+(score*2)+"%";
 
 localStorage.setItem("score", score);
-
-}
-// Supabase এ save (এখন dummy version)
-fetch("https://YOUR_SUPABASE_URL/rest/v1/results", {
-method: "POST",
-headers: {
-"Content-Type": "application/json",
-"apikey": "YOUR_SUPABASE_ANON_KEY",
-"Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"
-},
-body: JSON.stringify({
-name: "Student",
-score: score
-})
-});
-
-document.getElementById("question").innerText = "Exam Finished 🎉";
-document.getElementById("options").innerHTML = "";
-
-document.getElementById("result").innerHTML =
-"Score: " + score + "/50<br>Percentage: " + (score * 2) + "%";
-
-}
-document.getElementById("question").innerText="Exam Finished 🎉";
-document.getElementById("options").innerHTML="";
-localStorage.setItem("score", score);
-window.location.href = "result.html";
-}
 }
 
-// timer
 setInterval(()=>{
 let m = Math.floor(time/60);
 let s = time%60;
 
-document.getElementById("timer").innerText=
+document.getElementById("timer").innerText =
 m+":"+String(s).padStart(2,"0");
 
 if(time>0) time--;
 },1000);
 
-// auto start
-startExam();
-
-</script>
-
-</body>
-</html>
+loadQuestion();
