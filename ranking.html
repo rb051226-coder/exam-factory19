@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranking - Exam Factory</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+color:white;
+text-align:center;
+padding:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+backdrop-filter:blur(10px);
+}
+
+h1{
+color:#f59e0b;
+}
+
+.rank{
+padding:10px;
+margin:10px;
+background:#1e293b;
+border-radius:10px;
+text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🏆 Top Students Ranking</h1>
+
+<div id="list"></div>
+
+</div>
+
+<script>
+
+// demo ranking data
+let students = [
+{name:"Rohit", score:48},
+{name:"Amit", score:45},
+{name:"Soma", score:42},
+{name:"Rahul", score:40},
+{name:"Priya", score:38}
+];
+
+// sort by score
+students.sort((a,b)=>b.score-a.score);
+
+let list = document.getElementById("list");
+
+students.forEach((s,i)=>{
+let div = document.createElement("div");
+div.className="rank";
+div.innerHTML = (i+1)+". "+s.name+" - Score: "+s.score+"/50";
+list.appendChild(div);
+});
+
+</script>
+
+</body>
+</html>
