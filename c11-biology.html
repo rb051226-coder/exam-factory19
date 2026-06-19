@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Biology 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #10b981; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #10b981; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #10b981; }
+        .finish-btn { background: #065f46; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি জীববিজ্ঞান সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#10b981;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#10b981;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. দ্বিপদ নামকরণের প্রবর্তক কে?", options: ["অ্যারিস্টটল", "লিনিয়াস", "ডারউইন", "ল্যামার্ক"], correct: 1 },
+        { q: "২. কোষের শক্তির আধার কোনটি?", options: ["নিউক্লিয়াস", "মাইটোকন্ড্রিয়া", "রাইবোসোম", "গলগি বডি"], correct: 1 },
+        { q: "৩. ডিএনএ-তে কোন নাইট্রোজেন বেসটি থাকে না?", options: ["অ্যাডেনিন", "গুয়ানিন", "ইউরাসিল", "সাইটোসিন"], correct: 2 },
+        { q: "৪. সালোকসংশ্লেষণ কোথায় ঘটে?", options: ["মাইটোকন্ড্রিয়া", "ক্লোরোপ্লাস্ট", "রাইবোসোম", "লাইসোজোম"], correct: 1 },
+        { q: "৫. মানুষের হৃতপিণ্ডের প্রকোষ্ঠ কয়টি?", options: ["২", "৩", "৪", "৫"], correct: 2 },
+        { q: "৬. প্রোটিনের একক কী?", options: ["গ্লুকোজ", "অ্যামিনো অ্যাসিড", "ফ্যাটি অ্যাসিড", "নিউক্লিওটাইড"], correct: 1 },
+        { q: "৭. ভাইরাসের বংশগতীয় বস্তু কোনটি?", options: ["ডিএনএ/আরএনএ", "শুধুমাত্র ডিএনএ", "শুধুমাত্র আরএনএ", "প্রোটিন"], correct: 0 },
+        { q: "৮. রাইবোসোমের কাজ কী?", options: ["প্রোটিন সংশ্লেষণ", "শ্বসন", "সালোকসংশ্লেষণ", "নিঃসরণ"], correct: 0 },
+        { q: "৯. উদ্ভিদের কোষপ্রাচীরের প্রধান উপাদান?", options: ["প্রোটিন", "সেলুলোজ", "লিপিড", "কাইটিন"], correct: 1 },
+        { q: "১০. মাইটোসিসের কোন ধাপে ক্রোমোজোম বিষুবীয় অঞ্চলে থাকে?", options: ["প্রোফেজ", "মেটাফেজ", "অ্যানাফেজ", "টেলোফেজ"], correct: 1 },
+        { q: "১১. লোহিত রক্তকণিকার প্রধান কাজ কী?", options: ["অক্সিজেন পরিবহন", "কার্বন ডাই অক্সাইড পরিবহন", "রোগ প্রতিরোধ", "রক্ত জমাট বাঁধা"], correct: 0 },
+        { q: "১২. অম্লীয় এনজাইম থাকে কোন কোষাঙ্গে?", options: ["লাইসোজোম", "গলগি বডি", "মাইটোকন্ড্রিয়া", "নিউক্লিয়াস"], correct: 0 },
+        { q: "১৩. পেশি সংকোচনে সাহায্যকারী আয়ন?", options: ["Na+", "K+", "Ca2+", "Mg2+"], correct: 2 },
+        { q: "১৪. আলোক নির্ভর বিক্রিয়া কোথায় ঘটে?", options: ["গ্রানা", "স্ট্রোমা", "মাইটোকন্ড্রিয়া", "নিউক্লিয়াস"], correct: 0 },
+        { q: "১৫. শ্বসনের কোন ধাপে পাইরুভিক অ্যাসিড তৈরি হয়?", options: ["গ্লাইকোলাইসিস", "ক্রেপস চক্র", "ইটিএস", "ফারমেন্টেশন"], correct: 0 },
+        { q: "১৬. মানুষের স্বাভাবিক রক্তচাপ কত?", options: ["100/80", "120/80", "140/90", "110/70"], correct: 1 },
+        { q: "১৭. লোহিত রক্তকণিকার গড় আয়ু কত?", options: ["60 দিন", "90 দিন", "120 দিন", "150 দিন"], correct: 2 },
+        { q: "১৮. কাইটিন পাওয়া যায় কোনটিতে?", options: ["উদ্ভিদ", "ছত্রাক", "ব্যাকটেরিয়া", "ভাইরাস"], correct: 1 },
+        { q: "১৯. জীনতত্ত্বের জনক কে?", options: ["মেন্ডেল", "ডারউইন", "ল্যামার্ক", "ডি ভ্রিস"], correct: 0 },
+        { q: "২০. মানবদেহের দীর্ঘতম কোষ কোনটি?", options: ["পেশি কোষ", "স্নায়ু কোষ", "রক্তকণিকা", "যকৃত কোষ"], correct: 1 },
+        { q: "২১. অ্যাড্রিনালিন কোথা থেকে নিঃসৃত হয়?", options: ["থাইরয়েড", "পিটুইটারি", "অ্যাড্রিনাল গ্রন্থি", "প্যানক্রিয়াস"], correct: 2 },
+        { q: "২২. রক্তে শর্করা নিয়ন্ত্রণ করে কোনটি?", options: ["ইনসুলিন", "থাইরক্সিন", "অ্যাড্রিনালিন", "এস্ট্রোজেন"], correct: 0 },
+        { q: "২৩. কোন ভিটামিনের অভাবে রাতকানা হয়?", options: ["ভিটামিন A", "ভিটামিন B", "ভিটামিন C", "ভিটামিন D"], correct: 0 },
+        { q: "২৪. ফুসফুসের আবরণীকে কী বলে?", options: ["প্লুরা", "পেরিকার্ডিয়াম", "পেরিটোনিয়াম", "মেনিঞ্জেস"], correct: 0 },
+        { q: "২৫. DNA প্যাঁচের ব্যাস কত?", options: ["10 A", "20 A", "30 A", "34 A"], correct: 1 },
+        { q: "২৬. কোষের পাওযার হাউস কোনটি?", options: ["গলগি বডি", "মাইটোকন্ড্রিয়া", "নিউক্লিয়াস", "রাইবোসোম"], correct: 1 },
+        { q: "২৭. মানুষের ক্রোমোজোম সংখ্যা?", options: ["44", "46", "48", "23"], correct: 1 },
+        { q: "২৮. অগ্ন্যাশয় থেকে নিঃসৃত রস কী?", options: ["পিত্তরস", "অগ্ন্যাশয় রস", "লালা", "জঠর রস"], correct: 1 },
+        { q: "২৯. পিত্তরস কোথায় জমা থাকে?", options: ["যকৃৎ", "পিত্তথলি", "অগ্ন্যাশয়", "পাকস্থলী"], correct: 1 },
+        { q: "৩০. হ্যাপ্লয়েড কোষ কোনটি?", options: ["দেহ কোষ", "জনন কোষ", "স্নায়ু কোষ", "রক্ত কোষ"], correct: 1 },
+        { q: "৩১. ক্রোমোজোম মেরুর দিকে ধাবিত হয়?", options: ["প্রোফেজ", "মেটাফেজ", "অ্যানাফেজ", "টেলোফেজ"], correct: 2 },
+        { q: "৩২. কেঁচোর রেচন অঙ্গের নাম?", options: ["বৃক্ক", "নেফ্রিডিয়া", "ম্যালপিজিয়ান নালিকা", "শিখা কোষ"], correct: 1 },
+        { q: "৩৩. রক্ত জমাটে সাহায্য করে?", options: ["লোহিত", "শ্বেত", "অণুচক্রিকা", "প্লাজমা"], correct: 2 },
+        { q: "৩৪. সালোকসংশ্লেষণে নির্গত গ্যাস?", options: ["CO2", "O2", "N2", "H2"], correct: 1 },
+        { q: "৩৫. মানুষের পাঁজরের সংখ্যা?", options: ["10 জোড়া", "12 জোড়া", "14 জোড়া", "24 জোড়া"], correct: 1 },
+        { q: "৩৬. নিউরনের প্রধান অংশ?", options: ["২", "৩", "৪", "৫"], correct: 0 },
+        { q: "৩৭. অণুচক্রিকার গড় আয়ু?", options: ["৫-১০ দিন", "২০-৩০ দিন", "৬০-৭০ দিন", "১০০-১২০ দিন"], correct: 0 },
+        { q: "৩৮. মানুষের পাকস্থলীর pH?", options: ["1.5-2.5", "6.0-7.0", "7.5-8.5", "9.0-10.0"], correct: 0 },
+        { q: "৩৯. আত্মঘাতী থলি কোনটি?", options: ["লাইসোজোম", "রাইবোসোম", "গলগি বডি", "মাইটোকন্ড্রিয়া"], correct: 0 },
+        { q: "৪০. উদ্ভিদ কোষপ্রাচীরের প্রধান উপাদান?", options: ["সেলুলোজ", "প্রোটিন", "লিপিড", "পেকটিন"], correct: 0 },
+        { q: "৪১. প্রোটিন তৈরির কারখানা?", options: ["রাইবোসোম", "গলগি বডি", "লাইসোজোম", "নিউক্লিয়াস"], correct: 0 },
+        { q: "৪২. ক্লোরোফিলে কোন ধাতু থাকে?", options: ["লোহা", "ম্যাগনেসিয়াম", "ক্যালসিয়াম", "পটাশিয়াম"], correct: 1 },
+        { q: "৪৩. লোহিত রক্তকণিকার উৎপত্তিস্থল?", options: ["যকৃৎ", "অস্থিমজ্জা", "প্লীহা", "হৃৎপিণ্ড"], correct: 1 },
+        { q: "৪৪. মানুষের মস্তিষ্কের ওজন?", options: ["১ কেজি", "১.৩৫ কেজি", "২ কেজি", "৩ কেজি"], correct: 1 },
+        { q: "৪৫. ইউরিয়া কোথায় তৈরি হয়?", options: ["বৃক্ক", "যকৃৎ", "ফুসফুস", "পাকস্থলী"], correct: 1 },
+        { q: "৪৬. মানুষের হাড়ের সংখ্যা?", options: ["২০৬", "২০২", "২১০", "২৫০"], correct: 0 },
+        { q: "৪৭. চোখের কোন অংশ আলোর সংবেদনশীল?", options: ["কর্নিয়া", "রেটিনা", "আইরিস", "লেন্স"], correct: 1 },
+        { q: "৪৮. DNA এর পূর্ণরূপ?", options: ["Deoxyribonucleic acid", "Dioxyribonucleic acid", "Deoxyribo acid", "None"], correct: 0 },
+        { q: "৪৯. RNA তে নেই কোন বেস?", options: ["থাইমিন", "ইউরাসিল", "গুয়ানিন", "অ্যাডেনিন"], correct: 0 },
+        { q: "৫০. ট্যাক্সোনমি শব্দটির প্রবর্তক?", options: ["অ্যারিস্টটল", "লিনিয়াস", "ক্যান্ডোল", "ডারউইন"], correct: 2 },
+        { q: "৫১. অ্যামিবা কোন পর্বের প্রাণী?", options: ["প্রোটোজোয়া", "পারিফেরা", "নিডারিয়া", "মলাস্কা"], correct: 0 },
+        { q: "৫২. হাইড্রার দেহ প্রাচীরের স্তর?", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
+        { q: "৫৩. রক্তরসের পানি কত %?", options: ["৭০-৭৫%", "৮০-৮৫%", "৯০-৯২%", "৯৫-৯৮%"], correct: 2 },
+        { q: "৫৪. উদ্ভিদের মূলের কাজ?", options: ["খাদ্য তৈরি", "শোষণ", "প্রজনন", "সবগুলো"], correct: 1 },
+        { q: "৫৫. জাইলেমের কাজ?", options: ["খাদ্য পরিবহন", "পানি পরিবহন", "আশ্রয়", "None"], correct: 1 },
+        { q: "৫৬. ফ্লোয়েমের কাজ?", options: ["খাদ্য পরিবহন", "পানি পরিবহন", "আশ্রয়", "None"], correct: 0 },
+        { q: "৫৭. পতঙ্গভুক উদ্ভিদ কোনটি?", options: ["কলস উদ্ভিদ", "শাপলা", "গোলাপ", "None"], correct: 0 },
+        { q: "৫৮. মানুষের পাকস্থলীর কয়টি অংশ?", options: ["২", "৩", "৪", "৫"], correct: 1 },
+        { q: "৫৯. ক্ষুদ্রান্ত্রের অংশ কয়টি?", options: ["২", "৩", "৪", "৫"], correct: 1 },
+        { q: "৬০. অগ্ন্যাশয় কী ধরণের গ্রন্থি?", options: ["অন্তঃক্ষরা", "বহিঃক্ষরা", "মিশ্র", "None"], correct: 2 },
+        { q: "৬১. লিম্ফোসাইট কী তৈরি করে?", options: ["অ্যান্টিবডি", "রক্ত", "প্লাজমা", "None"], correct: 0 },
+        { q: "৬২. হরমোন কোথায় নিঃসৃত হয়?", options: ["গ্রন্থিতে", "রক্তে", "পেশিতে", "None"], correct: 0 },
+        { q: "৬৩. থাইরয়েড গ্রন্থি কোথায় থাকে?", options: ["গলায়", "পেটে", "মস্তিস্কে", "বুকে"], correct: 0 },
+        { q: "৬৪. ইনসুলিন তৈরি হয় কোথায়?", options: ["যকৃতে", "অগ্ন্যাশয়ে", "বৃক্কে", "None"], correct: 1 },
+        { q: "৬৫. শ্বেত রক্তকণিকার কাজ?", options: ["রক্ত জমাট বাঁধা", "রোগ প্রতিরোধ", "অক্সিজেন বহন", "None"], correct: 1 },
+        { q: "৬৬. মানুষের কয়টি ফুসফুস আছে?", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
+        { q: "৬৭. শ্বসনতন্ত্রের একক কী?", options: ["অ্যালভিওলাস", "ব্রঙ্কিওল", "নাসারন্ধ্র", "None"], correct: 0 },
+        { q: "৬৮. বৃক্কের গাঠনিক একক?", options: ["নেফ্রন", "নিউরন", "অ্যাক্সন", "None"], correct: 0 },
+        { q: "৬৯. মূত্রের হলুদ রঙের কারণ?", options: ["ইউরোক্রোম", "বিলিরুবিন", "ইউরিয়া", "None"], correct: 0 },
+        { q: "৭০. অস্থিসন্ধিতে কোন পেশি থাকে?", options: ["কঙ্কাল পেশি", "মসৃণ পেশি", "হৃৎপেশি", "None"], correct: 0 },
+        { q: "৭১. মানুষের মেরুদণ্ড কয়টি কশেরুকা দিয়ে গঠিত?", options: ["৩৩", "২০", "১২", "১০"], correct: 0 },
+        { q: "৭২. করোটির হাড় কয়টি?", options: ["৮", "১৪", "৬", "২২"], correct: 3 },
+        { q: "৭৩. কানের হাড়ের সংখ্যা?", options: ["৩টি", "৬টি", "২টি", "৪টি"], correct: 1 },
+        { q: "৭৪. মস্তিষ্কের অংশ কয়টি?", options: ["২", "৩", "৪", "৫"], correct: 1 },
+        { q: "৭৫. লঘু মস্তিস্কের কাজ?", options: ["ভারসাম্য রক্ষা", "চিন্তা", "নিঃশ্বাস", "None"], correct: 0 },
+        { q: "৭৬. DNA প্রতিলিপন হয় কোথায়?", options: ["নিউক্লিয়াসে", "সাইটোপ্লাজমে", "রাইবোসোমে", "None"], correct: 0 },
+        { q: "৭৭. মায়োসিস বিভাজন কোথায় ঘটে?", options: ["দেহ কোষে", "জনন কোষে", "কলা কোষে", "None"], correct: 1 },
+        { q: "৭৮. সিন্যাপসিস কোথায় ঘটে?", options: ["প্রোফেজ-১", "মেটাফেজ", "অ্যানাফেজ", "None"], correct: 0 },
+        { q: "৭৯. ক্রসিং ওভার ঘটে?", options: ["প্যাকাইটিন", "জাইগোটিন", "লেপটোটিন", "None"], correct: 0 },
+        { q: "৮০. ভাইরাস কী?", options: ["জীব", "জড়", "জীব ও জড়ের সেতুবন্ধন", "None"], correct: 2 },
+        { q: "৮১. টিএমভি কী?", options: ["ভাইরাস", "ব্যাকটেরিয়া", "ছত্রাক", "None"], correct: 0 },
+        { q: "৮২. ব্যাকটেরিয়া কী?", options: ["প্রোক্যারিওটিক", "ইউক্যারিওটিক", "ভাইরাস", "None"], correct: 0 },
+        { q: "৮৩. শৈবাল কী?" , options: ["স্বভোজী", "পরভোজী", "মৃতজীবী", "None"], correct: 0 },
+        { q: "৮৪. ছত্রাক কী?", options: ["মৃতজীবী", "স্বভোজী", "পরভোজী", "None"], correct: 0 },
+        { q: "৮৫. ব্রায়োফাইটা কী?", options: ["উদ্ভিদ", "প্রাণী", "ভাইরাস", "None"], correct: 0 },
+        { q: "৮৬. জিম্নোস্পার্মের বীজ?", options: ["নগ্ন", "আবৃত", "ফলহীন", "None"], correct: 0 },
+        { q: "৮৭. অ্যানজিওস্পার্মের বীজ?", options: ["আবৃত", "নগ্ন", "ফলহীন", "None"], correct: 0 },
+        { q: "৮৮. প্রাণিজগতে কয়টি পর্ব?", options: ["৭", "৮", "৯", "১০"], correct: 2 },
+        { q: "৮৯. আর্থ্রোপোডা পর্বের প্রাণী?", options: ["পোকা", "মাছ", "পাখি", "None"], correct: 0 },
+        { q: "৯০. কর্ডাটা পর্বের বৈশিষ্ট্য?", options: ["নটোকর্ড", "মেরুদণ্ড", "কঙ্কাল", "None"], correct: 0 },
+        { q: "৯১. স্তন্যপায়ী প্রাণী?", options: ["মানুষ", "মাছ", "ব্যাঙ", "None"], correct: 0 },
+        { q: "৯২. পাখির বৈশিষ্ট্য?", options: ["পালক", "ডানা", "চঞ্চু", "সবগুলো"], correct: 3 },
+        { q: "৯৩. সরীসৃপ?", options: ["টিকটিকি", "ব্যাঙ", "মাছ", "None"], correct: 0 },
+        { q: "৯৪. উভচর?", options: ["ব্যাঙ", "টিকটিকি", "মাছ", "None"], correct: 0 },
+        { q: "৯৫. অমেরুদণ্ডী?", options: ["কেঁচো", "মানুষ", "পাখি", "None"], correct: 0 },
+        { q: "৯৬. রক্ত সংবহনতন্ত্রের জনক?", options: ["হার্ভে", "ল্যামার্ক", "ডারউইন", "None"], correct: 0 },
+        { q: "৯৭. হৃৎপিণ্ডের সংকোচন?", options: ["সিস্টোল", "ডায়াস্টোল", "হার্টবিট", "None"], correct: 0 },
+        { q: "৯৮. হৃৎপিণ্ডের প্রসারণ?", options: ["ডায়াস্টোল", "সিস্টোল", "হার্টবিট", "None"], correct: 0 },
+        { q: "৯৯. শ্বেত রক্তকণিকার প্রকারভেদ?", options: ["২টি", "৩টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "১০০. জীববিজ্ঞানের জনক?", options: ["অ্যারিস্টটল", "লিনিয়াস", "ডারউইন", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
