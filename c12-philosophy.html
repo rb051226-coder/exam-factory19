@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Philosophy 2026 Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি দর্শন: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. যুক্তিবিজ্ঞানের জনক কে?", options: ["এরিস্টটল", "প্লেটো", "সক্রেটিস", "বেন্থাম"], correct: 0 },
+        { q: "২. 'অনুমান' ইংরেজিতে কী?", options: ["Inference", "Proposition", "Term", "Argument"], correct: 0 },
+        { q: "৩. বচনের প্রধান অংশ কয়টি?", options: ["চারটি", "তিনটি", "দুটি", "পাঁচটি"], correct: 0 },
+        { q: "৪. নিরপেক্ষ বচনের গুণ অনুযায়ী শ্রেণিবিভাগ—", options: ["সদর্থক ও নঞর্থক", "সামান্য ও বিশেষ", "নিরপেক্ষ ও সাপেক্ষ", "কোনটিই নয়"], correct: 0 },
+        { q: "৫. 'A' বচন কী ধরনের বচন?", options: ["সামান্য সদর্থক", "সামান্য নঞর্থক", "বিশেষ সদর্থক", "বিশেষ নঞর্থক"], correct: 0 },
+        { q: "৬. 'E' বচন কী ধরনের বচন?", options: ["সামান্য নঞর্থক", "সামান্য সদর্থক", "বিশেষ সদর্থক", "বিশেষ নঞর্থক"], correct: 0 },
+        { q: "৭. 'I' বচন কী ধরনের বচন?", options: ["বিশেষ সদর্থক", "বিশেষ নঞর্থক", "সামান্য সদর্থক", "সামান্য নঞর্থক"], correct: 0 },
+        { q: "৮. 'O' বচন কী ধরনের বচন?", options: ["বিশেষ নঞর্থক", "বিশেষ সদর্থক", "সামান্য সদর্থক", "সামান্য নঞর্থক"], correct: 0 },
+        { q: "৯. বচনের বিরোধিতার মূল শর্ত—", options: ["উদ্দেশ্য ও বিধেয় অভিন্ন", "গুণ ভিন্ন", "পরিমাণ ভিন্ন", "সবকটি"], correct: 3 },
+        { q: "১০. বিরুদ্ধ বিরোধিতা কাকে বলে?", options: ["গুণের বিরোধিতা", "পরিমাণের বিরোধিতা", "গুণ ও পরিমাণ উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "১১. আবর্তন কয় প্রকার?", options: ["দুই", "তিন", "চার", "এক"], correct: 0 },
+        { q: "১২. 'A' বচনের আবর্তন কী?", options: ["I বচন", "E বচন", "O বচন", "A বচন"], correct: 0 },
+        { q: "১৩. 'E' বচনের আবর্তন কী?", options: ["E বচন", "A বচন", "I বচন", "O বচন"], correct: 0 },
+        { q: "১৪. 'O' বচনের আবর্তন কী?", options: ["সম্ভব নয়", "I বচন", "E বচন", "A বচন"], correct: 0 },
+        { q: "১৫. বিবর্তনের গুণ কী হয়?", options: ["পরিবর্তিত হয়", "অপরিবর্তিত থাকে", "একই থাকে", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. 'A' বচনের বিবর্তন কী?", options: ["E বচন", "I বচন", "O বচন", "A বচন"], correct: 0 },
+        { q: "১৭. নিরপেক্ষ ন্যায় সংস্থান কয়টি?", options: ["চারটি", "তিনটি", "পাঁচটি", "দুটি"], correct: 0 },
+        { q: "১৮. নিরপেক্ষ ন্যায়ে পদ কয়টি?", options: ["তিনটি", "চারটি", "দুটি", "পাঁচটি"], correct: 0 },
+        { q: "১৯. সাপেক্ষ বচন কয় প্রকার?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "২০. প্রাকল্পিক বচন—", options: ["যদি...তবে", "হয়...নয়তো", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২১. বৈকল্পিক বচন—", options: ["হয়...নয়তো", "যদি...তবে", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. বচনাকার (Propositional Form) বলতে কী বোঝায়?", options: ["বচনের কাঠামো", "বচনের অর্থ", "বচনের গুণ", "বচনের পরিমাণ"], correct: 0 },
+        { q: "২৩. বচনগ্রাহক (Propositional Variable) কী?", options: ["p, q, r", "সকল", "কিছু", "নয়"], correct: 0 },
+        { q: "২৪. সত্যসারণী (Truth Table) পদ্ধতি কার সৃষ্টি?", options: ["উইটগেনস্টাইন", "এরিস্টটল", "মিল", "লক"], correct: 0 },
+        { q: "২৫. বচনের আকার যদি সবসময় সত্য হয় তবে তাকে বলে—", options: ["স্বতঃসত্য", "স্বতঃমিথ্যা", "আপতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. বচনের আকার যদি সবসময় মিথ্যা হয়—", options: ["স্বতঃমিথ্যা", "স্বতঃসত্য", "আপতিক", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. মিলের পরীক্ষামূলক পদ্ধতি কয়টি?", options: ["পাঁচটি", "চারটি", "তিনটি", "ছয়টি"], correct: 0 },
+        { q: "২৮. মিলের অন্বয়ী পদ্ধতি—", options: ["কারণ খোঁজা", "অবস্থা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. ব্যতিরেকী পদ্ধতি—", options: ["অনুপস্থিতি", "উপস্থিতি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. সহ-পরিবর্তন পদ্ধতি—", options: ["পরিমাণের পরিবর্তন", "গুণের পরিবর্তন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. মিলের কোন পদ্ধতিটি সবচেয়ে শক্তিশালী?", options: ["ব্যতিরেকী", "অন্বয়ী", "সহ-পরিবর্তন", "পরিশেষ"], correct: 0 },
+        { q: "৩২. আরোহ অনুমানের আকারগত ভিত্তি কী?", options: ["প্রকৃতির একরূপতা ও কার্যকারণ নীতি", "অভিজ্ঞতা", " পর্যবেক্ষণ", "সবকটি"], correct: 0 },
+        { q: "৩৩. আরোহ অনুমানের বস্তুগত ভিত্তি—", options: ["পর্যবেক্ষণ ও পরীক্ষণ", "যুক্তি", "বুদ্ধি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৪. কার্যকারণ সম্পর্ক—", options: ["আরোহের ভিত্তি", "অবরোহের ভিত্তি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. জ্ঞানবিদ্যার মূল আলোচ্য—", options: ["জ্ঞানের প্রকৃতি", "জ্ঞানের সীমা", "জ্ঞানের উৎস", "সবকটি"], correct: 3 },
+        { q: "৩৬. জ্ঞানতত্ত্বের মূল দুটি মতবাদ—", options: ["বুদ্ধিবাদ ও অভিজ্ঞতাবাদ", "বাস্তববাদ ও ভাববাদ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. বুদ্ধিবাদ (Rationalism) অনুযায়ী জ্ঞানের উৎস—", options: ["বুদ্ধি", "অভিজ্ঞতা", "ইন্দ্রিয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. অভিজ্ঞতাবাদ (Empiricism) অনুযায়ী জ্ঞানের উৎস—", options: ["অভিজ্ঞতা", "বুদ্ধি", "ঈশ্বর", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. বাস্তববাদ (Realism) অনুযায়ী—", options: ["জ্ঞাত বিষয় অস্তিত্বশীল", "জ্ঞাত বিষয় অস্তিত্বহীন", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. ভাববাদ (Idealism) অনুযায়ী—", options: ["মনের সৃষ্টি জগত", "বস্তুর সৃষ্টি", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. লকের মতে দ্রব্যের স্বরূপ কী?", options: ["অজ্ঞাত ও অগোচর", "জ্ঞাত", "প্রতীয়মান", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. বার্কলের মতে—", options: ["অস্তিত্ব মানে প্রত্যক্ষ হওয়া", "অস্তিত্ব মানে জড়তা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৩. নীতিবিদ্যার বিষয়বস্তু—", options: ["মানুষের আচরণ", "বস্তুর আচরণ", "পশুর আচরণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. নীতিবিদ্যা কি ব্যবহারিক বিজ্ঞান?", options: ["হ্যাঁ", "না", "হতে পারে", "জানি না"], correct: 0 },
+        { q: "৪৫. ঐচ্ছিক কাজ কাকে বলে?", options: ["ইচ্ছাকৃত কাজ", "অনিচ্ছাকৃত কাজ", "প্রতিবর্ত কাজ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. অনৈচ্ছিক কাজ—", options: ["নিচে নামা বা শ্বাসক্রিয়া", "চিন্তা", "পরিকল্পনা", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. সুখবাদ (Hedonism) কী?", options: ["সুখই চূড়ান্ত লক্ষ্য", "দুঃখই লক্ষ্য", "সবকটি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. বেন্থামের সুখবাদের নাম কী?", options: ["উপযোগবাদ", "পরসুখবাদ", "স্বসুখবাদ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. মিলের সুখবাদের নাম কী?", options: ["গুণগত উপযোগবাদ", "পরিমাণগত উপযোগবাদ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. নীতিবিদ্যার প্রধান আলোচ্য—", options: ["কর্তব্য ও নৈতিকতা", "তথ্য", "ইতিহাস", "গণিত"], correct: 0 },
+        { q: "৫১. পেশাগত নীতিবিদ্যা (Professional Ethics) কী?", options: ["পেশার নিয়ম", "ব্যক্তিগত নিয়ম", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. ব্যবসায়িক নীতিবিদ্যা—", options: ["ব্যবসায় সততা", "লাভের নীতি", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৫৩. পরিবেশগত নীতিবিদ্যা—", options: ["পরিবেশ রক্ষা", "পরিবেশ দূষণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. বচনের বিরোধিতার বর্গক্ষেত্র—", options: ["Opposition Square", "Truth Table", "Venn Diagram", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. 'A' এবং 'O' বচনের বিরোধিতা—", options: ["বিরুদ্ধ বিরোধিতা", "বিপরীত", "অধীন বিপরীত", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. 'E' এবং 'I' বচনের বিরোধিতা—", options: ["বিরুদ্ধ বিরোধিতা", "বিপরীত", "অধীন বিপরীত", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. 'A' এবং 'E' বচনের বিরোধিতা—", options: ["বিপরীত বিরোধিতা", "বিরুদ্ধ", "অধীন বিপরীত", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. 'I' এবং 'O' বচনের বিরোধিতা—", options: ["অধীন বিপরীত", "বিপরীত", "বিরুদ্ধ", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. নিরপেক্ষ ন্যায়ের বৈধতার নিয়ম—", options: ["তিনটি পদ", "ব্যাপ্য পদ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬০. অবৈধ সাধ্যদোষ (Illicit Major)—", options: ["সাধ্যপদ ব্যাপ্য নয়", "পক্ষপদ ব্যাপ্য নয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. অবৈধ পক্ষদোষ (Illicit Minor)—", options: ["পক্ষপদ ব্যাপ্য নয়", "সাধ্যপদ ব্যাপ্য নয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. অব্যাপ্য হেতুদোষ (Undistributed Middle)—", options: ["হেতুপদ ব্যাপ্য নয়", "সাধ্যপদ ব্যাপ্য নয়", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৩. নঞর্থক আশ্রয়বাক্যজনিত দোষ—", options: ["দুইটি নঞর্থক আশ্রয়বাক্য", "একটি নঞর্থক", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. প্রতীকী যুক্তিবিজ্ঞানের ভিত্তি—", options: ["প্রতীক", "সংখ্যা", "শব্দ", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. বচনের আকার—", options: ["যৌগিক ও সরল", "শুধু সরল", "শুধু যৌগিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. যৌগিক বচন—", options: ["সংযোজক", "বিয়োজক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৬৭. প্রাকল্পিক বচনের পূর্বগ ও অনুগ—", options: ["হ্যাঁ", "না", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. মিলের অন্বয়ী পদ্ধতির দোষ—", options: ["কাকতালীয় দোষ", "ব্যতিরেকী দোষ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. আরোহ অনুমানের সমস্যা—", options: ["প্রকৃতির একরূপতা", "কার্যকারণ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৭০. পর্যবেক্ষণ ও পরীক্ষণ—", options: ["উভয় আরোহের ভিত্তি", "কেবল পর্যবেক্ষণ", "কেবল পরীক্ষণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. কার্যকারণ সম্পর্ক—", options: ["গুণগত ও পরিমাণগত", "শুধু গুণগত", "শুধু পরিমাণগত", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. জ্ঞানবিদ্যার প্রশ্ন—", options: ["জ্ঞান কী?", "জ্ঞান কোথা থেকে আসে?", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৭৩. অভিজ্ঞতাবাদী—", options: ["লক, বার্কলে, হিউম", "ডেকার্ট, স্পিনোজা", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. বুদ্ধিবাদী—", options: ["ডেকার্ট, স্পিনোজা, লাইবনিজ", "লক, বার্কলে", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. বাস্তববাদ—", options: ["সরল ও নব্য", "শুধু সরল", "শুধু নব্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. ভাববাদ—", options: ["আত্মগত ও বস্তুগত", "শুধু আত্মগত", "শুধু বস্তুগত", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. লকের মতে মুখ্য গুণ—", options: ["বস্তুর গুণ", "মনের গুণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. লকের মতে গৌণ গুণ—", options: ["মনের গুণ", "বস্তুর গুণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. বার্কলের মতে সব গুণ—", options: ["গৌণ", "মুখ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. নীতিবিদ্যা—", options: ["আদর্শনিষ্ঠ বিজ্ঞান", "বস্তুনিষ্ঠ বিজ্ঞান", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. নৈতিক মানদণ্ড—", options: ["সুখ, পূর্ণতা, কর্তব্য", "কেবল সুখ", "কেবল কর্তব্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. বেন্থামের উপযোগবাদ—", options: ["সুখই উপযোগ", "দুঃখ উপযোগ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. মিলের সুখবাদের বৈশিষ্ট্য—", options: ["উচ্চতর সুখ", "নিম্নতর সুখ", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৪. কান্টের মতে—", options: ["কর্তব্যের জন্য কর্তব্য", "সুখের জন্য কর্তব্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. শাস্তি—", options: ["প্রতিকারমূলক", "সংশোধনমূলক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৬. পেশাগত নীতিবিদ্যার প্রয়োজনীয়তা—", options: ["কাজে সততা", "নির্ভুলতা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৭. ব্যবসায়িক নীতিবিদ্যার বিষয়—", options: ["ভোক্তার অধিকার", "পরিবেশ রক্ষা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৮. পরিবেশগত নৈতিকতা—", options: ["জীবকেন্দ্রিক", "মানবকেন্দ্রিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৯. যুক্তিবিজ্ঞানের কাজ—", options: ["বৈধতা নির্ণয়", "অবৈধতা নির্ণয়", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯০. বচনের বিধেয় পদ—", options: ["ব্যাপ্য ও অব্যপ্য", "শুধু ব্যাপ্য", "শুধু অব্যপ্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. 'A' বচনের উদ্দেশ্য পদ—", options: ["ব্যাপ্য", "অব্যপ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. 'E' বচনের উভয় পদ—", options: ["ব্যাপ্য", "অব্যপ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. 'I' বচনের কোনো পদ—", options: ["ব্যাপ্য নয়", "ব্যাপ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. 'O' বচনের বিধেয় পদ—", options: ["ব্যাপ্য", "অব্যপ্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. আরোহ অনুমান—", options: ["বিশেষ থেকে সামান্য", "সামান্য থেকে বিশেষ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. অবরোহ অনুমান—", options: ["সামান্য থেকে বিশেষ", "বিশেষ থেকে সামান্য", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. সত্যতা—", options: ["বচনের ধর্ম", "যুক্তির ধর্ম", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. বৈধতা—", options: ["যুক্তির ধর্ম", "বচনের ধর্ম", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. দর্শনের কাজ—", options: ["চিন্তা করা", "যুক্তি দেওয়া", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "১০০. উপসংহার—", options: ["যুক্তি শেষে", "শুরুতে", "মাঝখানে", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
