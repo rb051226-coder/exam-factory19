@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Business Studies 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 650px; margin: auto; padding: 25px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 25px; }
+        .q-box { font-size: 20px; line-height: 1.6; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.03); border-left: 5px solid #38bdf8; border-radius: 8px; color: #fff; }
+        .opt-btn { background: #1e293b; padding: 18px; margin-bottom: 10px; width: 100%; border-radius: 10px; border: 1px solid #475569; color: #e2e8f0; cursor: pointer; text-align: left; font-size: 18px; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #38bdf8; }
+        .finish-btn { background: #0284c7; color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; }
+        .result-item { background: #1e293b; padding: 12px; margin-bottom: 8px; border-radius: 6px; border-left: 3px solid #f87171; font-size: 16px; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি: বিজনেস স্টাডিজ (১০০ প্রশ্ন - ২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#38bdf8;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#38bdf8; margin-bottom: 20px;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">আবার শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. ব্যবস্থাপনার জনক কে?", options: ["হেনরি ফায়োল", "এফ ডব্লিউ টেলর", "পিটার ড্রাকার", "কোনটিই নয়"], correct: 0 },
+        { q: "২. বৈজ্ঞানিক ব্যবস্থাপনার জনক কে?", options: ["এফ ডব্লিউ টেলর", "হেনরি ফায়োল", "ম্যাক্স ওয়েবার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩. ব্যবস্থাপনার প্রথম কাজ কোনটি?", options: ["পরিকল্পনা", "সংগঠন", "নিয়ন্ত্রণ", "কর্মীসংস্থান"], correct: 0 },
+        { q: "৪. ব্যবস্থাপনার শেষ কাজ কোনটি?", options: ["নিয়ন্ত্রণ", "পরিকল্পনা", "নির্দেশনা", "সমন্বয়"], correct: 0 },
+        { q: "৫. পরিকল্পনার ভিত্তি হলো?", options: ["পূর্বাভাস", "সংগঠন", "নেতৃত্ব", "কোনটিই নয়"], correct: 0 },
+        { q: "৬. কোনটি ব্যবস্থাপনার স্তর নয়?", options: ["উচ্চস্তর", "মধ্যস্তর", "নিম্নস্তর", "অপারেশনাল স্তর"], correct: 3 },
+        { q: "৭. নীতি নির্ধারণ করা কোন স্তরের কাজ?", options: ["উচ্চস্তর", "মধ্যস্তর", "নিম্নস্তর", "কোনটিই নয়"], correct: 0 },
+        { q: "৮. ফায়োলের ব্যবস্থাপনার নীতি কয়টি?", options: ["১৪টি", "৫টি", "১০টি", "৮টি"], correct: 0 },
+        { q: "৯. কার্য বিভাজন তত্ত্ব কার?", options: ["হেনরি ফায়োল", "টেলর", "উইক", "কোনটিই নয়"], correct: 0 },
+        { q: "১০. ‘Espirit de Corps’ এর অর্থ কী?", options: ["দলগত ঐক্য", "শৃংখলা", "ন্যায়পরায়ণতা", "কোনটিই নয়"], correct: 0 },
+        { q: "১১. পরিকল্পনা হলো একটি?", options: ["মানসিক প্রক্রিয়া", "শারীরিক কাজ", "যন্ত্র", "কোনটিই নয়"], correct: 0 },
+        { q: "১২. কোনটি পরিকল্পনার উপাদান নয়?", options: ["লক্ষ্য", "নীতি", "বাজেট", "প্রেরণা"], correct: 3 },
+        { q: "১৩. সংগঠন প্রক্রিয়ার প্রথম ধাপ কোনটি?", options: ["কাজের বিভাজন", "বিভাগীয়করণ", "দায়িত্ব অর্পণ", "কোনটিই নয়"], correct: 0 },
+        { q: "১৪. কর্মীসংস্থান কীসের সাথে জড়িত?", options: ["মানুষ", "মেশিন", "মূলধন", "None"], correct: 0 },
+        { q: "১৫. নিয়োগপত্র প্রদানের মাধ্যমে কী শুরু হয়?", options: ["কর্মীসংস্থান", "নির্বাচন", "প্রশিক্ষণ", "None"], correct: 0 },
+        { q: "১৬. নির্দেশনা কয়টি উপাদানের সমন্বয়ে গঠিত?", options: ["৪টি", "৩টি", "৫টি", "None"], correct: 0 },
+        { q: "১৭. কোনটি নির্দেশনার উপাদান?", options: ["নেতৃত্ব", "প্রেরণা", "যোগাযোগ", "সবগুলো"], correct: 3 },
+        { q: "১৮. আনুষ্ঠানিক যোগাযোগ কী ধরনের?", options: ["লিখিত", "মৌখিক", "অস্পষ্ট", "None"], correct: 0 },
+        { q: "১৯. নিয়ন্ত্রণের প্রধান মাধ্যম কী?", options: ["পরিমাপ", "আদেশ", "পরিকল্পনা", "None"], correct: 0 },
+        { q: "২০. নিয়ন্ত্রণ কীভাবে করা হয়?", options: ["পরিকল্পনার সাথে তুলনা করে", "আদেশ দিয়ে", "None", "None"], correct: 0 },
+        { q: "২১. আর্থিক ব্যবস্থাপনা কিসের ওপর গুরুত্ব দেয়?", options: ["অর্থের কাম্য ব্যবহার", "অর্থের অভাব", "None", "None"], correct: 0 },
+        { q: "২২. বিনিয়োগ সিদ্ধান্তকে কী বলে?", options: ["মূলধন বাজেটিং", "আর্থিক সিদ্ধান্ত", "None", "None"], correct: 0 },
+        { q: "২৩. আর্থিক পরিকল্পনা কী?", options: ["ভবিষ্যতের রূপরেখা", "অতীত হিসাব", "None", "None"], correct: 0 },
+        { q: "২৪. মূলধন কাঠামো কী?", options: ["ঋণ ও মালিকানা অনুপাত", "শুধু ঋণ", "None", "None"], correct: 0 },
+        { q: "২৫. লভ্যাংশ সিদ্ধান্ত কীসের সাথে সম্পর্কিত?", options: ["মুনাফা বণ্টন", "মুনাফা অর্জন", "None", "None"], correct: 0 },
+        { q: "২৬. শেয়ার বাজার কোথায় থাকে?", options: ["গৌণ বাজারে", "প্রাথমিক বাজারে", "উভয়", "None"], correct: 2 },
+        { q: "২৭. সেবি (SEBI) কিসের নিয়ন্ত্রক?", options: ["শেয়ার বাজার", "ব্যাংক", "None", "None"], correct: 0 },
+        { q: "২৮. ডিমেট (Demat) অ্যাকাউন্ট কীসের জন্য?", options: ["ইলেক্ট্রনিক শেয়ার সংরক্ষণ", "টাকা রাখা", "None", "None"], correct: 0 },
+        { q: "২৯. অর্থ বাজার (Money Market) কী?", options: ["স্বল্পমেয়াদী", "দীর্ঘমেয়াদী", "None", "None"], correct: 0 },
+        { q: "৩০. পুঁজিবাজার (Capital Market) কী?", options: ["দীর্ঘমেয়াদী", "স্বল্পমেয়াদী", "None", "None"], correct: 0 },
+        { q: "৩১. বিপণন মিশ্রণ (Marketing Mix) কার তত্ত্ব?", options: ["ফিলিপ কোটলার", "জেরম ম্যাকার্থি", "None", "None"], correct: 1 },
+        { q: "৩২. Marketing Mix এর ৪টি উপাদান কী?", options: ["4Ps", "4Cs", "None", "None"], correct: 0 },
+        { q: "৩৩. পণ্যের মূল্য নির্ধারণে কী প্রভাব ফেলে?", options: ["চাহিদা", "সরবরাহ", "সবগুলো", "None"], correct: 2 },
+        { q: "৩৪. প্যাকেজিং কীসের জন্য জরুরি?", options: ["সুরক্ষা", "সৌন্দর্য", "সবগুলো", "None"], correct: 2 },
+        { q: "৩৫. লেবেলিং কী বহন করে?", options: ["তথ্যের উৎস", "সজ্জা", "None", "None"], correct: 0 },
+        { q: "৩৬. ব্যক্তিগত বিক্রয় (Personal Selling) কী?", options: ["মুখোমুখি বিক্রয়", "গণমাধ্যম", "None", "None"], correct: 0 },
+        { q: "৩৭. বিজ্ঞাপন কী?", options: ["পেইড প্রমোশন", "ফ্রি প্রমোশন", "None", "None"], correct: 0 },
+        { q: "৩৮. ভোক্তা সুরক্ষা আইন কবে চালু হয়?", options: ["১৯৮৬", "১৯৯০", "None", "None"], correct: 0 },
+        { q: "৩৯. ভোক্তা অধিকার কী?", options: ["নিরাপত্তা অধিকার", "তথ্য পাওয়ার অধিকার", "সবগুলো", "None"], correct: 2 },
+        { q: "৪০. ভোক্তা সুরক্ষা ফোরাম কোথায় থাকে?", options: ["জেলা স্তরে", "জাতীয় স্তরে", "সবগুলো", "None"], correct: 2 },
+        { q: "৪১. ব্যবস্থাপনার কাজ কি ধারাবাহিক?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "৪২. কোনটি ব্যবস্থাপনার সামাজিক দায়িত্ব?", options: ["পরিবেশ রক্ষা", "শুধুমাত্র মুনাফা", "None", "None"], correct: 0 },
+        { q: "৪৩. উদ্দেশ্যভিত্তিক ব্যবস্থাপনা (MBO) কার তত্ত্ব?", options: ["পিটার ড্রাকার", "ফায়োল", "None", "None"], correct: 0 },
+        { q: "৪৪. সংগঠন কাঠামো কয় প্রকার?", options: ["৪ প্রকার", "২ প্রকার", "None", "None"], correct: 0 },
+        { q: "৪৫. কর্তৃত্বার্পণ (Delegation) কী?", options: ["ক্ষমতা হস্তান্তর", "ক্ষমতা দখল", "None", "None"], correct: 0 },
+        { q: "৪৬. বিকেন্দ্রীকরণ কী?", options: ["ক্ষমতার বণ্টন", "ক্ষমতার কেন্দ্রীকরণ", "None", "None"], correct: 0 },
+        { q: "৪৭. মাসলোর চাহিদা সোপান তত্ত্ব কয়টি স্তরের?", options: ["৫টি", "৪টি", "None", "None"], correct: 0 },
+        { q: "৪৮. আর্থিক প্রেষণা কী?", options: ["বোনাস", "প্রশংসা", "None", "None"], correct: 0 },
+        { q: "৪৯. অনার্থিক প্রেষণা কী?", options: ["পদোন্নতি", "বেতন", "None", "None"], correct: 0 },
+        { q: "৫০. যোগাযোগের বাধা কোনটি?", options: ["ভাষাগত বাধা", "ভালো পরিবেশ", "None", "None"], correct: 0 },
+        { q: "৫১. আর্থিক ঝুঁকি কী?", options: ["লভ্যাংশ অনিশ্চয়তা", "মুনাফা নিশ্চিত", "None", "None"], correct: 0 },
+        { q: "৫২. কার্যকরী মূলধন (Working Capital) কী?", options: ["চলতি সম্পদ - চলতি দায়", "স্থায়ী সম্পদ", "None", "None"], correct: 0 },
+        { q: "৫৩. লভ্যাংশ কত প্রকার?", options: ["২", "৩", "None", "None"], correct: 0 },
+        { q: "৫৪. স্টক এক্সচেঞ্জ কী?", options: ["শেয়ার বাজার", "পণ্যের বাজার", "None", "None"], correct: 0 },
+        { q: "৫৫. IPO কী?", options: ["Initial Public Offering", "None", "None", "None"], correct: 0 },
+        { q: "৫৬. ডিবেঞ্চার হোল্ডার কে?", options: ["পাওনাদার", "মালিক", "None", "None"], correct: 0 },
+        { q: "৫৭. মার্কেটিং ম্যানেজমেন্টের ফিলোসফি কয়টি?", options: ["৫টি", "২টি", "None", "None"], correct: 0 },
+        { q: "৫৮. ব্র্যান্ডিং কী?", options: ["পণ্যের পরিচিতি", "দাম", "None", "None"], correct: 0 },
+        { q: "৫৯. চ্যানেল অফ ডিস্ট্রিবিউশন কী?", options: ["বণ্টন প্রণালী", "উৎপাদন প্রণালী", "None", "None"], correct: 0 },
+        { q: "৬০. পি আর (Public Relations) কী?", options: ["জনসংযোগ", "বিজ্ঞাপন", "None", "None"], correct: 0 },
+        { q: "৬১. ব্যবস্থাপনার গতিশীলতা কী?", options: ["পরিবর্তনশীল", "স্থির", "None", "None"], correct: 0 },
+        { q: "৬২. মানসিক বিপ্লব (Mental Revolution) কার উক্তি?", options: ["টেলর", "ফায়োল", "None", "None"], correct: 0 },
+        { q: "৬৩. পরিকল্পনার সীমাবদ্ধতা কোনটি?", options: ["সময়সাপেক্ষ", "সস্তা", "None", "None"], correct: 0 },
+        { q: "৬৪. সাংগঠনিক চার্ট কী দেখায়?", options: ["সম্পর্ক", "লাভ", "None", "None"], correct: 0 },
+        { q: "৬৫. ইন্টারভিউ কী?", options: ["নির্বাচন প্রক্রিয়া", "প্রশিক্ষণ", "None", "None"], correct: 0 },
+        { q: "৬৬. প্রশিক্ষণের গুরুত্ব কী?", options: ["দক্ষতা বৃদ্ধি", "বেতন কমানো", "None", "None"], correct: 0 },
+        { q: "৬৭. নেতার গুণাবলী কী?", options: ["সাহস", "ভীরুতা", "None", "None"], correct: 0 },
+        { q: "৬৮. নেতৃত্ব কী?", options: ["অনুপ্রাণিত করা", "শাসন করা", "None", "None"], correct: 0 },
+        { q: "৬৯. নিয়ন্ত্রণের কৌশল কী?", options: ["বাজেট", "তত্ত্বাবধান", "সবগুলো", "None"], correct: 2 },
+        { q: "৭০. ব্যবস্থাপনার সর্বজনীনতা মানে?", options: ["সবখানে প্রযোজ্য", "শুধু ব্যবসায়", "None", "None"], correct: 0 },
+        { q: "৭১. দীর্ঘমেয়াদী অর্থায়ন কী?", options: ["শেয়ার ইস্যু", "ব্যাংক লোন", "সবগুলো", "None"], correct: 2 },
+        { q: "৭২. আর্থিক লক্ষ্য কী?", options: ["সম্পদ সর্বাধিকরণ", "মুনাফা সর্বাধিকরণ", "সবগুলো", "None"], correct: 2 },
+        { q: "৭৩. লভ্যাংশ প্রদান নীতি কীসের ওপর নির্ভর?", options: ["মুনাফা", "নগদ প্রবাহ", "সবগুলো", "None"], correct: 2 },
+        { q: "৭৪. বাণিজ্যিক পত্র কী?", options: ["স্বল্পমেয়াদী ঋণ", "দীর্ঘমেয়াদী", "None", "None"], correct: 0 },
+        { q: "৭৫. ডেরিভেটিভ কী?", options: ["আর্থিক চুক্তি", "শেয়ার", "None", "None"], correct: 0 },
+        { q: "৭৬. মার্কেটিং রিসার্চ কেন হয়?", options: ["তথ্য সংগ্রহের জন্য", "মুনাফা কমাতে", "None", "None"], correct: 0 },
+        { q: "৭৭. পণ্যের জীবনচক্র কয়টি ধাপের?", options: ["৪টি", "২টি", "None", "None"], correct: 0 },
+        { q: "৭৮. মধ্যস্থতাকারী কে?", options: ["ডিলার", "উৎপাদক", "None", "None"], correct: 0 },
+        { q: "৭৯. ভোক্তা আদালতের ক্ষমতা কী?", options: ["বিচার করা", "পণ্য উৎপাদন", "None", "None"], correct: 0 },
+        { q: "৮০. এনজিও কীসের সুরক্ষায় কাজ করে?", options: ["ভোক্তা", "সরকারি", "None", "None"], correct: 0 },
+        { q: "৮১. ব্যবস্থাপনার কোন স্তর কর্মীদের সাথে কাজ করে?", options: ["নিম্নস্তর", "উচ্চস্তর", "None", "None"], correct: 0 },
+        { q: "৮২. হেনরি ফায়োল কী ছিলেন?", options: ["খনি প্রকৌশলী", "ডাক্তার", "None", "None"], correct: 0 },
+        { q: "৮৩. পরিকল্পনার অপরিহার্য শর্ত কী?", options: ["নমনীয়তা", "কঠোরতা", "None", "None"], correct: 0 },
+        { q: "৮৪. কর্মী নির্বাচন কী?", options: ["নেতিবাচক প্রক্রিয়া", "ইতিবাচক", "None", "None"], correct: 0 },
+        { q: "৮৫. প্রেষণা কী?", options: ["ইচ্ছাশক্তি জাগানো", "আদেশ দেওয়া", "None", "None"], correct: 0 },
+        { q: "৮৬. কার্যকরী যোগাযোগ কী?", options: ["উভমুখী", "একমুখী", "None", "None"], correct: 0 },
+        { q: "৮৭. বিচ্যুতি (Deviation) কী?", options: ["পার্থক্য", "সাদৃশ্য", "None", "None"], correct: 0 },
+        { q: "৮৮. মূলধন বাজেটিং কেন গুরুত্বপূর্ণ?", options: ["বড় বিনিয়োগের জন্য", "ছোট খরচের জন্য", "None", "None"], correct: 0 },
+        { q: "৮৯. শেয়ারহোল্ডাররা কোম্পানির কী?", options: ["মালিক", "কর্মী", "None", "None"], correct: 0 },
+        { q: "৯০. সেবি (SEBI) কোন সালে গঠিত হয়?", options: ["১৯৯২", "১৯৮০", "None", "None"], correct: 0 },
+        { q: "৯১. পণ্য কী?", options: ["সেবা বা বস্তু", "শুধুমাত্র বস্তু", "None", "None"], correct: 0 },
+        { q: "৯২. সেবা (Service) কী?", options: ["অস্পর্শনীয়", "স্পর্শনীয়", "None", "None"], correct: 0 },
+        { q: "৯৩. দাম নির্ধারণের কৌশল কী?", options: ["চাহিদা ভিত্তিক", "খরচ ভিত্তিক", "সবগুলো", "None"], correct: 2 },
+        { q: "৯৪. বিপণন পরিবেশ কী?", options: ["অভ্যন্তরীণ ও বাহ্যিক", "শুধু অভ্যন্তরীণ", "None", "None"], correct: 0 },
+        { q: "৯৫. ভোক্তা সচেতনতা কী?", options: ["অধিকার জানা", "অজ্ঞানতা", "None", "None"], correct: 0 },
+        { q: "৯৬. মানদণ্ড (Standard) কী?", options: ["পরিমাপের ভিত্তি", "ভুল", "None", "None"], correct: 0 },
+        { q: "৯৭. কর্মীসংস্থান কি ব্যবস্থাপনার অবিচ্ছেদ্য?", options: ["হ্যাঁ", "না", "None", "None"], correct: 0 },
+        { q: "৯৮. প্রশাসনিক ব্যবস্থাপনা কে গড়েছেন?", options: ["হেনরি ফায়োল", "টেলর", "None", "None"], correct: 0 },
+        { q: "৯৯. লক্ষ্য অর্জনের মূল কী?", options: ["সমন্বয়", "একাকীত্ব", "None", "None"], correct: 0 },
+        { q: "১০০. ব্যবস্থাপনা কি বিজ্ঞান ও কলা?", options: ["উভয়ই", "শুধুমাত্র বিজ্ঞান", "None", "None"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            if(opt !== "None") {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                container.appendChild(btn);
+            }
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3 style='margin-bottom:15px; color:#38bdf8;'>সঠিক উত্তর মিলিয়ে নিন:</h3>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p style='color:#f87171'>সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
