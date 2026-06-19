@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Philosophy 2026 Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 24px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 19px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 15px; margin-bottom: 10px; width: 100%; border-radius: 8px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; font-size: 16px; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #fbbf24; }
+        .finish-btn { background: #b45309; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #f87171; }
+        .correct { color: #4ade80; font-weight: bold; }
+        .wrong { color: #f87171; font-weight: bold; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি দর্শন: ১০০ সাজেশন (2026)</div>
+    <div id="quiz-screen" class="screen active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; color:#fbbf24;">
+            <span id="q-count">প্রশ্ন: ১ / ১০০</span>
+        </div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; margin-bottom:20px; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 24px; margin-bottom: 20px;"></div>
+        <div id="review-list"></div>
+        <div style="text-align:center; margin-top:30px;"><button onclick="location.reload()" class="opt-btn" style="text-align:center; display:block;">নতুন করে শুরু করুন</button></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. দর্শন শব্দের উৎপত্তি কোন শব্দ থেকে?", options: ["দৃশ্য ধাতু", "দর্শনম্", "ফিলোসফিয়া", "কোনটিই নয়"], correct: 0 },
+        { q: "২. 'Philosophy' শব্দটি এসেছে কোন শব্দ থেকে?", options: ["Philos ও Sophia", "Phil ও Sophy", "Philo ও Sophy", "কোনটিই নয়"], correct: 0 },
+        { q: "৩. ভারতীয় দর্শনের প্রধান শাখা কয়টি?", options: ["দুটি", "তিনটি", "চারটি", "পাঁচটি"], correct: 0 },
+        { q: "৪. আস্তিক দর্শনের সংখ্যা কত?", options: ["ছয়টি", "চারটি", "তিনটি", "পাঁচটি"], correct: 0 },
+        { q: "৫. নাস্তিক দর্শনের উদাহরণ কোনটি?", options: ["চার্বাক", "ন্যায়", "যোগ", "বৈশেষিক"], correct: 0 },
+        { q: "৬. চার্বাক দর্শন কোন প্রকৃতির?", options: ["জড়বাদী", "ভাববাদী", "অতীন্দ্রিয়বাদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৭. চার্বাক মতে প্রমাণ কয়টি?", options: ["একটি", "দুটি", "তিনটি", "চারটি"], correct: 0 },
+        { q: "৮. চার্বাক মতে একমাত্র প্রমাণ কী?", options: ["প্রত্যক্ষ", "অনুমান", "শব্দ", "উপমান"], correct: 0 },
+        { q: "৯. বৌদ্ধ দর্শনের চারটি আর্য সত্যের প্রথমটি কী?", options: ["দুঃখ", "দুঃখের কারণ", "দুঃখ নিরোধ", "দুঃখ নিরোধের উপায়"], correct: 0 },
+        { q: "১০. বৌদ্ধ দর্শনের 'প্রতীত্যসমুৎপাদ' অর্থ কী?", options: ["কার্য-কারণ নিয়ম", "অস্থায়িত্ব", "শূন্যবাদ", "কোনটিই নয়"], correct: 0 },
+        { q: "১১. অষ্টাঙ্গিক মার্গের প্রবক্তা কে?", options: ["গৌতম বুদ্ধ", "মহাবীর", "কপিল", "পতঞ্জলি"], correct: 0 },
+        { q: "১২. জৈন দর্শনের পঞ্চমহাব্রতের অন্তর্গত কোনটি?", options: ["অহিংসা", "অস্তেয়", "সত্য", "সবকটি"], correct: 3 },
+        { q: "১৩. ন্যায় দর্শনের প্রবক্তা কে?", options: ["গৌতম", "কপিল", "পতঞ্জলি", "কণাদ"], correct: 0 },
+        { q: "১৪. বৈশেষিক দর্শনের প্রবক্তা কে?", options: ["কণাদ", "গৌতম", "জয়মিনি", "শংকর"], correct: 0 },
+        { q: "১৫. সাংখ্য দর্শনের প্রবক্তা কে?", options: ["কপিল", "পতঞ্জলি", "গৌতম", "কণাদ"], correct: 0 },
+        { q: "১৬. যোগ দর্শনের প্রবক্তা কে?", options: ["পতঞ্জলি", "কপিল", "গৌতম", "বাদরায়ণ"], correct: 0 },
+        { q: "১৭. মীমাংসা দর্শনের প্রবক্তা কে?", options: ["জয়মিনি", "বাদরায়ণ", "গৌতম", "কণাদ"], correct: 0 },
+        { q: "১৮. বেদান্ত দর্শনের প্রবক্তা কে?", options: ["বাদরায়ণ", "জয়মিনি", "শংকর", "রামানুজ"], correct: 0 },
+        { q: "১৯. পাশ্চাত্য দর্শনে বস্তুবাদ কয় প্রকার?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "২০. লকের মতে গুণ কয় প্রকার?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "২১. বার্কলের দর্শনের নাম কী?", options: ["আত্মগত ভাববাদ", "বস্তুগত ভাববাদ", "বিচারবাদ", "সন্দেহবাদ"], correct: 0 },
+        { q: "২২. কান্টের দর্শনের নাম কী?", options: ["বিচারবাদ", "অভিজ্ঞতাবাদ", "বুদ্ধিবাদ", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. 'মানুষ অভিজ্ঞতার বাইরে কিছু জানে না'—কার মত?", options: ["হিউম", "ডেকার্ট", "স্পিনোজা", "লাইবনিজ"], correct: 0 },
+        { q: "২৪. বুদ্ধিবাদীদের প্রধান প্রতিনিধি কে?", options: ["ডেকার্ট", "লক", "বার্কলে", "হিউম"], correct: 0 },
+        { q: "২৫. অভিজ্ঞতাবাদের প্রধান প্রতিনিধি কে?", options: ["লক", "ডেকার্ট", "স্পিনোজা", "লাইবনিজ"], correct: 0 },
+        { q: "২৬. 'আমি চিন্তা করি, তাই আমি আছি'—কার উক্তি?", options: ["ডেকার্ট", "লক", "বার্কলে", "হিউম"], correct: 0 },
+        { q: "২৭. স্পিনোজার দর্শনের নাম কী?", options: ["সর্বেশ্বরবাদ", "দ্বৈতবাদ", "একত্ববাদ", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. লাইবনিজের দর্শনের নাম কী?", options: ["মোনাডবাদ", "সর্বেশ্বরবাদ", "বিচারবাদ", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. নীতিবিদ্যা কিসের আলোচনা করে?", options: ["আদর্শ", "তথ্য", "ইতিহাস", "বিজ্ঞান"], correct: 0 },
+        { q: "৩০. নীতিবিদ্যা কোন ধরনের বিজ্ঞান?", options: ["আদর্শনিষ্ঠ বিজ্ঞান", "বস্তুনিষ্ঠ বিজ্ঞান", "ইতিহাস", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. সুখবাদ কয় প্রকার?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "৩২. 'পরসুখবাদ'-এর সমর্থক কে?", options: ["বেন্থাম", "মিল", "এপিকিউরাস", "এরিস্টপাস"], correct: 0 },
+        { q: "৩৩. 'স্বসুখবাদ'-এর সমর্থক কে?", options: ["এপিকিউরাস", "বেন্থাম", "মিল", "স্পেন্সার"], correct: 0 },
+        { q: "৩৪. বেন্থামের মতে সুখের গুণগত পার্থক্য—", options: ["নেই", "আছে", "পরিমাণগত", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. মিলের মতে সুখের—", options: ["গুণগত পার্থক্য আছে", "নেই", "পরিমাণগত পার্থক্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. কান্টের নৈতিক নিয়ম কী?", options: ["Categorical Imperative", "Hypothetical Imperative", "সবকটি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. 'যথাযথ কাজই কর্তব্য'—কার মত?", options: ["কান্ট", "মিল", "বেন্থাম", "হিউম"], correct: 0 },
+        { q: "৩৮. সমাজদর্শন কয়টি বিষয় নিয়ে আলোচনা করে?", options: ["অনেক", "দুটি", "তিনটি", "চারটি"], correct: 0 },
+        { q: "৩৯. মানুষের অধিকার কয় প্রকার?", options: ["দুই", "তিন", "চার", "পাঁচ"], correct: 0 },
+        { q: "৪০. 'অধিকার হল সেই শক্তি যা মানুষ সমাজে বাস করার জন্য দাবি করে'—কার উক্তি?", options: ["ল্যাস্কি", "হল্যান্ড", "অস্টিন", "হবস"], correct: 0 },
+        { q: "৪১. কর্মসংস্থান কী?", options: ["অধিকার", "কর্তব্য", "শাস্তি", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. ভারতীয় দর্শনে 'পুরুষ' কথাটির অর্থ কী?", options: ["আত্মা", "দেহ", "মন", "প্রকৃতি"], correct: 0 },
+        { q: "৪৩. সাংখ্যের মতে প্রকৃতি কয়টি?", options: ["একটি", "দুটি", "তিনটি", "অনেক"], correct: 0 },
+        { q: "৪৪. 'অবিদ্যা' কোন দর্শনের মূল ধারণা?", options: ["বেদান্ত", "সাংখ্য", "ন্যায়", "যোগ"], correct: 0 },
+        { q: "৪৫. শংকর বেদান্ত কী নামে পরিচিত?", options: ["অদ্বৈত বেদান্ত", "দ্বৈত বেদান্ত", "বিশিষ্টাদ্বৈত", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. চার্বাক মতে স্বর্গ কী?", options: ["মৃত্যুর পর সুখ", "মাছ-মাংস খাওয়া", "ভোগ বিলাস", "কোনটিই নয়"], correct: 1 },
+        { q: "৪৭. ন্যায় মতে প্রমাণ কয়টি?", options: ["চারটি", "একটি", "দুটি", "তিনটি"], correct: 0 },
+        { q: "৪৮. ব্যাপ্তি কী?", options: ["সহচার্য নিয়ম", "অণুমান", "শব্দ", "উপমান"], correct: 0 },
+        { q: "৪৯. স্বার্থানুমিতি ও পরার্থানুমিতি—কার ভাগ?", options: ["ন্যায়", "সাংখ্য", "বৌদ্ধ", "জৈন"], correct: 0 },
+        { q: "৫০. জৈন মতে আত্মার স্বরূপ কী?", options: ["চৈতন্যময়", "জড়", "অনিশ্চিত", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. অদ্বৈত বেদান্ত মতে ব্রহ্ম—", options: ["নির্গুণ", "সগুণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. 'তত্ত্বমসি' মহাবাক্যটি কোথায় আছে?", options: ["ছান্দোগ্য উপনিষদ", "গীতা", "কোরান", "বাইবেল"], correct: 0 },
+        { q: "৫৩. বৌদ্ধ মতে আত্মা—", options: ["অনাত্মা", "নিত্য", "অবিনশ্বর", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. চার্বাকরা কোন প্রমাণ স্বীকার করেন?", options: ["প্রত্যক্ষ", "অনুমান", "শব্দ", "উপমান"], correct: 0 },
+        { q: "৫৫. 'দেহাদ্বিবশিষ্ট আত্মা'—কার মত?", options: ["চার্বাক", "ন্যায়", "বৌদ্ধ", "জৈন"], correct: 0 },
+        { q: "৫৬. পাশ্চাত্য দর্শনের জনক কে?", options: ["থেলিস", "সক্রেটিস", "প্লেটো", "এরিস্টটল"], correct: 0 },
+        { q: "৫৭. 'সন্দেহবাদ'-এর জনক কে?", options: ["হিউম", "ডেকার্ট", "লক", "কান্ট"], correct: 0 },
+        { q: "৫৮. 'জ্ঞানের উৎপত্তি অভিজ্ঞতা থেকে'—কে বলেছেন?", options: ["লক", "ডেকার্ট", "স্পিনোজা", "লাইবনিজ"], correct: 0 },
+        { q: "৫৯. মুখ্য গুণ ও গৌণ গুণ—কে ভাগ করেছেন?", options: ["লক", "বার্কলে", "হিউম", "কান্ট"], correct: 0 },
+        { q: "৬০. দ্রব্য (Substance) হলো—", options: ["গুণের আধার", "গুণহীন", "অবাস্তব", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. 'বস্তু হলো প্রত্যক্ষের সমষ্টি'—কার মত?", options: ["বার্কলে", "লক", "হিউম", "ডেকার্ট"], correct: 0 },
+        { q: "৬২. কার্যকারণ সম্পর্কের বিরোধী কে?", options: ["হিউম", "লক", "বার্কলে", "কান্ট"], correct: 0 },
+        { q: "৬৩. বিচারবাদ-এর প্রবক্তা কে?", options: ["কান্ট", "লক", "ডেকার্ট", "হিউম"], correct: 0 },
+        { q: "৬৪. নীতিবিদ্যা কোন ধরনের বিদ্যা?", options: ["আদর্শনিষ্ঠ", "বস্তুনিষ্ঠ", "ইতিহাস", "বিজ্ঞান"], correct: 0 },
+        { q: "৬৫. 'সুখই জীবনের চরম লক্ষ্য'—কার মত?", options: ["সুখবাদী", "কর্তব্যবাদী", "নিষ্কামবাদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. বেন্থামের সুখবাদ—", options: ["পরিমাণগত", "গুণগত", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. মিলের সুখবাদ—", options: ["গুণগত", "পরিমাণগত", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. কান্টের নৈতিক নিয়ম কী?", options: ["কর্তব্যের জন্য কর্তব্য", "সুখের জন্য কর্তব্য", "ফলের জন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. 'পরসুখই পরধর্ম'—কার মত?", options: ["মিল", "বেন্থাম", "কান্ট", "হিউম"], correct: 0 },
+        { q: "৭০. অপরাধ ও শাস্তি কয় প্রকার?", options: ["তিন", "দুই", "চার", "পাঁচ"], correct: 0 },
+        { q: "৭১. শাস্তির প্রধান মতবাদ কয়টি?", options: ["তিনটি", "দুটি", "চারটি", "পাঁচটি"], correct: 0 },
+        { q: "৭২. প্রতীকারমূলক শাস্তি—", options: ["সংশোধন", "প্রতিশোধ", "উদাহরণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. সংশোধনমূলক শাস্তি—", options: ["সুযোগ দেওয়া", "মারা", "জেল", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. প্রতিশোধমূলক শাস্তি—", options: ["চোখের বদলে চোখ", "সংশোধন", "শিক্ষা", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. দর্শনের আলোচনার ভিত্তি—", options: ["যুক্তি", "বিশ্বাস", "অনুমান", "সবকটি"], correct: 0 },
+        { q: "৭৬. ভারতীয় দর্শন—", options: ["ব্যবহারিক", "তাত্ত্বিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৭৭. চার্বাক নীতি—", options: ["লৌকিক", "পারলৌকিক", "আध्यात्मিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. বৌদ্ধ মতে—", options: ["অনিশ্চয়তা", "স্থায়িত্ব", "শূন্যতা", "সবকটি"], correct: 0 },
+        { q: "৭৯. মহাযান ও হীনযান—কিসের অংশ?", options: ["বৌদ্ধ", "জৈন", "হিন্দু", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. শ্বেতাম্বর ও দিগম্বর—কিসের অংশ?", options: ["জৈন", "বৌদ্ধ", "হিন্দু", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. ন্যায় মতে—", options: ["প্রমাণ ও প্রমেয়", "কেবল প্রমেয়", "কেবল প্রমাণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. সাংখ্য মতে—", options: ["পুরুষ ও প্রকৃতি", "কেবল পুরুষ", "কেবল প্রকৃতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. যোগ দর্শনের—", options: ["আটটি অঙ্গ", "পাঁচটি", "ছয়টি", "দশটি"], correct: 0 },
+        { q: "৮৪. মীমাংসা—", options: ["কর্মকাণ্ড", "জ্ঞানকাণ্ড", "ভক্তি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. বেদান্ত—", options: ["জ্ঞানকাণ্ড", "কর্মকাণ্ড", "ভক্তি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. পাশ্চাত্য দর্শনের ধারা—", options: ["প্রাচীন, মধ্য, আধুনিক", "কেবল প্রাচীন", "কেবল আধুনিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. ডেকার্ট—", options: ["বুদ্ধিবাদী", "অভিজ্ঞতাবাদী", "বিচারবাদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. লক—", options: ["অভিজ্ঞতাবাদী", "বুদ্ধিবাদী", "বিচারবাদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. হিউম—", options: ["সন্দেহবাদী", "বুদ্ধিবাদী", "বিচারবাদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. দ্রব্যতত্ত্ব—", options: ["পাশ্চাত্য", "ভারতীয়", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯১. ঈশ্বর—", options: ["পাশ্চাত্য ও ভারতীয়", "কেবল পাশ্চাত্য", "কেবল ভারতীয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. নীতিবিদ্যা—", options: ["ব্যক্তিগত", "সামাজিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৩. সুখের—", options: ["বৈচিত্র্য", "স্থায়িত্ব", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৪. কর্তব্যের—", options: ["ভিত্তি", "সীমাবদ্ধতা", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৫. শান্তি—", options: ["সামাজিক", "ব্যক্তিগত", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৬. সত্য—", options: ["নৈতিক", "অনৈতিক", "নিরপেক্ষ", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. অহিংসা—", options: ["নৈতিক", "অনৈতিক", "নিরপেক্ষ", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. সমাজদর্শন—", options: ["রাষ্ট্রবিজ্ঞান", "দর্শন", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৯. অধিকার—", options: ["নাগরিক", "প্রাকৃতিক", "উভয়", "কোনটিই নয়"], correct: 2 },
+        { q: "১০০. উপসংহার—", options: ["দর্শন শেষে", "শুরুতে", "মাঝখানে", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>আপনার ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
