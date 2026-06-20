@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSC GD Practice</title>
+    <title>SSC GD Practice - Exam Factory</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
         body { background: #0b0e14; color: #f8fafc; font-family: 'Outfit', sans-serif; padding: 20px; }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; max-width: 600px; margin: 0 auto; }
-        .back-btn { display: inline-block; padding: 10px 15px; background: #8b5cf6; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; margin-bottom: 20px; }
         .question-box { margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 15px; }
-        .option { display: block; margin: 10px 0; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .option:hover { background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; }
+        .option { display: block; margin: 8px 0; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid #334155; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .correct { background: #064e3b !important; border-color: #10b981 !important; color: #fff; }
+        .wrong { background: #7f1d1d !important; border-color: #ef4444 !important; color: #fff; }
+        .btn-action { width: 100%; padding: 15px; background: linear-gradient(135deg, #8b5cf6, #4f46e5); border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="glass-card">
-    <a href="index.html" class="back-btn">← ফিরে যান</a>
-    <h2>SSC GD Practice Set</h2>
+    <a href="index.html" style="color:#8b5cf6; text-decoration:none;">← ফিরে যান</a>
+    <h2 style="margin-top:10px;">SSC GD Practice Set</h2>
     <div id="quiz-container"></div>
+    <button class="btn-action" onclick="checkAnswers()">ফলাফল দেখুন</button>
+    <div id="result-text" style="margin-top:20px; font-weight:bold; text-align:center; font-size:1.2rem;"></div>
 </div>
 
 <script>
-    // এখানে আপনার প্রশ্নগুলো রাখুন
+    // সিকিউরিটি চেক
+    if (!sessionStorage.getItem('isLoggedIn')) { window.location.href = 'index.html'; }
+
+    // প্রশ্নভাণ্ডার (এখানে আপনার সব প্রশ্ন আছে)
     const questions = [
-        { q: "ভারতের সংবিধানের জনক কে?", a: ["জওহরলাল নেহরু", "বি আর আম্বেদকর", "মহাত্মা গান্ধী", "বল্লভভাই প্যাটেল"], correct: 1 },
-        { q: "পানিপথের প্রথম যুদ্ধ কত সালে হয়?", a: ["১৫২৬", "১৫৫৬", "১৭৬১", "১৫২০"], correct: 0 },
-        { q: "সবচেয়ে হালকা ধাতু কোনটি?", a: ["লিথিয়াম", "সোডিয়াম", "ম্যাগনেশিয়াম", "অ্যালুমিনিয়াম"], correct: 0 }
+        { q: "ভারতের প্রথম রাষ্ট্রপতি কে ছিলেন?", a: ["রাজেন্দ্র প্রসাদ", "জওহরলাল নেহরু", "সর্দার প্যাটেল", "বি আর আম্বেদকর"], correct: 0 },
+        { q: "জাপানের মুদ্রার নাম কি?", a: ["ইউরো", "ডলার", "ইয়েন", "পেসো"], correct: 2 },
+        { q: "‘ডিসকভারি অফ ইন্ডিয়া’ কার লেখা?", a: ["গান্ধী", "নেহরু", "প্যাটেল", "আম্বেদকর"], correct: 1 },
+        { q: "ফ্রান্সের রাজধানীর নাম কি?", a: ["বার্লিন", "প্যারিস", "রোম", "মাদ্রিদ"], correct: 1 },
+        { q: "ভারতের জাতীয় পশু কোনটি?", a: ["সিংহ", "হাতি", "বাঘ", "ময়ূর"], correct: 2 },
+        { q: "রবীন্দ্রনাথ ঠাকুর কত সালে নোবেল পান?", a: ["১৯১১", "১৯১৩", "১৯১৫", "১৯১৭"], correct: 1 },
+        { q: "পৃথিবীর বৃহত্তম মহাসাগর কোনটি?", a: ["আটলান্টিক", "ভারত মহাসাগর", "প্রশান্ত মহাসাগর", "আর্কটিক"], correct: 2 },
+        { q: "কবে ভারত স্বাধীন হয়?", a: ["১৫ আগস্ট ১৯৪৭", "২৬ জানুয়ারি ১৯৫০", "১৫ আগস্ট ১৯৪৬", "২৬ জানুয়ারি ১৯৪৭"], correct: 0 },
+        { q: "সোনার রাসায়নিক প্রতীক কি?", a: ["Ag", "Au", "Fe", "Cu"], correct: 1 },
+        { q: "বাতাসে শব্দের গতি কত (প্রায়)?", a: ["৩০০ মি/সে", "৩৪৩ মি/সে", "৪০০ মি/সে", "২৫০ মি/সে"], correct: 1 },
+        { q: "সবুজ গ্রহ বলা হয় কাকে?", a: ["পৃথিবী", "ইউরেনাস", "নেপচুন", "মঙ্গল"], correct: 1 },
+        { q: "হাঁসিতে কোন গ্যাস নির্গত হয়?", a: ["নাইট্রাস অক্সাইড", "কার্বন ডাই অক্সাইড", "মিথেন", "অক্সিজেন"], correct: 0 },
+        { q: "ভারতের সংবিধানের জনক কে?", a: ["নেহরু", "আম্বেদকর", "গান্ধী", "প্যাটেল"], correct: 1 },
+        // আপনি চাইলে এই ফরম্যাটে আরও ১৫০টি প্রশ্ন নিচে যোগ করতে পারবেন...
     ];
 
+    // র‍্যান্ডম করার ফাংশন
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    const shuffledQuestions = shuffle([...questions]);
     const container = document.getElementById('quiz-container');
 
     function loadQuiz() {
-        container.innerHTML = ""; 
-        questions.forEach((item, index) => {
+        container.innerHTML = "";
+        shuffledQuestions.forEach((item, index) => {
             let optionsHTML = item.a.map((opt, i) => 
-                `<label class="option"><input type="radio" name="q${index}" value="${i}"> ${opt}</label>`
+                `<label class="option" id="q${index}_opt${i}">
+                    <input type="radio" name="q${index}" value="${i}"> ${opt}
+                </label>`
             ).join('');
             
             container.innerHTML += `
@@ -48,9 +73,28 @@
         });
     }
 
+    function checkAnswers() {
+        let score = 0;
+        shuffledQuestions.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            
+            // সঠিক উত্তরটি হাইলাইট করা
+            document.getElementById(`q${index}_opt${item.correct}`).classList.add('correct');
+            
+            // ভুল উত্তর নির্বাচন করলে লাল করা
+            if (selected) {
+                if (parseInt(selected.value) === item.correct) {
+                    score++;
+                } else {
+                    document.getElementById(`q${index}_opt${selected.value}`).classList.add('wrong');
+                }
+            }
+        });
+        document.getElementById('result-text').innerText = `আপনার স্কোর: ${score} / ${shuffledQuestions.length}`;
+        window.scrollTo(0, 0); // উপরে পাঠিয়ে দেওয়া যাতে স্কোর দেখা যায়
+    }
+
     loadQuiz();
 </script>
-
 </body>
 </html>
-
