@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Computer Application 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #1e40af; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #10b981; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #10b981; border-radius: 8px; }
+        .opt-btn { background: #1e293b; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #334155; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #334155; border-color: #10b981; }
+        .finish-btn { background: #065f46; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">Computer App. সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#10b981;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#10b981;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. কম্পিউটার শব্দের অর্থ কী?", options: ["গণনা করা", "তথ্য দেওয়া", "ছবি আঁকা", "কোনটিই নয়"], correct: 0 },
+        { q: "২. আধুনিক কম্পিউটারের জনক কে?", options: ["চার্লস ব্যাবেজ", "অ্যালান টুরিং", "ভন নিউম্যান", "স্টিভ জবস"], correct: 0 },
+        { q: "৩. CPU-র পুরো নাম কী?", options: ["Central Processing Unit", "Central Peripheral Unit", "Computer Processing Unit", "কোনটিই নয়"], correct: 0 },
+        { q: "৪. কম্পিউটারের মস্তিষ্ক কাকে বলে?", options: ["CPU", "RAM", "ROM", "Hard Disk"], correct: 0 },
+        { q: "৫. RAM কী ধরনের মেমরি?", options: ["স্থায়ী", "অস্থায়ী", "উভয়ই", "কোনটিই নয়"], correct: 0 },
+        { q: "৬. ROM কী ধরনের মেমরি?", options: ["স্থায়ী", "অস্থায়ী", "উভয়ই", "কোনটিই নয়"], correct: 0 },
+        { q: "৭. ইনপুট ডিভাইস কোনটি?", options: ["কীবোর্ড", "মনিটর", "প্রিন্টার", "স্পিকার"], correct: 0 },
+        { q: "৮. আউটপুট ডিভাইস কোনটি?", options: ["মনিটর", "মাউস", "স্ক্যানার", "কীবোর্ড"], correct: 0 },
+        { q: "৯. 1 Byte = কত Bit?", options: ["৮ Bit", "৪ Bit", "১৬ Bit", "১ Bit"], correct: 0 },
+        { q: "১০. 1 KB = কত Byte?", options: ["১০২৪ Byte", "১০০০ Byte", "৫১২ Byte", "২০৪৮ Byte"], correct: 0 },
+        { q: "১১. বাইনারি সংখ্যা পদ্ধতি কয়টি অংক ব্যবহার করে?", options: ["২টি (০,১)", "১০টি", "৮টি", "১৬টি"], correct: 0 },
+        { q: "১২. ডেসিমেল সংখ্যা পদ্ধতির বেস কত?", options: ["১০", "২", "৮", "১৬"], correct: 0 },
+        { q: "১৩. হেক্সাডেসিমেল পদ্ধতিতে 'A' বলতে কত বোঝায়?", options: ["১০", "১১", "১২", "১৩"], correct: 0 },
+        { q: "১৪. কম্পিউটারের লজিক গেট কয় প্রকার?", options: ["৩টি (AND, OR, NOT)", "২টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "১৫. NAND গেটকে কী বলা হয়?", options: ["ইউনিভার্সাল গেট", "বেসিক গেট", "স্পেশাল গেট", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. অক্টাল সংখ্যা পদ্ধতির বেস কত?", options: ["৮", "১০", "২", "১৬"], correct: 0 },
+        { q: "১৭. সফটওয়্যার কয় প্রকার?", options: ["২ প্রকার (System, Application)", "৩ প্রকার", "৪ প্রকার", "১ প্রকার"], correct: 0 },
+        { q: "১৮. অপারেটিং সিস্টেমের একটি উদাহরণ দাও?", options: ["Windows", "MS Word", "MS Excel", "Tally"], correct: 0 },
+        { q: "১৯. লিনাক্স (Linux) কী?", options: ["অপারেটিং সিস্টেম", "অ্যাপ্লিকেশন সফটওয়্যার", "হার্ডওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. ওয়েব ব্রাউজারের একটি উদাহরণ?", options: ["Chrome", "Notepad", "Calculator", "Excel"], correct: 0 },
+        { q: "২১. ইন্টারনেটের জনক কে?", options: ["ভিন্ট সার্ফ", "চার্লস ব্যাবেজ", "বিল গেটস", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. WWW-র পুরো নাম কী?", options: ["World Wide Web", "World Web Wide", "Wide World Web", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. ইমেইল (E-mail) এর অর্থ কী?", options: ["Electronic Mail", "Electric Mail", "Extra Mail", "কোনটিই নয়"], correct: 0 },
+        { q: "২৪. সার্চ ইঞ্জিন কোনটি?", options: ["Google", "Windows", "Office", "Paint"], correct: 0 },
+        { q: "২৫. কম্পিউটার ভাইরাসের হাত থেকে বাঁচার উপায়?", options: ["অ্যান্টিভাইরাস", "ইন্টারনেট অফ", "কম্পিউটার অফ", "কোনটিই নয়"], correct: 0 },
+        { q: "২৬. হার্ডওয়্যার কী?", options: ["কম্পিউটারের স্পর্শযোগ্য অংশ", "প্রোগ্রাম", "ডেটা", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. অ্যালগরিদম কী?", options: ["সমস্যার ধাপ", "কম্পিউটার", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. ফ্লো-চার্ট কিসে ব্যবহৃত হয়?", options: ["প্রোগ্রাম ডিজাইন", "কম্পিউটার অফ", "টাইপিং", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. কম্পিউটারের প্রধান মেমরি কোনটি?", options: ["RAM", "Hard Disk", "CD", "Pen Drive"], correct: 0 },
+        { q: "৩০. ক্যাশ মেমরি কোথায় থাকে?", options: ["CPU-র ভেতরে", "HDD-তে", "RAM-এ", "Monitor-এ"], correct: 0 },
+        { q: "৩১. পেরিফেরাল ডিভাইস কী?", options: ["অতিরিক্ত যন্ত্রাংশ", "মূল CPU", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. মাউস কী ধরনের ডিভাইস?", options: ["ইনপুট", "আউটপুট", "প্রসেসিং", "মেমরি"], correct: 0 },
+        { q: "৩৩. কী-বোর্ডে ফাংশন কী কয়টি?", options: ["১২টি", "১০টি", "৮টি", "১৫টি"], correct: 0 },
+        { q: "৩৪. লেজার প্রিন্টার কী ধরনের আউটপুট দেয়?", options: ["সফট কপি", "হার্ড কপি", "ছবি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. বার কোড রিডার কী?", options: ["ইনপুট ডিভাইস", "আউটপুট ডিভাইস", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. কম্পাইলার কী করে?", options: ["সোর্স কোডকে মেশিন কোডে রূপান্তর", "কম্পিউটার চালানো", "ছবি আঁকা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. ইন্টারপ্রেটার কী?", options: ["এক লাইন করে রূপান্তর", "সম্পূর্ণ কোড রূপান্তর", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. উচ্চস্তরের ভাষা (High Level Language) কোনটি?", options: ["C++", "বাইনারি", "অ্যাসেম্বলি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. অ্যাসেম্বলি ভাষা কী?", options: ["লো-লেভেল ল্যাঙ্গুয়েজ", "হাই-লেভেল ল্যাঙ্গুয়েজ", "অপারেটিং সিস্টেম", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. ডেটাবেস ম্যানেজমেন্ট সিস্টেম কী?", options: ["DBMS", "OS", "Paint", "Excel"], correct: 0 },
+        { q: "৪১. রিলেশনাল ডেটাবেস কী?", options: ["RDBMS", "OS", "Browser", "Game"], correct: 0 },
+        { q: "৪২. HTML কী?", options: ["ওয়েব তৈরির ভাষা", "অপারেটিং সিস্টেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৩. HTML-এর পুরো নাম কী?", options: ["Hyper Text Markup Language", "Hyper Tech Markup Language", "High Text Markup Language", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. ওয়েবসাইট তৈরির জন্য কী দরকার?", options: ["HTML", "C++", "Paint", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. ইন্টারনেট সংযোগের জন্য কী লাগে?", options: ["মডেম", "মনিটর", "মাউস", "কীবোর্ড"], correct: 0 },
+        { q: "৪৬. IP অ্যাড্রেস কী?", options: ["কম্পিউটারের ঠিকানা", "নাম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. ল্যান (LAN)-এর পুরো নাম কী?", options: ["Local Area Network", "Large Area Network", "Low Area Network", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. ওয়াই-ফাই (Wi-Fi) কী?", options: ["ওয়্যারলেস কানেকশন", "তারের সংযোগ", "কম্পিউটার", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. স্প্রেডশিট সফটওয়্যার কোনটি?", options: ["MS Excel", "MS Word", "Paint", "Notepad"], correct: 0 },
+        { q: "৫০. ওয়ার্ড প্রসেসিং সফটওয়্যার কোনটি?", options: ["MS Word", "MS Excel", "PowerPoint", "Calculator"], correct: 0 },
+        { q: "৫১. পাওয়ারপয়েন্ট কী কাজে লাগে?", options: ["প্রেজেন্টেশন", "টাইপিং", "গেম", "হিসাব"], correct: 0 },
+        { q: "৫২. বুটস্ট্র্যাপিং কী?", options: ["কম্পিউটার চালু হওয়া", "বন্ধ হওয়া", "গেম খেলা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. কন্ট্রোল ইউনিটের কাজ কী?", options: ["সমন্বয় করা", "গণনা করা", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. ALU কী?", options: ["Arithmetic Logic Unit", "All Logic Unit", "Arithmetic Local Unit", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. ফ্লপি ডিস্ক কী?", options: ["সেকেন্ডারি মেমরি", "CPU", "RAM", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. পেন ড্রাইভ কী?", options: ["ফ্ল্যাশ মেমরি", "CPU", "RAM", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. গ্রাফিক্স কার্ড কী কাজ করে?", options: ["ভিডিও প্রদর্শনে", "শব্দে", "টাইপিংয়ে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. সাউন্ড কার্ড কী কাজ করে?", options: ["শব্দে", "ছবিতে", "ভিডিওতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. মাদারবোর্ড কী?", options: ["কম্পিউটারের প্রধান বোর্ড", "প্রসেসর", "RAM", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. BIOS কী?", options: ["Basic Input Output System", "Basic Input System", "System", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. লজিক গেট OR-এর আউটপুট ১ হবে যদি-", options: ["একটি ইনপুট ১ হয়", "উভয় ০ হয়", "উভয় ১ হয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. লজিক গেট AND-এর আউটপুট ১ হবে যদি-", options: ["সব ইনপুট ১ হয়", "একটি ০ হয়", "কোনটিই নয়", "সব ০ হয়"], correct: 0 },
+        { q: "৬৩. NOT গেট কী করে?", options: ["ইনভার্ট করে", "যোগ করে", "গুণ করে", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. ডিজিটাল কম্পিউটার কীসের ওপর কাজ করে?", options: ["বাইনারি", "ডেসিমেল", "অক্টাল", "হেক্সা"], correct: 0 },
+        { q: "৬৫. এনালগ কম্পিউটার কীসের ওপর কাজ করে?", options: ["অবিচ্ছিন্ন সংকেত", "বাইনারি", "ডিজিটাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. সুপার কম্পিউটার কী কাজে লাগে?", options: ["গবেষণায়", "টাইপিংয়ে", "ইমেইলে", "গেম খেলায়"], correct: 0 },
+        { q: "৬৭. মাইক্রোপ্রসেসর কী?", options: ["CPU-র ছোট সংস্করণ", "সফটওয়্যার", "মেমরি", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. মাল্টিমিডিয়া কী?", options: ["অডিও-ভিডিও-টেক্সট", "শুধুমাত্র টেক্সট", "শুধুমাত্র অডিও", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. পিক্সেল কী?", options: ["ছবির ক্ষুদ্রতম অংশ", "স্ক্রিন", "মাউস", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. রেজোলিউশন কী?", options: ["ছবির স্পষ্টতা", "গেম", "শব্দ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. ভাইরাস আক্রান্ত কম্পিউটারের লক্ষণ কী?", options: ["স্লো হওয়া", "ফাস্ট হওয়া", "নতুন হওয়া", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. ফায়ারওয়াল কী?", options: ["নিরাপত্তা ব্যবস্থা", "সফটওয়্যার", "ভাইরাস", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. গুগল ড্রাইভ কী?", options: ["ক্লাউড স্টোরেজ", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. কম্পিউটারের গতি কিসে মাপা হয়?", options: ["GHz/MHz", "Bytes", "Bits", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. পিসি (PC) মানে কী?", options: ["Personal Computer", "Private Computer", "Public Computer", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. ল্যাপটপ কী?", options: ["বহনযোগ্য কম্পিউটার", "ডেস্কটপ", "সার্ভার", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. সার্ভার কী?", options: ["নেটওয়ার্ক কম্পিউটার", "ক্লায়েন্ট", "গেম", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. ক্লায়েন্ট কী?", options: ["সার্ভারের সাথে যুক্ত", "সার্ভার", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. HTTP কী?", options: ["Hyper Text Transfer Protocol", "Hyper Transfer", "Protocol", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. FTP কী?", options: ["File Transfer Protocol", "File Protocol", "Transfer", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. ইউজার ইন্টারফেস কী?", options: ["ব্যবহারকারীর মাধ্যম", "হার্ডওয়্যার", "গেম", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. ডেটা কী?", options: ["কাঁচা তথ্য", "প্রসেসড তথ্য", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. ইনফরমেশন কী?", options: ["প্রসেসড ডেটা", "কাঁচা ডেটা", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. স্ক্যানার কী?", options: ["ছবি তোলার ডিভাইস", "প্রিন্টার", "মাউস", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. প্লটার কী?", options: ["বড় গ্রাফিক্স প্রিন্টার", "মাউস", "কীবোর্ড", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. মডেম (Modem)-এর কাজ কী?", options: ["সংকেত রূপান্তর", "ছবি", "শব্দ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. লুপ কী?", options: ["প্রোগ্রামের পুনরাবৃত্তি", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. ভেরিয়েবল কী?", options: ["মান সংরক্ষণের স্থান", "গেম", "হার্ডওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. সি (C) ল্যাঙ্গুয়েজ কী?", options: ["প্রোগ্রামিং ভাষা", "OS", "ব্রাউজার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. জাভা (Java) কী?", options: ["প্রোগ্রামিং ভাষা", "OS", "ব্রাউজার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. ডেটাবেসে প্রাইমারি কী কেন ব্যবহৃত হয়?", options: ["ইউনিক আইডেন্টিফিকেশন", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. SQL কী?", options: ["ডেটাবেস ল্যাঙ্গুয়েজ", "OS", "ব্রাউজার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. ব্রাউজারের হিস্ট্রি কী?", options: ["পূর্বের দেখা পেজ", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. কুকিজ (Cookies) কী?", options: ["ইউজার ডেটা", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. কম্পিউটার নেটওয়ার্ক কেন করা হয়?", options: ["রিসোর্স শেয়ারিং", "গেম", "সময় নষ্ট", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. নেটওয়ার্ক টপোলজি কয় প্রকার?", options: ["অনেক প্রকার (Bus, Star, Ring, ইত্যাদি)", "১ প্রকার", "২ প্রকার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. স্টার টপোলজিতে সব কম্পিউটার কীসের সাথে যুক্ত?", options: ["সেন্ট্রাল হাব", "বাস", "রিং", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. বাস টপোলজিতে কীসের ওপর ভিত্তি করে চলে?", options: ["একটি কমন কেবল", "হাব", "রাউটার", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. রাউটার কী?", options: ["নেটওয়ার্ক কানেক্টিং ডিভাইস", "গেম", "সফটওয়্যার", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. কম্পিউটার শিক্ষার উদ্দেশ্য কী?", options: ["দক্ষতা বৃদ্ধি", "সময় কাটানো", "গেম খেলা", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
