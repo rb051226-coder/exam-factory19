@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Statistics 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #f59e0b; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #f59e0b; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #f59e0b; }
+        .finish-btn { background: #92400e; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">দ্বাদশ শ্রেণি পরিসংখ্যান সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#f59e0b;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#f59e0b;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. সহ-সম্বন্ধাঙ্ক (r)-এর মান কার মধ্যে থাকে?", options: ["-1 থেকে +1", "0 থেকে 1", "-1 থেকে 0", "1 থেকে 10"], correct: 0 },
+        { q: "২. নির্ভরণ রেখা (Regression line) কয়টি?", options: ["২টি", "১টি", "৩টি", "০টি"], correct: 0 },
+        { q: "৩. দ্বিপদ বিস্তৃতির মধ্যক (Mean) হলো—", options: ["np", "npq", "n", "p"], correct: 0 },
+        { q: "৪. পয়সন বিস্তৃতির মধ্যক ও ভেদাঙ্ক—", options: ["সমান", "ভিন্ন", "দ্বিগুণ", "অর্ধেক"], correct: 0 },
+        { q: "৫. স্বাভাবিক বা নরমাল ডিস্ট্রিবিউশনের আকৃতি কেমন?", options: ["ঘণ্টাকৃতি", "ইউ-আকৃতি", "জে-আকৃতি", "সরলরেখা"], correct: 0 },
+        { q: "৬. সম্ভাবনার সমষ্টি কত?", options: ["১", "০", "০.৫", "১০০"], correct: 0 },
+        { q: "৭. লরেন্জ বক্ররেখা কী পরিমাপ করে?", options: ["বিষমতা", "গড়", "মধ্যমা", "বিস্তার"], correct: 0 },
+        { q: "৮. সূচক সংখ্যা (Index Number) কীসের পরিমাপক?", options: ["পরিবর্তন", "স্থিরতা", "ক্ষয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. কালিন শাড়ি বা Time Series-এর উপাদান কয়টি?", options: ["৪টি", "৩টি", "২টি", "৫টি"], correct: 0 },
+        { q: "১০. নমুনা বা Sampling-এর উদ্দেশ্য কী?", options: ["সিদ্ধান্ত গ্রহণ", "সময় নষ্ট", "তথ্য ভুল করা", "কোনটিই নয়"], correct: 0 },
+        { q: "১১. হাইপোথিসিস টেস্টে 'নাল হাইপোথিসিস' (H0) কী?", options: ["অকার্যকর ধারণা", "সঠিক ধারণা", "বিকল্প ধারণা", "কোনটিই নয়"], correct: 0 },
+        { q: "১২. টাইপ-১ ত্রুটি (Type I error) কখন ঘটে?", options: ["H0 সত্য হলে প্রত্যাখ্যান", "H0 মিথ্যা হলে গ্রহণ", "সবসময়", "কখনই না"], correct: 0 },
+        { q: "১৩. টাইপ-২ ত্রুটি (Type II error) কখন ঘটে?", options: ["H0 মিথ্যা হলে গ্রহণ", "H0 সত্য হলে প্রত্যাখ্যান", "সবসময়", "কখনই না"], correct: 0 },
+        { q: "১৪. কাই-বর্গ (Chi-square) পরীক্ষা কীসের জন্য ব্যবহৃত?", options: ["স্বাধীনতার পরীক্ষা", "গড় নির্ণয়", "বিচ্যুতি", "কোনটিই নয়"], correct: 0 },
+        { q: "১৫. টি-টেস্ট (t-test) কখন ব্যবহৃত হয়?", options: ["নমুনা ছোট হলে", "নমুনা বড় হলে", "সবসময়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. জে-টেস্ট (z-test) কখন ব্যবহৃত হয়?", options: ["নমুনা বড় হলে", "নমুনা ছোট হলে", "সবসময়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৭. কালপিয়ারসনের সহ-সম্বন্ধাঙ্ক কীসের ওপর ভিত্তি করে?", options: ["কোভ্যারিয়েন্স", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "১৮. স্পিয়ারম্যানের ক্রম সহ-সম্বন্ধাঙ্ক (Rank correlation) কী?", options: ["অবস্থানগত", "গাণিতিক", "পরিমিত", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. সূচক সংখ্যা তৈরিতে Laspeyres কোন দাম ব্যবহার করেন?", options: ["ভিত্তি বছরের", "চলতি বছরের", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. Paasche সূচক সংখ্যায় কী ব্যবহার হয়?", options: ["চলতি বছর", "ভিত্তি বছর", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "২১. জীবনসারণি (Life Table) কীসের জন্য?", options: ["জনসংখ্যা বিশ্লেষণ", "অর্থনীতি", "পদার্থ", "কোনটিই নয়"], correct: 0 },
+        { q: "২২. জন্মহার (Birth Rate) পরিমাপের সূত্র কী?", options: ["(মোট জন্ম/মোট জনসংখ্যা)×১০০০", "উল্টো", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "২৩. কালিন সারির 'ট্রেন্ড' (Trend) কী?", options: ["দীর্ঘমেয়াদী পরিবর্তন", "স্বল্পমেয়াদী", "ঋতুভিত্তিক", "কোনটিই নয়"], correct: 0 },
+        { q: "২৪. ঋতুভিত্তিক পরিবর্তন (Seasonal Variation) কত সময়ের?", options: ["১ বছরের কম", "১০ বছর", "১০০ বছর", "কোনটিই নয়"], correct: 0 },
+        { q: "২৫. একটি নিরপেক্ষ মুদ্রা নিক্ষেপে হেড ওঠার সম্ভাবনা?", options: ["০.৫", "১", "০", "০.২"], correct: 0 },
+        { q: "২৬. স্বাধীন ঘটনার ক্ষেত্রে P(A∩B) = ?", options: ["P(A) * P(B)", "P(A) + P(B)", "P(A) / P(B)", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. বিন্যাস কয় প্রকার?", options: ["৩ প্রকার (দ্বিপদ, পয়সন, নরমাল)", "২ প্রকার", "৪ প্রকার", "৫ প্রকার"], correct: 0 },
+        { q: "২৮. নরমাল ডিস্ট্রিবিউশনে গড়, মধ্যমা ও প্রচুরক—", options: ["সমান", "ভিন্ন", "অসমান", "কোনটিই নয়"], correct: 0 },
+        { q: "২৯. নমুনা ত্রুটি (Sampling error) দূর করার উপায়?", options: ["নমুনা বড় করা", "নমুনা ছোট করা", "সময় বাড়ানো", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. এসটিমেটর (Estimator) কী?", options: ["প্যারামিটার নির্ণায়ক", "ভুল পরিমাপ", "সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. নির্ভরযোগ্যতা (Confidence Interval) কেন প্রয়োজন?", options: ["সঠিকতার জন্য", "সময় বাঁচাতে", "ব্যয় কমাতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. কাই-বর্গ পরীক্ষার স্বাধীনতার মাত্রা (Degrees of Freedom) সূত্র?", options: ["(r-1)(c-1)", "r-c", "r+c", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. F-টেস্ট (F-test) কীসের জন্য?", options: ["ভেদাঙ্ক তুলনা", "গড় তুলনা", "প্রচুরক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৪. সূচক সংখ্যা যদি ১০০ হয়, তবে কী বোঝায়?", options: ["কোন পরিবর্তন নেই", "বেড়েছে", "কমেছে", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. জীবনসারণির মূল কলাম কী?", options: ["বয়স (x)", "গড়", "বিচ্যুতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. মৃত্যুহার (Death rate) পরিমাপের সূত্র?", options: ["(মোট মৃত্যু/মোট জনসংখ্যা)×১০০০", "উল্টো", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. কোভ্যারিয়েন্স (Covariance) কীসের পরিমাপ?", options: ["সহ-পরিবর্তন", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৮. নির্ভরণ সহগ (b) এর মান কি r এর ওপর নির্ভরশীল?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৯. একটি নিরপেক্ষ ছক্কায় ১ বা ৬ ওঠার সম্ভাবনা কত?", options: ["১/৩", "১/৬", "১", "০"], correct: 0 },
+        { q: "৪০. মোট সম্ভাবনা সর্বদা কত?", options: ["১", "০", "৫", "১০"], correct: 0 },
+        { q: "৪১. বিন্যাসের মধ্যক (Mean) সবসময় ভেদাঙ্কের চেয়ে বড় হয় কীসে?", options: ["দ্বিপদ", "পয়সন", "নরমাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. পয়সন বিস্তৃতিতে প্যারামিটার কয়টি?", options: ["১টি", "২টি", "৩টি", "০টি"], correct: 0 },
+        { q: "৪৩. নরমাল ডিস্ট্রিবিউশনে বক্ররেখাটি কি প্রতিসম?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৪. জেনি কো-এফিশিয়েন্ট (Gini Coefficient) কিসের জন্য?", options: ["আয় বৈষম্য", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. নমুনা জরিপ কীসের ভিত্তিতে হয়?", options: ["সমগ্রক", "নমুনা", "সবগুলো", "কোনটিই নয়"], correct: 1 },
+        { q: "৪৬. সেন্সাস কেন ব্যয়বহুল?", options: ["সবাইকে নিতে হয়", "নমুনা লাগে", "সময় কম", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. সিগনিফিকেন্স লেভেল (Level of Significance) কী?", options: ["ভুলের হার", "সঠিকতা", "সময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. সার্থকতা পরীক্ষা (Test of Significance) কী?", options: ["হাইপোথিসিস টেস্ট", "গড় টেস্ট", "কোনটিই নয়", "সবগুলো"], correct: 0 },
+        { q: "৪৯. কার্ল পিয়ারসনের সহ-সম্বন্ধাঙ্ক কি স্কেল পরিবর্তনের ওপর নির্ভরশীল?", options: ["না", "হ্যাঁ", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. নির্ভরণ রেখাগুলো কি পরস্পরকে ছেদ করে?", options: ["হ্যাঁ, গড় বিন্দুতে", "কখনো না", "সবসময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. সূচক সংখ্যার আদর্শ বৈশিষ্ট্য কী?", options: ["সময় পরিবর্তনশীলতা", "উল্টাপাল্টা পরীক্ষা", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৫২. মার্শাল-এজওয়ার্থ সূচক সংখ্যা কী?", options: ["গড়", "LAS", "PAS", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. কালিন সারির উপাদান কয়টি?", options: ["৪টি", "৩টি", "২টি", "১টি"], correct: 0 },
+        { q: "৫৪. ট্রেন্ড বিশ্লেষণের পদ্ধতি কোনটি?", options: ["ন্যূনতম বর্গ", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. একটি ব্যাগে ৫টি লাল ও ৩টি নীল বল থাকলে একটি লাল বল পাওয়ার সম্ভাবনা?", options: ["৫/৮", "৩/৮", "১", "০"], correct: 0 },
+        { q: "৫৬. দুটি ঘটনা mutually exclusive হলে P(A∩B) কত?", options: ["০", "১", "০.৫", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৭. দ্বিপদ বিস্তৃতির ভেদাঙ্ক (Variance) কী?", options: ["npq", "np", "nq", "p"], correct: 0 },
+        { q: "৫৮. পয়সন বিস্তৃতিতে মধ্যক ও ভেদাঙ্ক সম্পর্ক?", options: ["সমান", "ভিন্ন", "বড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. প্রমাণ নরমাল ডিস্ট্রিবিউশনে গড় কত?", options: ["০", "১", "২", "১০"], correct: 0 },
+        { q: "৬০. প্রমাণ নরমাল ডিস্ট্রিবিউশনে ভেদাঙ্ক কত?", options: ["১", "০", "২", "১০"], correct: 0 },
+        { q: "৬১. নমুনা বন্টন (Sampling Distribution) কী?", options: ["নমুনার গড় বন্টন", "গড় বন্টন", "বিচ্যুতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. নাল হাইপোথিসিস বাতিল করা হয় কখন?", options: ["P-value ছোট হলে", "P-value বড় হলে", "সবসময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৩. টি-টেস্ট কে উদ্ভাবন করেন?", options: ["উইলিয়াম গসেট", "ফিশার", "গাউস", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. কাই-বর্গ পরীক্ষা কি সর্বদা ধনাত্মক?", options: ["হ্যাঁ", "না", "কখনো না", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. ফিশারের সূচক সংখ্যাকে কী বলা হয়?", options: ["আদর্শ", "খারাপ", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. জীবনসারণিতে 'lx' দ্বারা কী বোঝায়?", options: ["বেঁচে থাকা সংখ্যা", "মৃত", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৭. জনসংখ্যার বৃদ্ধিতে কোন তথ্য ব্যবহৃত হয়?", options: ["জীবনসারণি", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. সহ-সম্বন্ধাঙ্ক (r) কি মাত্রা একক?", options: ["না", "হ্যাঁ", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. নির্ভরণ সহগের মান কি ১ এর বড় হতে পারে?", options: ["হ্যাঁ", "না", "সবসময়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. সূচক সংখ্যার ভিত্তি বছর পরিবর্তনের প্রক্রিয়াকে কী বলে?", options: ["Splicing", "Shifting", "Deflating", "কোনটিই নয়"], correct: 0 },
+        { q: "৭১. সময় সিরিজ বা কালিন সারিতে 'Irregular variations' কী?", options: ["হঠাৎ পরিবর্তন", "স্বল্পমেয়াদী", "দীর্ঘমেয়াদী", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. মুদ্রা নিক্ষেপে হেড বা টেল ওঠার সম্ভাবনা?", options: ["০.৫", "১", "০", "০.২"], correct: 0 },
+        { q: "৭৩. দুটি স্বাধীন ঘটনা A ও B হলে P(A|B) কী?", options: ["P(A)", "P(B)", "১", "০"], correct: 0 },
+        { q: "৭৪. দ্বিপদ বিস্তৃতিতে n বড় হলে কিসে রূপান্তরিত হয়?", options: ["নরমাল", "পয়সন", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. পয়সন বিস্তৃতিতে গড় খুব কম হলে কী ঘটে?", options: ["পয়সন", "নরমাল", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. নরমাল কার্ভ কতটুকু এলাকা দ্বারা সীমাবদ্ধ?", options: ["সব জায়গা", "অসীম", "১", "০"], correct: 1 },
+        { q: "৭৭. কেন্দ্রীয় সীমা উপপাদ্য (Central Limit Theorem) কী?", options: ["নমুনা গড় নরমাল হওয়া", "গড় হওয়া", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. সার্থকতা যাচাইয়ের প্রথম ধাপ কী?", options: ["হাইপোথিসিস সেট করা", "ডেটা দেখা", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. টি-টেস্টের স্বাধীনতার মাত্রা কত?", options: ["n-1", "n", "n+1", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. F-টেস্ট কি ঋণাত্মক হতে পারে?", options: ["না", "হ্যাঁ", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. সূচক সংখ্যার গুরুত্ব কী?", options: ["অর্থনৈতিক বিশ্লেষণ", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. জীবনসারণিতে 'dx' কী?", options: ["মৃতের সংখ্যা", "বেঁচে থাকা", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. মোট জন্মহারের অপর নাম?", options: ["Crude Birth Rate", "Death Rate", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. সহ-সম্বন্ধাঙ্ক কি মূল ও স্কেল পরিবর্তনের ওপর নির্ভরশীল?", options: ["না", "হ্যাঁ", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. নির্ভরণ রেখাগুলো কীসে ব্যবহৃত হয়?", options: ["পূর্বাভাস", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. সূচক সংখ্যার কোনটি আদর্শ?", options: ["ফিশার", "লাসপিয়ার", "পাসে", "সবগুলো"], correct: 0 },
+        { q: "৮৭. কালিন সারিতে 'Seasonal' কীসের প্রভাব?", options: ["ঋতুর", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. একটি নিরপেক্ষ ছক্কায় জোড় সংখ্যা ওঠার সম্ভাবনা?", options: ["১/২", "১/৬", "১", "০"], correct: 0 },
+        { q: "৮৯. স্বাধীন ঘটনার ক্ষেত্রে P(A∩B∩C) = ?", options: ["P(A)P(B)P(C)", "P(A)+P(B)+P(C)", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. দ্বিপদ বিস্তৃতির প্যারামিটার কয়টি?", options: ["২টি", "১টি", "৩টি", "০টি"], correct: 0 },
+        { q: "৯১. পয়সন বিস্তৃতিতে n কি অসীম?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. নরমাল কার্ভ কি x-অক্ষকে স্পর্শ করে?", options: ["না", "হ্যাঁ", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. নমুনা গড়ের স্ট্যান্ডার্ড এরর কী?", options: ["σ/√n", "σ", "√n", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. নাল হাইপোথিসিস কি সর্বদা সমতা প্রকাশ করে?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. টি-টেস্টের আকৃতি কি নরমাল ডিস্ট্রিবিউশনের মতো?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. কাই-বর্গ পরীক্ষার প্রত্যাশিত গণসংখ্যা সর্বদা কতের বড় হতে হয়?", options: ["৫", "১০", "০", "১"], correct: 0 },
+        { q: "৯৭. ফিশারের সূচক সংখ্যা কি সময় পরিবর্তনশীল?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. জীবনসারণিতে 'qx' কী?", options: ["মৃত্যুর হার", "বেঁচে থাকা", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. জনসংখ্যার ঘনত্ব কী?", options: ["পরিসংখ্যান", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. পরিসংখ্যান কি সিদ্ধান্ত গ্রহণে সহায়তা করে?", options: ["হ্যাঁ", "না", "আংশিক", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
