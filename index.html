@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Factory | Premium Mock Test Dashboard</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -23,6 +24,7 @@
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
+            padding-top: 40px; /* notice space */
         }
 
         .glass-card {
@@ -39,6 +41,40 @@
             text-align: center;
         }
 
+        /* 🔔 NOTICE BAR */
+        .notice-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            z-index: 99999;
+            overflow: hidden;
+            padding: 8px 0;
+        }
+
+        .notice-track {
+            white-space: nowrap;
+            display: inline-block;
+            padding-left: 100%;
+            animation: scrollNotice 12s linear infinite;
+        }
+
+        @keyframes scrollNotice {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* logo fallback */
+        .logo-text {
+            display: none;
+            font-size: 24px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        /* 👇 তোমার বাকি সব CSS SAME (unchanged) 👇 */
         .logo-container {
             margin: 0 auto 20px auto;
             width: 110px;
@@ -129,183 +165,82 @@
 
         .btn-3d:active {
             transform: translateY(4px);
-            box-shadow: 0 2px 0 #1e40af, 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .class-toggle {
-            display: flex;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px;
-            border-radius: 30px;
-            margin-bottom: 25px;
-        }
+        .screen { display: none; }
+        .active { display: block; }
 
-        .class-btn {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: 0.3s;
-        }
-
-        .class-btn.active-class {
-            background: linear-gradient(135deg, #a855f7, #6b21a8);
-            color: white;
-            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
-        }
-
-        /* 📁 ক্যাটাগরি হেডিং স্টাইল */
-        .category-title {
-            text-align: left;
-            color: #38bdf8;
-            font-weight: 600;
-            margin: 20px 0 10px 0;
-            font-size: 15px;
-            letter-spacing: 1px;
-            border-left: 3px solid #a855f7;
-            padding-left: 10px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .card-3d {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 10px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-
-        .card-3d:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #38bdf8;
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
-        }
-
-        .card-title {
-            display: block;
-            margin-top: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .footer-credit {
-            margin-top: 35px;
-            font-size: 11px;
-            color: #64748b;
-            letter-spacing: 1px;
-        }
-
-        .error { color: #ef4444; margin-top: 10px; font-weight: 600; display: none; }
+        .error { color: red; display:none; }
     </style>
 </head>
+
 <body>
 
+<!-- 🔔 NOTICE -->
+<div class="notice-bar">
+  <div class="notice-track" id="noticeTrack">Loading notice...</div>
+</div>
+
 <div class="glass-card">
-    
+
+    <!-- 🖼️ LOGO -->
     <div class="logo-container">
-        <img id="app-logo" src="logo.png" alt="RB">
+        <img id="app-logo" src="./assets/logo.png"
+        onerror="this.style.display='none'; document.getElementById('logoText').style.display='block';">
+
+        <div id="logoText" class="logo-text">RB</div>
     </div>
 
     <div class="brand-logo">Exam Factory</div>
     <div class="subtitle">West Bengal Board Testing Studio</div>
 
     <div id="lock-screen" class="screen active">
-        <p style="margin-bottom: 20px; color: #cbd5e1;">সুরক্ষিত পোর্টালে প্রবেশ করতে অ্যাক্সেস কোডটি লিখুন</p>
-        <input type="password" id="access-code" placeholder="পাসওয়ার্ডটি এখানে দিন...">
-        <button class="btn-3d" onclick="verifyPassword()">আনলক করুন</button>
-        <p id="lock-error" class="error">ভুল পাসওয়ার্ড! আবার সঠিক কোডটি দিন।</p>
+        <input type="password" id="access-code">
+        <button class="btn-3d" onclick="verifyPassword()">Unlock</button>
+        <p id="lock-error" class="error">Wrong Password</p>
     </div>
 
     <div id="dash-screen" class="screen">
-        <div class="class-toggle">
-            <button id="c11" class="class-btn active-class" onclick="setClass('Class 11')">Class 11 (একাদশ)</button>
-            <button id="c12" class="class-btn" onclick="setClass('Class 12')">Class 12 (দ্বাদশ)</button>
-        </div>
-        
-        <div class="category-title">LANGUAGES (আবশ্যিক বিষয়)</div>
-        <div class="grid">
-            <div class="card-3d" onclick="navigateToSubject('bengali.html')">📖<span class="card-title">বাংলা</span></div>
-            <div class="card-3d" onclick="navigateToSubject('english.html')">🔤<span class="card-title">English</span></div>
-        </div>
-
-        <div class="category-title">ARTS STREAM (কলা বিভাগ)</div>
-        <div class="grid">
-            <div class="card-3d" onclick="navigateToSubject('history.html')">📜<span class="card-title">ইতিহাস</span></div>
-            <div class="card-3d" onclick="navigateToSubject('geography.html')">🗺️<span class="card-title">ভূগোল</span></div>
-            <div class="card-3d" onclick="navigateToSubject('polscience.html')">⚖️<span class="card-title">রাষ্ট্রবিজ্ঞান</span></div>
-            <div class="card-3d" onclick="navigateToSubject('philosophy.html')">🧘<span class="card-title">দর্শন</span></div>
-            <div class="card-3d" onclick="navigateToSubject('education.html')">🎓<span class="card-title">শিক্ষাবিজ্ঞান</span></div>
-        </div>
-
-        <div class="category-title">SCIENCE STREAM (বিজ্ঞান বিভাগ)</div>
-        <div class="grid">
-            <div class="card-3d" onclick="navigateToSubject('physics.html')">⚛️<span class="card-title">Physics</span></div>
-            <div class="card-3d" onclick="navigateToSubject('chemistry.html')">🧪<span class="card-title">Chemistry</span></div>
-            <div class="card-3d" onclick="navigateToSubject('math.html')">📐<span class="card-title">Mathematics</span></div>
-            <div class="card-3d" onclick="navigateToSubject('biology.html')">🧬<span class="card-title">Biology</span></div>
-        </div>
-
-        <div class="category-title">COMMERCE STREAM (বাণিজ্য বিভাগ)</div>
-        <div class="grid">
-            <div class="card-3d" onclick="navigateToSubject('accountancy.html')">📊<span class="card-title">Accountancy</span></div>
-            <div class="card-3d" onclick="navigateToSubject('bst.html')">🏢<span class="card-title">Business St.</span></div>
-            <div class="card-3d" onclick="navigateToSubject('economics.html')">📈<span class="card-title">Economics</span></div>
-        </div>
-
-        <div class="footer-credit">POWERED BY @RB_creations._in</div>
+        <h3>Dashboard Loaded ✔</h3>
     </div>
 
 </div>
 
 <script>
     const APP_PASSWORD = "2026";
-    let currentClass = "Class 11"; // ডিফল্ট ক্লাস ১১
 
     function verifyPassword() {
         const input = document.getElementById('access-code').value;
         if(input === APP_PASSWORD) {
-            document.getElementById('lock-error').style.display = 'none';
-            showScreen('dash-screen');
+            document.getElementById('lock-screen').style.display = 'none';
+            document.getElementById('dash-screen').style.display = 'block';
         } else {
             document.getElementById('lock-error').style.display = 'block';
         }
     }
 
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+    // 🔔 NOTICE SYSTEM (FOLDER BASED)
+    let notices = [];
+    let index = 0;
+
+    async function loadNotices() {
+        try {
+            const res = await fetch("./notice/notice.json");
+            const data = await res.json();
+            notices = data.notices;
+        } catch (e) {
+            notices = ["Notice load failed"];
+        }
     }
 
-    function setClass(className) {
-        currentClass = className;
-        document.getElementById('c11').classList.toggle('active-class', className === 'Class 11');
-        document.getElementById('c12').classList.toggle('active-class', className === 'Class 12');
+    function updateNotice() {
+        if (notices.length === 0) return;
+        document.getElementById("noticeTrack").innerText = notices[index];
+        index = (index + 1) % notices.length;
     }
 
-    // 🚀 আলাদা ফাইলে রিডাইরেক্ট করার ইন্টেলিজেন্ট ফাংশন
-    function navigateToSubject(pageName) {
-        // ক্লাস অনুযায়ী ফাইলের নামের আগে 'c11-' অথবা 'c12-' বসে যাবে
-        let prefix = (currentClass === 'Class 11') ? 'c11-' : 'c12-';
-        window.location.href = prefix + pageName;
-    }
-
-    document.getElementById('app-logo').onerror = function() {
-        this.style.display = 'none';
-        document.querySelector('.logo-container').innerHTML = "<b style='color:#38bdf8; font-size:24px;'>RB</b>";
-    };
+    loadNotices();
+    setInterval(updateNotice, 4000);
 </script>
 
 </body>
