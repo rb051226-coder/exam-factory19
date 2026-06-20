@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Statistics 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #3b82f6; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #3b82f6; border-radius: 8px; }
+        .opt-btn { background: #334155; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #475569; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #475569; border-color: #3b82f6; }
+        .finish-btn { background: #1e40af; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #1e293b; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #f87171; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">পরিসংখ্যান (Statistics) সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#3b82f6;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#3b82f6;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. পরিসংখ্যান শব্দের উৎপত্তি কোন শব্দ থেকে?", options: ["Status", "State", "Static", "কোনটিই নয়"], correct: 0 },
+        { q: "২. পরিসংখ্যানের জনক কাকে বলা হয়?", options: ["আর.এ. ফিশার", "কার্ল পিয়ারসন", "গটফ্রিড একেনওয়াল", "কোনটিই নয়"], correct: 2 },
+        { q: "৩. তথ্য সংগ্রহের কয়টি উৎস আছে?", options: ["২টি", "৩টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "৪. কোনটি প্রাথমিক তথ্যের উৎস?", options: ["সাক্ষাৎকার", "সংবাদপত্র", "সরকারি রিপোর্ট", "পুস্তক"], correct: 0 },
+        { q: "৫. গৌণ তথ্য সাধারণত কেমন হয়?", options: ["প্রকাশিত", "অপ্রকাশিত", "উভয়ই", "কোনটিই নয়"], correct: 2 },
+        { q: "৬. কেন্দ্রীয় প্রবণতার পরিমাপ কয়টি?", options: ["৩টি", "৪টি", "৫টি", "২টি"], correct: 0 },
+        { q: "৭. গড় কী ধরনের পরিমাপ?", options: ["কেন্দ্রীয় প্রবণতা", "বিস্তার পরিমাপ", "বিচ্যুতি পরিমাপ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮. প্রচুরক (Mode) নির্ণয়ের সূত্র কোনটি?", options: ["L1 + ...", "L2 + ...", "সমীকরণটি ভিন্ন", "কোনটিই নয়"], correct: 0 },
+        { q: "৯. মধ্যমা (Median) বলতে কী বোঝায়?", options: ["মানগত মধ্যক", "সর্বোচ্চ মান", "সর্বনিম্ন মান", "গড় মান"], correct: 0 },
+        { q: "১০. গুণবাচক তথ্যের ক্ষেত্রে কোনটি উপযোগী?", options: ["মধ্যমা", "গড়", "প্রচুরক", "বিচ্যুতি"], correct: 2 },
+        { q: "১১. বিস্তারের পরিমাপ কোনটি?", options: ["পরিমিত ব্যবধান", "গড়", "মধ্যমা", "প্রচুরক"], correct: 0 },
+        { q: "১২. পরিসরাঙ্ক (Coefficient of Range)-এর সূত্র কী?", options: ["(L-S)/(L+S)", "(L+S)/(L-S)", "L-S", "L+S"], correct: 0 },
+        { q: "১৩. আদর্শ বিচ্যুতি (Standard Deviation)-এর প্রতীক কী?", options: ["σ", "μ", "x", "y"], correct: 0 },
+        { q: "১৪. সম্ভাবনা বা Probability-র সর্বোচ্চ মান কত?", options: ["১", "০", "০.৫", "১০"], correct: 0 },
+        { q: "১৫. নমুনা বা Sample কী?", options: ["সমগ্রকের অংশ", "সমগ্রক", "তথ্য", "কোনটিই নয়"], correct: 0 },
+        { q: "১৬. পরিসংখ্যানের মূল ভিত্তি কী?", options: ["তথ্য", "গণিত", "পদার্থবিজ্ঞান", "অর্থনীতি"], correct: 0 },
+        { q: "১৭. অজিভ রেখা (Ogive) কীসে ব্যবহৃত হয়?", options: ["মধ্যমা নির্ণয়", "গড় নির্ণয়", "প্রচুরক নির্ণয়", "কোনটিই নয়"], correct: 0 },
+        { q: "১৮. আয়তলেখ (Histogram) কিসের জন্য ব্যবহৃত হয়?", options: ["শ্রেণিবিন্যস্ত তথ্য", "অশ্রেণিবিন্যস্ত তথ্য", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "১৯. গাণিতিক গড় (Arithmetic Mean) নির্ণয়ের সহজ সূত্র কী?", options: ["Σx/N", "Σf/N", "x+y", "কোনটিই নয়"], correct: 0 },
+        { q: "২০. কোনটি আপেক্ষিক পরিমাপ?", options: ["ব্যবধান গুণাঙ্ক", "গড়", "মধ্যমা", "পরিসর"], correct: 0 },
+        { q: "২১. পরিসংখ্যানের সীমাবদ্ধতা কী?", options: ["ব্যক্তিগত গবেষণায় অকার্যকর", "সবসময় সঠিক নয়", "তথ্যের অপব্যবহার", "সবগুলো"], correct: 3 },
+        { q: "২২. চলক (Variable) কত প্রকার?", options: ["২ প্রকার", "৩ প্রকার", "৪ প্রকার", "৫ প্রকার"], correct: 0 },
+        { q: "২৩. বিচ্ছিন্ন চলক কোনটি?", options: ["মানুষের সংখ্যা", "উচ্চতা", "ওজন", "সময়"], correct: 0 },
+        { q: "২৪. অবিচ্ছিন্ন চলক কোনটি?", options: ["উচ্চতা", "ছাত্রসংখ্যা", "গাড়ির সংখ্যা", "কোনটিই নয়"], correct: 0 },
+        { q: "২৫. সূচক সংখ্যার ভিত্তি বছর কী?", options: ["বর্তমান বছর", "অতীতের একটি বছর", "ভবিষ্যৎ বছর", "কোনটিই নয়"], correct: 1 },
+        { q: "২৬. সহ-সম্বন্ধ (Correlation) কয় প্রকার?", options: ["২ প্রকার", "৩ প্রকার", "৪ প্রকার", "৫ প্রকার"], correct: 0 },
+        { q: "২৭. সহ-সম্বন্ধের মান কত থেকে কতর মধ্যে হয়?", options: ["-১ থেকে +১", "০ থেকে ১", "১ থেকে ১০", "কোনটিই নয়"], correct: 0 },
+        { q: "২৮. রিগ্রেশন বা নির্ভরণ রেখা কয়টি?", options: ["২টি", "১টি", "৩টি", "অনেকটি"], correct: 0 },
+        { q: "২৯. কোনটি সঠিক?", options: ["গড় ≥ মধ্যমা ≥ প্রচুরক", "গড় ≤ মধ্যমা ≤ প্রচুরক", "গড় = মধ্যমা = প্রচুরক", "কোনটিই নয়"], correct: 0 },
+        { q: "৩০. পরিসর (Range) নির্ণয়ের সূত্র?", options: ["সর্বোচ্চ-সর্বনিম্ন", "সর্বনিম্ন-সর্বোচ্চ", "সর্বোচ্চ+সর্বনিম্ন", "কোনটিই নয়"], correct: 0 },
+        { q: "৩১. তথ্য বিন্যাস কী?", options: ["তথ্যের সাজানো রূপ", "অগোছালো তথ্য", "তথ্য বাদ দেওয়া", "কোনটিই নয়"], correct: 0 },
+        { q: "৩২. কোনটি গুণবাচক তথ্য?", options: ["রক্তের গ্রুপ", "উচ্চতা", "ওজন", "বয়স"], correct: 0 },
+        { q: "৩৩. পাই-চিত্রের (Pie chart) বৃত্তের মোট কোণ কত?", options: ["৩৬০ ডিগ্রি", "১৮০ ডিগ্রি", "৯০ ডিগ্রি", "২৭০ ডিগ্রি"], correct: 0 },
+        { q: "৩৪. বার চার্ট কিসে ব্যবহৃত হয়?", options: ["তুলনামূলক চিত্র", "গড় নির্ণয়", "বিচ্যুতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. ভরযুক্ত গড় (Weighted Mean) কখন ব্যবহৃত হয়?", options: ["গুরুত্ব আলাদা হলে", "গুরুত্ব সমান হলে", "তথ্য অনেক হলে", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৬. ব্যবধান গুণাঙ্ক (Coefficient of Variation) কীসের একক?", options: ["শতকরা (%)", "মিটার", "কেজি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৭. কোনটি পরিমিত ব্যবধানের বৈশিষ্ট্য?", options: ["সবগুলো মান নির্ভর", "গাণিতিক স্থায়িত্ব", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৩৮. সম্ভাবনা তত্ত্বের জনক কে?", options: ["প্যাসকেল", "গাউস", "নিউটন", "আইনস্টাইন"], correct: 0 },
+        { q: "৩৯. একটি নিরপেক্ষ ছক্কায় ৬ ওঠার সম্ভাবনা কত?", options: ["১/৬", "১/২", "১/৩", "১"], correct: 0 },
+        { q: "৪০. স্বাধীন ঘটনা কী?", options: ["একটি অন্যটির ওপর নির্ভরশীল নয়", "নির্ভরশীল", "পরস্পরবিরোধী", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. তথ্যের চিত্রায়ন কেন করা হয়?", options: ["সহজবোধ্যতার জন্য", "জটিল করার জন্য", "সময় নষ্টের জন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৪২. পরিসংখ্যানে N দ্বারা কী বোঝায়?", options: ["মোট তথ্য সংখ্যা", "গড়", "মান", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৩. লরেন্জ বক্ররেখা (Lorenz Curve) কিসের পরিমাপক?", options: ["বিষমতা", "গড়", "মধ্যমা", "প্রচুরক"], correct: 0 },
+        { q: "৪৪. পরিসংখ্যান কোন বিজ্ঞানের শাখা?", options: ["গণিত", "জীববিজ্ঞান", "ইতিহাস", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৫. নমুনা জরিপ কেন করা হয়?", options: ["সময় ও ব্যয় কমাতে", "কষ্ট বাড়াতে", "ভুল করতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৬. সেন্সাস বা আদমশুমারি কী?", options: ["পূর্ণাঙ্গ জরিপ", "নমুনা জরিপ", "অসম্পূর্ণ জরিপ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৭. গাণিতিক গড় সংবেদনশীল কেন?", options: ["সব মানের জন্য", "কিছু মানের জন্য", "সংবেদনশীল নয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৮. গুণোত্তর গড় (Geometric Mean) কীসের জন্য ভালো?", options: ["অনুপাত ও হার", "সব ক্ষেত্রে", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৪৯. হারমোনিক গড় বা বিপরীত গড় কিসের জন্য ব্যবহৃত?", options: ["গতি ও সময়", "উচ্চতা", "ওজন", "কোনটিই নয়"], correct: 0 },
+        { q: "৫০. প্রচুরকহীন তথ্যকে কী বলে?", options: ["বিয়েমডাল", "মাল্টিমডাল", "সিম্পল", "কোনটিই নয়"], correct: 0 },
+        { q: "৫১. পরিসংখ্যানের কাজে ক্যালকুলেটর ব্যবহার—", options: ["আবশ্যক", "নিষিদ্ধ", "অপশনাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৫২. টেবিল বা সারণি তৈরির উদ্দেশ্য কী?", options: ["তথ্য সহজ করা", "তথ্য কঠিন করা", "জায়গা নষ্ট করা", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৩. গণসংখ্যা নিবেশন (Frequency Distribution) কী?", options: ["শ্রেণিবিন্যাস", "অবিন্যস্ত তথ্য", "তথ্য বাদ দেওয়া", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৪. ট্যালি চিহ্ন কেন ব্যবহার করা হয়?", options: ["গণনা সহজ করতে", "সময় বাড়াতে", "ভুল করতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৫. একটি অবিচ্ছিন্ন শ্রেণির উচ্চসীমা ও নিম্নসীমার পার্থক্যকে কী বলে?", options: ["শ্রেণিব্যাপ্তি", "গড়", "বিচ্যুতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৬. উপাত্ত সংগ্রহের পদ্ধতি কয়টি?", options: ["২টি", "৩টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "৫৭. পরিসংখ্যানের ফলাফল কেমন হয়?", options: ["গড়পড়তা সঠিক", "সবসময় সঠিক", "ভুল", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৮. অর্থনৈতিক গবেষণায় পরিসংখ্যানের ভূমিকা—", options: ["অপার", "নেই", "স্বল্প", "কোনটিই নয়"], correct: 0 },
+        { q: "৫৯. সূচক সংখ্যা (Index Number) কীসের পরিমাপক?", options: ["পরিবর্তন", "স্থিরতা", "ক্ষয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬০. লাসপিয়ারের সূচক সংখ্যার ভিত্তি কী?", options: ["ভিত্তি বছরের পরিমাণ", "চলতি বছরের পরিমাণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬১. পাসে (Paasche) সূচক সংখ্যার ভিত্তি কী?", options: ["চলতি বছরের পরিমাণ", "ভিত্তি বছরের পরিমাণ", "উভয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. ধনাত্মক সহ-সম্বন্ধ কী?", options: ["দুটোই একসাথে বাড়ে", "একটি বাড়ে অন্যটি কমে", "সম্পর্ক নেই", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৩. ঋণাত্মক সহ-সম্বন্ধ কী?", options: ["বিপরীতমুখী সম্পর্ক", "সমমুখী সম্পর্ক", "সম্পর্ক নেই", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৪. স্ক্যাটার ডায়াগ্রাম (Scatter Diagram) কীসের জন্য?", options: ["সহ-সম্বন্ধ নির্ণয়", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৫. নির্ভরণ রেখার ঢালকে কী বলে?", options: ["নির্ভরণ সহগ", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৬. নমুনা ত্রুটি (Sampling Error) কেন হয়?", options: ["নমুনার কারণে", "জরিপকারীর ভুল", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৬৭. পরিসংখ্যানের জনক কে (আধুনিক)?", options: ["আর.এ. ফিশার", "কার্ল পিয়ারসন", "গাউস", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৮. গুণবাচক তথ্য কোন স্কেলে পরিমাপ করা হয়?", options: ["নামিক স্কেল", "অনুপাত স্কেল", "ব্যবধান স্কেল", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. উচ্চতা পরিমাপ কোন স্কেলে হয়?", options: ["অনুপাত স্কেল", "নামিক স্কেল", "ক্রমানুসারে স্কেল", "কোনটিই নয়"], correct: 0 },
+        { q: "৭০. গাণিতিক গড় কি ঋণাত্মক হতে পারে?", options: ["হ্যাঁ", "না", "তথ্য ভেদে", "কোনটিই নয়"], correct: 1 },
+        { q: "৭১. প্রচুরক কি একাধিক হতে পারে?", options: ["হ্যাঁ", "না", "কখনও না", "কোনটিই নয়"], correct: 0 },
+        { q: "৭২. বিচ্ছিন্ন উপাত্তকে কী বলা হয়?", options: ["ডিসক্রিট ডাটা", "কন্টিনিউয়াস ডাটা", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৩. তথ্যের শ্রেণিবিন্যাস কেন করা হয়?", options: ["তথ্য সহজবোধ্য করতে", "জটিল করতে", "তথ্য বাড়াতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. গড় ও মধ্যমার পার্থক্য কী?", options: ["গড় গাণিতিক, মধ্যমা অবস্থানগত", "দুইটি একই", "পার্থক্য নেই", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. পরিমিত ব্যবধানের বর্গকে কী বলে?", options: ["ভেদাঙ্ক (Variance)", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. উপাত্তের বিচ্ছুরণ পরিমাপ কেন প্রয়োজন?", options: ["গড়ের নির্ভরযোগ্যতা বুঝতে", "গড় বড় করতে", "তথ্য কমাতে", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. সহ-সম্বন্ধের মান শুন্য হলে কী বোঝায়?", options: ["কোন সম্পর্ক নেই", "সম্পূর্ণ সম্পর্ক", "ত্রুটিপূর্ণ সম্পর্ক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. সূচক সংখ্যার গুরুত্ব কোথায়?", options: ["মূল্যস্ফীতি পরিমাপে", "গড় নির্ণয়ে", "মধ্যমা নির্ণয়ে", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. কোনটি পরিসংখ্যানের কাজ?", options: ["তথ্য সংগ্রহ ও বিশ্লেষণ", "তথ্য নষ্ট করা", "তথ্য গোপন করা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. কোনটি উপাত্ত সংগ্রহের পদ্ধতি?", options: ["পর্যবেক্ষণ", "প্রশ্নপত্র", "সাক্ষাৎকার", "সবগুলো"], correct: 3 },
+        { q: "৮১. পরিসংখ্যানের সংজ্ঞা দিয়েছেন কে?", options: ["ক্রক্সটন ও কাউডেন", "নিউটন", "আইনস্টাইন", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. তথ্যের গুণগতমান কেমন হওয়া উচিত?", options: ["নির্ভরযোগ্য", "ভুল", "অস্পষ্ট", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. সারণির কয়টি অংশ থাকে?", options: ["৫টি", "২টি", "৩টি", "১টি"], correct: 0 },
+        { q: "৮৪. কোনটি গ্রাফ পেপারে আঁকা যায়?", options: ["হিস্টোগ্রাম", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. অজিভ রেখা কত ধরনের?", options: ["২টি", "১টি", "৩টি", "৪টি"], correct: 0 },
+        { q: "৮৬. কেন্দ্রীয় প্রবণতা কয়টি মান দ্বারা প্রকাশিত হয়?", options: ["একটি একক মান", "দুটি মান", "তিনটি মান", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. গড়ের সুবিধা কী?", options: ["সহজ গণনা", "গাণিতিক স্থায়িত্ব", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৮. মধ্যমার অসুবিধা কী?", options: ["সাজাতে হয়", "গাণিতিক নয়", "সবগুলো", "কোনটিই নয়"], correct: 2 },
+        { q: "৮৯. প্রচুরকের অসুবিধা কী?", options: ["নির্দিষ্ট মান নেই", "সঠিক নয়", "জটিল", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. ভেদাঙ্ক সর্বদা কেমন হয়?", options: ["ধনাত্মক", "ঋণাত্মক", "০", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. পরিমিত ব্যবধানের সহগ কী?", options: ["σ/mean", "mean/σ", "σ", "mean"], correct: 0 },
+        { q: "৯২. সহ-সম্বন্ধের জনক কে?", options: ["কার্ল পিয়ারসন", "ফিশার", "গাউস", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. নির্ভরণ রেখা কী নির্দেশ করে?", options: ["নির্ভরশীলতা", "স্বাধীনতা", "গড়", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৪. সময়ের ব্যবধানে তথ্যের পরিবর্তনের চিত্রকে কী বলে?", options: ["কালিক সারি (Time Series)", "গড়", "মধ্যমা", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৫. পরিসংখ্যান কি সামাজিক বিজ্ঞানে ব্যবহৃত হয়?", options: ["হ্যাঁ", "না", "অল্প", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৬. তথ্য সংগ্রহের ক্ষেত্রে ‘সচেতনতা’ কেন প্রয়োজন?", options: ["সঠিক তথ্যের জন্য", "ভুল তথ্যের জন্য", "সময় নষ্টের জন্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৭. কোনটি সঠিক গাণিতিক গড়?", options: ["∑x/n", "∑f/n", "উভয়ই", "কোনটিই নয়"], correct: 2 },
+        { q: "৯৮. উপাত্ত কয় প্রকার?", options: ["২ প্রকার", "৩ প্রকার", "৪ প্রকার", "৫ প্রকার"], correct: 0 },
+        { q: "৯৯. পরিসংখ্যানে কি ভুল থাকতে পারে?", options: ["হ্যাঁ", "না", "কখনো না", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. পরিসংখ্যান পাঠের প্রধান লক্ষ্য কী?", options: ["সিদ্ধান্ত গ্রহণ", "সময় কাটানো", "জটিলতা তৈরি", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
