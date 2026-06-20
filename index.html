@@ -202,11 +202,16 @@
     }
 
     function verifyPassword() {
-        if(document.getElementById('access-code').value === APP_PASSWORD) {
-            document.getElementById('lock-screen').classList.remove('active');
-            document.getElementById('dash-screen').classList.add('active');
-            loadNotice('c11'); 
-        } else { alert("ভুল পাসওয়ার্ড!"); }
+    if(document.getElementById('access-code').value === APP_PASSWORD) {
+        // এই লাইনটি যোগ করুন
+        sessionStorage.setItem('isLoggedIn', 'true'); 
+        
+        document.getElementById('lock-screen').classList.remove('active');
+        document.getElementById('dash-screen').classList.add('active');
+        loadNotice('c11'); 
+    } else { alert("ভুল পাসওয়ার্ড!"); }
+    }
+    
     }
 
     function setMode(mode) {
