@@ -10,9 +10,14 @@
         body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%); color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .glass-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 30px; width: 100%; max-width: 850px; text-align: center; }
         
-        /* লোগো এবং গ্লোয়িং ইফেক্ট */
-        .logo-box { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; }
-        .logo-box img { width: 100%; height: 100%; object-fit: cover; animation: glow 1.5s infinite alternate; }
+        /* লোগো টেক্সট এবং গ্লোয়িং ইফেক্ট */
+        .logo-box { 
+            width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            background: linear-gradient(135deg, #8655fa, #6b21a8); 
+            color: white; font-size: 40px; font-weight: bold; 
+            border: 3px solid #fff; animation: glow 1.5s infinite alternate; 
+        }
         @keyframes glow {
             from { box-shadow: 0 0 5px #fff, 0 0 10px #8655fa; }
             to { box-shadow: 0 0 20px #8655fa, 0 0 40px #8655fa; }
@@ -42,9 +47,8 @@
 <body>
 
 <div class="glass-card">
-    <div class="logo-box">
-        <img src="assets/logo.jpg" alt="Exam Factory Logo">
-    </div>
+    <!-- লোগো বক্স -->
+    <div class="logo-box">EF</div>
     
     <div class="brand-logo">Exam Factory</div>
 
