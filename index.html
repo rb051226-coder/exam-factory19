@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | Premium Portal</title>
+    <title>Exam Factory | Premium Dashboard</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body { 
-            background: radial-gradient(circle at center, #1e1b4b, #0f172a); 
+            background: radial-gradient(circle at top, #1e1b4b, #0f172a); 
             color: #f8fafc; min-height: 100vh; display: flex; 
-            justify-content: center; align-items: center; padding: 20px; 
+            justify-content: center; align-items: center; padding: 15px; 
         }
 
         .glass-card { 
@@ -22,74 +22,89 @@
             border-radius: 30px; 
             padding: 30px; 
             width: 100%; 
-            max-width: 600px; 
+            max-width: 700px; 
             text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-        
-        /* লোগো গ্লোয়িং ইফেক্ট */
+
+        /* লোগো */
         .logo-box { 
-            width: 110px; height: 110px; margin: 0 auto 20px; 
-            border-radius: 25px; overflow: hidden;
+            width: 90px; height: 90px; margin: 0 auto 20px; 
+            border-radius: 20px;
+            background: linear-gradient(135deg, #8b5cf6, #4f46e5);
+            display: flex; justify-content: center; align-items: center;
             border: 3px solid rgba(255, 255, 255, 0.2);
-            background: #fff;
-            animation: glow 2s infinite alternate;
+            animation: glow 3s infinite alternate;
         }
         @keyframes glow {
-            from { box-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6; }
-            to { box-shadow: 0 0 20px #d946ef, 0 0 40px #d946ef; }
+            from { box-shadow: 0 0 10px #8b5cf6; }
+            to { box-shadow: 0 0 30px #d946ef; }
         }
-        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .brand-name { font-size: 26px; font-weight: 800; margin-bottom: 25px; background: linear-gradient(to right, #fff, #a8a29e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* নোটিশ বোর্ড */
+        .notice-board {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+            color: #fbbf24;
+            font-size: 14px;
+            min-height: 50px;
+        }
 
         /* ইনপুট ও বাটন */
         input { 
-            width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.3); 
+            width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.3); 
             border: 2px solid rgba(255, 255, 255, 0.05); border-radius: 16px; 
             color: white; text-align: center; margin-bottom: 20px;
         }
         .btn-3d { 
             background: linear-gradient(135deg, #8b5cf6, #4f46e5);
-            color: white; border: none; padding: 16px; border-radius: 16px; 
+            color: white; border: none; padding: 15px; border-radius: 16px; 
             cursor: pointer; width: 100%; font-weight: 600;
-            transition: 0.3s;
         }
-        .btn-3d:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4); }
 
-        /* ড্যাশবোর্ড */
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        .class-toggle { display: flex; background: rgba(0, 0, 0, 0.4); padding: 5px; border-radius: 16px; margin-bottom: 25px; }
-        .class-btn { flex: 1; padding: 12px; background: transparent; border: none; color: #94a3b8; font-weight: 600; cursor: pointer; border-radius: 12px; transition: 0.3s; }
+        .class-toggle { display: flex; background: rgba(0, 0, 0, 0.4); padding: 5px; border-radius: 16px; margin-bottom: 20px; }
+        .class-btn { flex: 1; padding: 10px; background: transparent; border: none; color: #94a3b8; font-weight: 600; cursor: pointer; border-radius: 12px; transition: 0.3s; font-size: 14px; }
         .class-btn.active-class { background: #8b5cf6; color: white; }
         
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        /* রেসপন্সিভ গ্রিড */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
         .card-3d { 
             background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 15px 5px; border-radius: 16px; cursor: pointer; transition: 0.3s;
+            padding: 12px 5px; border-radius: 14px; cursor: pointer; transition: 0.3s;
         }
-        .card-3d:hover { background: rgba(139, 92, 246, 0.2); border-color: #8b5cf6; transform: scale(1.03); }
-        .card-title { font-size: 11px; margin-top: 8px; display: block; color: #e2e8f0; }
-        .emoji { font-size: 20px; }
+        .card-3d:hover { background: rgba(139, 92, 246, 0.2); border-color: #8b5cf6; }
+        .card-title { font-size: 11px; margin-top: 6px; display: block; color: #e2e8f0; }
     </style>
 </head>
 <body>
 
 <div class="glass-card">
     <div class="logo-box">
-        <img src="exam-factory-logo.png" alt="Logo">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
     </div>
-    <div class="brand-name">Exam Factory</div>
-
+    
     <div id="lock-screen" class="screen active">
         <input type="password" id="access-code" placeholder="পাসওয়ার্ড দিন...">
         <button class="btn-3d" onclick="verifyPassword()">প্রবেশ করুন</button>
     </div>
 
     <div id="dash-screen" class="screen">
+        <div class="notice-board">
+            <strong>📢 নোটিশ:</strong> 
+            <div id="notice-text">Loading...</div>
+        </div>
+
         <div class="class-toggle">
             <button id="btn-c11" class="class-btn active-class" onclick="setMode('c11')">Class 11</button>
             <button id="btn-c12" class="class-btn" onclick="setMode('c12')">Class 12</button>
@@ -97,27 +112,44 @@
         </div>
 
         <div id="academic-area" class="grid">
-            <div class="card-3d" onclick="navigateTo('bengali')"><div class="emoji">📖</div><span class="card-title">বাংলা</span></div>
-            <div class="card-3d" onclick="navigateTo('english')"><div class="emoji">🔤</div><span class="card-title">English</span></div>
-            <div class="card-3d" onclick="navigateTo('math')"><div class="emoji">📐</div><span class="card-title">Math</span></div>
-            <div class="card-3d" onclick="navigateTo('history')"><div class="emoji">📜</div><span class="card-title">ইতিহাস</span></div>
-            <div class="card-3d" onclick="navigateTo('geography')"><div class="emoji">🗺️</div><span class="card-title">ভূগোল</span></div>
-            <div class="card-3d" onclick="navigateTo('science')"><div class="emoji">🧪</div><span class="card-title">Science</span></div>
-            <div class="card-3d" onclick="navigateTo('polscience')"><div class="emoji">⚖️</div><span class="card-title">Pol.Sc</span></div>
-            <div class="card-3d" onclick="navigateTo('philosophy')"><div class="emoji">🧘</div><span class="card-title">দর্শন</span></div>
-            <div class="card-3d" onclick="navigateTo('education')"><div class="emoji">🎓</div><span class="card-title">শিক্ষা</span></div>
-            <div class="card-3d" onclick="navigateTo('economics')"><div class="emoji">📈</div><span class="card-title">Economics</span></div>
-            <div class="card-3d" onclick="navigateTo('accountancy')"><div class="emoji">📊</div><span class="card-title">Acct.</span></div>
-            <div class="card-3d" onclick="navigateTo('bst')"><div class="emoji">🏢</div><span class="card-title">BST</span></div>
+            <div class="card-3d" onclick="navigateTo('bengali')">📖<span class="card-title">বাংলা</span></div>
+            <div class="card-3d" onclick="navigateTo('english')">🔤<span class="card-title">English</span></div>
+            <div class="card-3d" onclick="navigateTo('history')">📜<span class="card-title">ইতিহাস</span></div>
+            <div class="card-3d" onclick="navigateTo('geography')">🗺️<span class="card-title">ভূগোল</span></div>
+            <div class="card-3d" onclick="navigateTo('polscience')">⚖️<span class="card-title">রাষ্ট্রবিজ্ঞান</span></div>
+            <div class="card-3d" onclick="navigateTo('philosophy')">🧘<span class="card-title">দর্শন</span></div>
+            <div class="card-3d" onclick="navigateTo('education')">🎓<span class="card-title">শিক্ষা</span></div>
+            <div class="card-3d" onclick="navigateTo('physics')">⚛️<span class="card-title">Physics</span></div>
+            <div class="card-3d" onclick="navigateTo('chemistry')">🧪<span class="card-title">Chemistry</span></div>
+            <div class="card-3d" onclick="navigateTo('math')">📐<span class="card-title">Math</span></div>
+            <div class="card-3d" onclick="navigateTo('biology')">🧬<span class="card-title">Biology</span></div>
+            <div class="card-3d" onclick="navigateTo('accountancy')">📊<span class="card-title">Acct.</span></div>
+            <div class="card-3d" onclick="navigateTo('bst')">🏢<span class="card-title">BST</span></div>
+            <div class="card-3d" onclick="navigateTo('economics')">📈<span class="card-title">Economics</span></div>
+            <div class="card-3d" onclick="navigateTo('sociology')">👥<span class="card-title">Sociology</span></div>
+            <div class="card-3d" onclick="navigateTo('statistics')">📉<span class="card-title">Statistics</span></div>
+            <div class="card-3d" onclick="navigateTo('sanskrit')">🕉️<span class="card-title">Sanskrit</span></div>
+            <div class="card-3d" onclick="navigateTo('computer')">💻<span class="card-title">Computer</span></div>
+            <div class="card-3d" onclick="navigateTo('psychology')">🧠<span class="card-title">Psychology</span></div>
+            <div class="card-3d" onclick="navigateTo('nutrition')">🍎<span class="card-title">Nutrition</span></div>
+            <div class="card-3d" onclick="navigateTo('evs')">🌍<span class="card-title">EVS</span></div>
         </div>
 
         <div id="job-area" class="grid" style="display: none;">
-            <div class="card-3d" onclick="navigateTo('ssc')"><div class="emoji">🪖</div><span class="card-title">SSC GD</span></div>
-            <div class="card-3d" onclick="navigateTo('railway')"><div class="emoji">🚂</div><span class="card-title">Railway</span></div>
-            <div class="card-3d" onclick="navigateTo('wbpolice')"><div class="emoji">👮</div><span class="card-title">WB Police</span></div>
-            <div class="card-3d" onclick="navigateTo('banking')"><div class="emoji">🏦</div><span class="card-title">Banking</span></div>
-            <div class="card-3d" onclick="navigateTo('upsc')"><div class="emoji">🏛️</div><span class="card-title">UPSC</span></div>
-            <div class="card-3d" onclick="navigateTo('others')"><div class="emoji">🎯</div><span class="card-title">Others</span></div>
+            <div class="card-3d" onclick="navigateTo('ssc')">🪖<span class="card-title">SSC GD</span></div>
+            <div class="card-3d" onclick="navigateTo('railway')">🚂<span class="card-title">Railway</span></div>
+            <div class="card-3d" onclick="navigateTo('wbpolice')">👮<span class="card-title">WB Police</span></div>
+            <div class="card-3d" onclick="navigateTo('banking')">🏦<span class="card-title">Banking</span></div>
+            <div class="card-3d" onclick="navigateTo('upsc')">🏛️<span class="card-title">UPSC</span></div>
+            <div class="card-3d" onclick="navigateTo('wbcs')">👑<span class="card-title">WBCS</span></div>
+            <div class="card-3d" onclick="navigateTo('tet')">📝<span class="card-title">Primary TET</span></div>
+            <div class="card-3d" onclick="navigateTo('slst')">🏫<span class="card-title">SLST</span></div>
+            <div class="card-3d" onclick="navigateTo('mts')">📁<span class="card-title">MTS</span></div>
+            <div class="card-3d" onclick="navigateTo('cgl')">💼<span class="card-title">CGL</span></div>
+            <div class="card-3d" onclick="navigateTo('chsl')">⌨️<span class="card-title">CHSL</span></div>
+            <div class="card-3d" onclick="navigateTo('groupd')">🏃<span class="card-title">Group D</span></div>
+            <div class="card-3d" onclick="navigateTo('defense')">🛡️<span class="card-title">Defense</span></div>
+            <div class="card-3d" onclick="navigateTo('others')">🎯<span class="card-title">Others</span></div>
         </div>
     </div>
 </div>
@@ -126,10 +158,29 @@
     const APP_PASSWORD = "Rb@2026"; 
     let currentMode = "c11";
 
+    // নোটিশ লোড করার ফাংশন
+    async function loadNotice(mode) {
+        const noticeEl = document.getElementById('notice-text');
+        noticeEl.innerText = "লোডিং...";
+        try {
+            // আপনার ডেটা ফোল্ডারে ফাইলগুলো রাখুন
+            const response = await fetch(`data/notice-${mode}.txt`);
+            if (response.ok) {
+                const text = await response.text();
+                noticeEl.innerText = text;
+            } else {
+                noticeEl.innerText = "কোনো নোটিশ আপডেট করা হয়নি।";
+            }
+        } catch (error) {
+            noticeEl.innerText = "নোটিশ সার্ভার থেকে পাওয়া যাচ্ছে না।";
+        }
+    }
+
     function verifyPassword() {
         if(document.getElementById('access-code').value === APP_PASSWORD) {
             document.getElementById('lock-screen').classList.remove('active');
             document.getElementById('dash-screen').classList.add('active');
+            loadNotice('c11'); 
         } else { alert("ভুল পাসওয়ার্ড!"); }
     }
 
@@ -137,10 +188,9 @@
         currentMode = mode;
         document.querySelectorAll('.class-btn').forEach(btn => btn.classList.remove('active-class'));
         document.getElementById('btn-' + mode).classList.add('active-class');
-
-        const isJob = (mode === 'job');
-        document.getElementById('academic-area').style.display = isJob ? 'none' : 'grid';
-        document.getElementById('job-area').style.display = isJob ? 'grid' : 'none';
+        document.getElementById('academic-area').style.display = (mode === 'job') ? 'none' : 'grid';
+        document.getElementById('job-area').style.display = (mode === 'job') ? 'grid' : 'none';
+        loadNotice(mode);
     }
 
     function navigateTo(subject) {
