@@ -4,244 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Factory | Premium Mock Test Dashboard</title>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
 
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            padding-top: 40px; /* notice space */
+            color: #f8fafc; min-height: 100vh; display: flex;
+            justify-content: center; align-items: center; padding: 20px;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 850px;
-            padding: 40px 30px;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            width: 100%; max-width: 850px; padding: 30px; text-align: center;
         }
 
-        /* 🔔 NOTICE BAR */
-        .notice-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.85);
-            color: white;
-            z-index: 99999;
-            overflow: hidden;
-            padding: 8px 0;
+        #notice-container {
+            background: rgba(234, 179, 8, 0.15); border-left: 4px solid #eab308;
+            padding: 12px; margin-bottom: 20px; border-radius: 8px;
+            font-size: 14px; color: #facc15; text-align: left; display: none;
         }
 
-        .notice-track {
-            white-space: nowrap;
-            display: inline-block;
-            padding-left: 100%;
-            animation: scrollNotice 12s linear infinite;
-        }
-
-        @keyframes scrollNotice {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* logo fallback */
-        .logo-text {
-            display: none;
-            font-size: 24px;
-            font-weight: 800;
-            color: #38bdf8;
-        }
-
-        /* 👇 তোমার বাকি সব CSS SAME (unchanged) 👇 */
-        .logo-container {
-            margin: 0 auto 20px auto;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(134, 85, 250, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(134, 85, 250, 0.2);
-        }
-
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .brand-logo {
-            font-size: 38px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b, #8655faf5, #00f2fe);
-            background-size: 300% 300%;
-            animation: glowText 6s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        @keyframes glowText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .subtitle {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 35px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
+        .brand-logo { font-size: 32px; font-weight: 800; background: linear-gradient(to right, #ff7e5f, #feb47b, #8655faf5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+        
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        input { width: 100%; padding: 14px; background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #fff; text-align: center; margin-bottom: 20px; }
+        .btn-3d { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 14px; border-radius: 14px; cursor: pointer; width: 100%; font-weight: 600; }
 
-        input {
-            width: 100%;
-            padding: 16px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
+        .class-toggle { display: flex; background: rgba(0, 0, 0, 0.3); padding: 5px; border-radius: 30px; margin-bottom: 25px; gap: 5px; }
+        .class-btn { flex: 1; padding: 10px; background: transparent; border: none; color: #94a3b8; font-weight: 600; cursor: pointer; border-radius: 25px; transition: 0.3s; font-size: 13px; }
+        .class-btn.active-class { background: linear-gradient(135deg, #a855f7, #6b21a8); color: white; }
 
-        input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-        }
-
-        .btn-3d {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 14px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 6px 0 #1e40af, 0 12px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.1s ease;
-        }
-
-        .btn-3d:active {
-            transform: translateY(4px);
-        }
-
-        .screen { display: none; }
-        .active { display: block; }
-
-        .error { color: red; display:none; }
+        .category-title { text-align: left; color: #38bdf8; font-weight: 600; margin: 20px 0 10px 0; font-size: 14px; border-left: 3px solid #a855f7; padding-left: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .card-3d { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .card-3d:hover { background: rgba(255, 255, 255, 0.1); border-color: #38bdf8; transform: translateY(-3px); }
+        .card-title { display: block; margin-top: 5px; font-weight: 600; font-size: 12px; }
+        .error { color: #ef4444; margin-top: 10px; display: none; }
     </style>
 </head>
-
 <body>
 
-<!-- 🔔 NOTICE -->
-<div class="notice-bar">
-  <div class="notice-track" id="noticeTrack">Loading notice...</div>
-</div>
-
 <div class="glass-card">
-
-    <!-- 🖼️ LOGO -->
-    <div class="logo-container">
-        <img id="app-logo" src="./assets/logo.png"
-        onerror="this.style.display='none'; document.getElementById('logoText').style.display='block';">
-
-        <div id="logoText" class="logo-text">RB</div>
-    </div>
-
     <div class="brand-logo">Exam Factory</div>
-    <div class="subtitle">West Bengal Board Testing Studio</div>
 
     <div id="lock-screen" class="screen active">
-        <input type="password" id="access-code">
-        <button class="btn-3d" onclick="verifyPassword()">Unlock</button>
-        <p id="lock-error" class="error">Wrong Password</p>
+        <input type="password" id="access-code" placeholder="পাসওয়ার্ড দিন...">
+        <button class="btn-3d" onclick="verifyPassword()">প্রবেশ করুন</button>
+        <p id="lock-error" class="error">ভুল পাসওয়ার্ড!</p>
     </div>
 
     <div id="dash-screen" class="screen">
-        <h3>Dashboard Loaded ✔</h3>
-    </div>
+        <div id="notice-container"></div>
+        
+        <div class="class-toggle">
+            <button id="btn-c11" class="class-btn active-class" onclick="setMode('c11')">Class 11</button>
+            <button id="btn-c12" class="class-btn" onclick="setMode('c12')">Class 12</button>
+            <button id="btn-job" class="class-btn" onclick="setMode('job')">Job Exams</button>
+        </div>
 
+        <div id="content-wrapper">
+            
+            <div id="academic-area">
+                <div class="category-title">LANGUAGES</div>
+                <div class="grid">
+                    <div class="card-3d" onclick="navigateToSubject('bengali.html')">📖<span class="card-title">বাংলা</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('english.html')">🔤<span class="card-title">English</span></div>
+                </div>
+
+                <div class="category-title">ARTS STREAM</div>
+                <div class="grid">
+                    <div class="card-3d" onclick="navigateToSubject('history.html')">📜<span class="card-title">ইতিহাস</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('geography.html')">🗺️<span class="card-title">ভূগোল</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('polscience.html')">⚖️<span class="card-title">রাষ্ট্রবিজ্ঞান</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('philosophy.html')">🧘<span class="card-title">দর্শন</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('education.html')">🎓<span class="card-title">শিক্ষাবিজ্ঞান</span></div>
+                </div>
+
+                <div class="category-title">SCIENCE STREAM</div>
+                <div class="grid">
+                    <div class="card-3d" onclick="navigateToSubject('physics.html')">⚛️<span class="card-title">Physics</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('chemistry.html')">🧪<span class="card-title">Chemistry</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('math.html')">📐<span class="card-title">Mathematics</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('biology.html')">🧬<span class="card-title">Biology</span></div>
+                </div>
+
+                <div class="category-title">COMMERCE STREAM</div>
+                <div class="grid">
+                    <div class="card-3d" onclick="navigateToSubject('accountancy.html')">📊<span class="card-title">Accountancy</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('bst.html')">🏢<span class="card-title">Business St.</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('economics.html')">📈<span class="card-title">Economics</span></div>
+                </div>
+            </div>
+
+            <div id="job-area" style="display: none;">
+                <div class="category-title">COMPETITIVE EXAMS</div>
+                <div class="grid">
+                    <div class="card-3d" onclick="navigateToSubject('ssc.html')">🪖<span class="card-title">SSC GD</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('railway.html')">🚂<span class="card-title">Railway</span></div>
+                    <div class="card-3d" onclick="navigateToSubject('wbpolice.html')">👮<span class="card-title">WB Police</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     const APP_PASSWORD = "2026";
+    let currentMode = "c11";
 
     function verifyPassword() {
-        const input = document.getElementById('access-code').value;
-        if(input === APP_PASSWORD) {
-            document.getElementById('lock-screen').style.display = 'none';
-            document.getElementById('dash-screen').style.display = 'block';
+        if(document.getElementById('access-code').value === APP_PASSWORD) {
+            document.getElementById('lock-screen').classList.remove('active');
+            document.getElementById('dash-screen').classList.add('active');
+            loadNotice('c11'); 
         } else {
             document.getElementById('lock-error').style.display = 'block';
         }
     }
 
-    // 🔔 NOTICE SYSTEM (FOLDER BASED)
-    let notices = [];
-    let index = 0;
-
-    async function loadNotices() {
+    async function loadNotice(mode) {
+        const container = document.getElementById('notice-container');
         try {
-            const res = await fetch("./notice/notice.json");
-            const data = await res.json();
-            notices = data.notices;
-        } catch (e) {
-            notices = ["Notice load failed"];
-        }
+            const response = await fetch(`data/notice-${mode}.txt`);
+            if (response.ok) {
+                const text = await response.text();
+                if(text.trim() !== "") {
+                    container.innerHTML = "📢 " + text;
+                    container.style.display = 'block';
+                } else { container.style.display = 'none'; }
+            } else { container.style.display = 'none'; }
+        } catch (e) { container.style.display = 'none'; }
     }
 
-    function updateNotice() {
-        if (notices.length === 0) return;
-        document.getElementById("noticeTrack").innerText = notices[index];
-        index = (index + 1) % notices.length;
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('btn-c11').classList.toggle('active-class', mode === 'c11');
+        document.getElementById('btn-c12').classList.toggle('active-class', mode === 'c12');
+        document.getElementById('btn-job').classList.toggle('active-class', mode === 'job');
+
+        // একাডেমিক সাবজেক্টগুলো সব মোডেই দেখাবে, কিন্তু জব এরিয়া শুধু জবে দেখাবে
+        document.getElementById('academic-area').style.display = (mode === 'job') ? 'none' : 'block';
+        document.getElementById('job-area').style.display = (mode === 'job') ? 'block' : 'none';
+        
+        loadNotice(mode);
     }
 
-    loadNotices();
-    setInterval(updateNotice, 4000);
+    function navigateToSubject(pageName) {
+        // প্রিফিক্স লজিক: c11-, c12-, অথবা job-
+        let prefix = (currentMode === 'c11') ? 'c11-' : (currentMode === 'c12') ? 'c12-' : 'job-';
+        window.location.href = prefix + pageName;
+    }
 </script>
-
 </body>
 </html>
