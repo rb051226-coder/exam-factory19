@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 11 Sanskrit 100 Qs 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #1e1b4b; color: #f1f5f9; min-height: 100vh; padding: 20px; }
+        .glass-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 20px; width: 100%; max-width: 800px; margin: auto; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #4f46e5; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #fbbf24; text-align: center; margin-bottom: 20px; }
+        .q-box { font-size: 18px; margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid #fbbf24; border-radius: 8px; }
+        .opt-btn { background: #312e81; padding: 12px; margin-bottom: 8px; width: 100%; border-radius: 6px; border: 1px solid #4338ca; color: white; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover { background: #4338ca; border-color: #fbbf24; }
+        .finish-btn { background: #78350f; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .result-item { background: #0f172a; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #ef4444; font-size: 0.9em; }
+        .screen { display: none; } .active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="brand-logo">একাদশ শ্রেণি সংস্কৃত সাজেশন ১০০ (২০২৬)</div>
+    <div id="quiz-screen" class="screen active">
+        <div id="q-count" style="margin-bottom:10px; color:#fbbf24;">প্রশ্ন: ১ / ১০০</div>
+        <div id="q-text" class="q-box">প্রশ্ন লোড হচ্ছে...</div>
+        <div id="opt-container"></div>
+        <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
+    </div>
+    <div id="result-screen" class="screen">
+        <h2 style="text-align:center; color:#fbbf24;">ফলাফল</h2>
+        <div id="score-summary" style="text-align:center; font-size: 20px; margin: 15px 0;"></div>
+        <div id="review-list"></div>
+        <button class="finish-btn" onclick="location.reload()">পুনরায় শুরু করুন</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "১. 'সংস্কৃত' শব্দের অর্থ কী?", options: ["বিশুদ্ধ বা পরিমার্জিত", "সহজ", "পুরানো", "কোনটিই নয়"], correct: 0 },
+        { q: "২. বেদের অপর নাম কী?", options: ["শ্রুতি", "স্মৃতি", "পুরাণ", "ইতিহাস"], correct: 0 },
+        { q: "৩. বেদের সংখ্যা কয়টি?", options: ["৪টি", "৩টি", "২টি", "৫টি"], correct: 0 },
+        { q: "৪. রামায়ণের রচয়িতা কে?", options: ["বাল্মীকি", "ব্যাসদেব", "কালিদাস", "ভাষ"], correct: 0 },
+        { q: "৫. মহাভারতের রচয়িতা কে?", options: ["ব্যাসদেব", "বাল্মীকি", "কালিদাস", "হর্ষবর্ধন"], correct: 0 },
+        { q: "৬. 'মেঘদূত' কার রচনা?", options: ["কালিদাস", "মাঘ", "ভারবি", "শ্রীহর্ষ"], correct: 0 },
+        { q: "৭. উপনিষদ কার অংশ?", options: ["বেদ", "পুরাণ", "রামায়ণ", "মহাভারত"], correct: 0 },
+        { q: "৮. সংস্কৃত সাহিত্যের আদি কবি কে?", options: ["বাল্মীকি", "ব্যাসদেব", "কালিদাস", "পাণিনি"], correct: 0 },
+        { q: "৯. 'অভিজ্ঞানশকুন্তলম' কার লেখা?", options: ["কালিদাস", "ভাষ", "ভবভূতি", "শূদ্রক"], correct: 0 },
+        { q: "১০. রামায়ণে কয়টি কাণ্ড আছে?", options: ["৭টি", "৬টি", "৫টি", "৮টি"], correct: 0 },
+        { q: "১১. 'পাণিনি' কিসের জন্য বিখ্যাত?", options: ["ব্যাকরণ", "কবিতা", "নাটক", "ইতিহাস"], correct: 0 },
+        { q: "১২. ঋগ্বেদের প্রধান দেবতা কে?", options: ["ইন্দ্র", "অগ্নি", "বরুণ", "বিষ্ণু"], correct: 0 },
+        { q: "১৩. অষ্টাধ্যয়ী কার লেখা?", options: ["পাণিনি", "পতঞ্জলি", "কাত্যায়ন", "ভারবি"], correct: 0 },
+        { q: "১৪. 'মহাকবি' উপাধি কার?", options: ["কালিদাস", "ব্যাসদেব", "বাল্মীকি", "ভাষ"], correct: 0 },
+        { q: "১৫. গীতা মহাভারতের কোন পর্বের অংশ?", options: ["ভীষ্ম পর্ব", "আদি পর্ব", "বন পর্ব", "শান্তি পর্ব"], correct: 0 },
+        { q: "১৬. 'স্বপ্নবাসবদত্তম' নাটকটির রচয়িতা কে?", options: ["ভাষ", "কালিদাস", "শূদ্রক", "বিশাখদত্ত"], correct: 0 },
+        { q: "১৭. 'হিতোপদেশ' কার লেখা?", options: ["নারায়ণ পণ্ডিত", "বিষ্ণুশর্মা", "ব্যাসদেব", "কালিদাস"], correct: 0 },
+        { q: "১৮. 'পঞ্চতন্ত্র' কার লেখা?", options: ["বিষ্ণুশর্মা", "নারায়ণ পণ্ডিত", "কালিদাস", "সোমদেব"], correct: 0 },
+        { q: "১৯. রামায়ণের শ্লোকসংখ্যা কত?", options: ["২৪,০০০", "১৮,০০০", "১,০০,০০০", "১০,০০০"], correct: 0 },
+        { q: "২০. মহাভারতের শ্লোকসংখ্যা কত?", options: ["১,০০,০০০", "২৪,০০০", "৫০,০০০", "৫,০০০"], correct: 0 },
+        { q: "২১. 'কুমারসম্ভবম' কার রচনা?", options: ["কালিদাস", "ভারবি", "মাঘ", "শ্রীহর্ষ"], correct: 0 },
+        { q: "২২. 'মৃচ্ছকটিকম' নাটকের রচয়িতা কে?", options: ["শূদ্রক", "কালিদাস", "ভাষ", "বিশাখদত্ত"], correct: 0 },
+        { q: "২৩. 'মুদ্রারাক্ষস' কার লেখা?", options: ["বিশাখদত্ত", "কালিদাস", "শূদ্রক", "ভাষ"], correct: 0 },
+        { q: "২৪. প্রাচীনতম বেদ কোনটি?", options: ["ঋগ্বেদ", "সামবেদ", "যজুর্বেদ", "অথর্ববেদ"], correct: 0 },
+        { q: "২৫. 'গীতগোবিন্দম' কার লেখা?", options: ["জয়দেব", "কালিদাস", "ভারবি", "মাঘ"], correct: 0 },
+        { q: "২৬. 'শকুন্তলা'র পিতার নাম কী?", options: ["কন্ব", "দুষ্মন্ত", "বিশ্বামিত্র", "কোনটিই নয়"], correct: 0 },
+        { q: "২৭. 'দশকুমারচরিতম' কার লেখা?", options: ["দণ্ডী", "কালিদাস", "বনভট্ট", "সুবন্ধু"], correct: 0 },
+        { q: "২৮. 'কাদম্বরী' কার লেখা?", options: ["বাণভট্ট", "দণ্ডী", "সুবন্ধু", "কালিদাস"], correct: 0 },
+        { q: "২৯. অর্থশাস্ত্র কার লেখা?", options: ["কৌটিল্য", "মনু", "পাণিনি", "পাতঞ্জলি"], correct: 0 },
+        { q: "৩০. 'মেঘদূত' কোন জাতীয় কাব্য?", options: ["খণ্ডকাব্য", "মহাকাব্য", "নাটক", "গল্প"], correct: 0 },
+        { q: "৩১. 'রামায়ণ' কোন ছন্দে রচিত?", options: ["অনুষ্টুপ", "ত্রিষ্টুপ", "জগতি", "গায়ত্রী"], correct: 0 },
+        { q: "৩২. 'মহাভারত' কোন ছন্দে রচিত?", options: ["অনুষ্টুপ", "ত্রিষ্টুপ", "জগতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৩. সংস্কৃত ব্যাকরণে 'সন্ধি' কয় প্রকার?", options: ["৩", "২", "৪", "৫"], correct: 0 },
+        { q: "৩৪. 'রামঃ' শব্দটির মূল রূপ কী?", options: ["রাম", "রামা", "রামী", "কোনটিই নয়"], correct: 0 },
+        { q: "৩৫. 'অস্মদ্' শব্দের অর্থ কী?", options: ["আমি", "তুমি", "সে", "আমরা"], correct: 0 },
+        { q: "৩৬. 'যুষ্মদ্' শব্দের অর্থ কী?", options: ["তুমি", "আমি", "সে", "তোমরা"], correct: 0 },
+        { q: "৩৭. 'পঠতি' ক্রিয়াপদটির মূল ধাতু কী?", options: ["পঠ", "পাঠ", "পঠ্", "পঠদ"], correct: 0 },
+        { q: "৩৮. লট লকার কী কাল বোঝায়?", options: ["বর্তমান", "অতীত", "ভবিষ্যৎ", "অনুজ্ঞা"], correct: 0 },
+        { q: "৩৯. লৃট লকার কী কাল বোঝায়?", options: ["ভবিষ্যৎ", "বর্তমান", "অতীত", "কোনটিই নয়"], correct: 0 },
+        { q: "৪০. 'লঙ' লকার কী কাল বোঝায়?", options: ["অতীত", "বর্তমান", "ভবিষ্যৎ", "কোনটিই নয়"], correct: 0 },
+        { q: "৪১. 'দেব' শব্দের কারক বিভক্তি কী?", options: ["প্রথমা", "দ্বিতীয়া", "তৃতীয়া", "চতুর্থী"], correct: 0 },
+        { q: "৪২. সংস্কৃত বর্ণমালায় স্বরবর্ণ কয়টি?", options: ["১৩টি", "৯টি", "১০টি", "১১টি"], correct: 0 },
+        { q: "৪৩. 'মাহেশ্বর সূত্র' কয়টি?", options: ["১৪টি", "১০টি", "১২টি", "১৬টি"], correct: 0 },
+        { q: "৪৪. সংস্কৃত ব্যাকরণের জনক কে?", options: ["পাণিনি", "পুষ্যমিত্র", "ব্যাসদেব", "বাল্মীকি"], correct: 0 },
+        { q: "৪৫. 'হস্তী' শব্দের অর্থ কী?", options: ["হাতি", "ঘোড়া", "মানুষ", "গাছ"], correct: 0 },
+        { q: "৪৬. 'গজঃ' শব্দের অর্থ কী?", options: ["হাতি", "ঘোড়া", "বাঘ", "সিংহ"], correct: 0 },
+        { q: "৪৭. 'বৃক্ষঃ' শব্দের অর্থ কী?", options: ["গাছ", "পাথর", "মাটি", "ফুল"], correct: 0 },
+        { q: "৪৮. 'সূর্যঃ' শব্দের সমার্থক শব্দ কী?", options: ["দিনকর", "চন্দ্র", "বায়ু", "অগ্নি"], correct: 0 },
+        { q: "৪৯. 'চন্দ্রঃ' শব্দের সমার্থক শব্দ কী?", options: ["শশাঙ্ক", "সূর্য", "তারা", "মেঘ"], correct: 0 },
+        { q: "৫০. 'জলম' এর সমার্থক শব্দ কোনটি?", options: ["বারি", "অগ্নি", "বায়ু", "আকাশ"], correct: 0 },
+        { q: "৫১. 'নরঃ' শব্দের অর্থ কী?", options: ["মানুষ", "নারী", "পশু", "পাখি"], correct: 0 },
+        { q: "৫২. 'বালকঃ' শব্দের বহুবচন কী?", options: ["বালকাঃ", "বালকৌ", "বালকম", "বালকেন"], correct: 0 },
+        { q: "৫৩. 'লতা' শব্দটির প্রথমা বিভক্তি কী?", options: ["লতা", "লতে", "লতাঃ", "লতাম"], correct: 0 },
+        { q: "৫৪. 'মুনি' শব্দের প্রথমা একবচন কী?", options: ["মুনিঃ", "মুনি", "মুন্যঃ", "মুনিং"], correct: 0 },
+        { q: "৫৫. 'ভানু' শব্দের প্রথমা একবচন কী?", options: ["ভানুঃ", "ভানু", "ভ্যানবঃ", "ভানুম"], correct: 0 },
+        { q: "৫৬. 'পিতৃ' শব্দের প্রথমা একবচন কী?", options: ["পিতা", "পিত্রা", "পিত্রৌ", "পিতৃন"], correct: 0 },
+        { q: "৫৭. 'গচ্ছতি' কোন ধাতুরূপ?", options: ["গম", "গচ্ছ", "গতা", "গতি"], correct: 0 },
+        { q: "৫৮. 'করোতি' কোন ধাতুরূপ?", options: ["কৃ", "কর", "কার", "ক্রি"], correct: 0 },
+        { q: "৫৯. 'অস্তি' কোন ধাতুরূপ?", options: ["অস", "অস্তি", "স্থা", "ভূ"], correct: 0 },
+        { q: "৬০. 'পিবতি' কোন ধাতুরূপ?", options: ["পা", "পিব", "পিবতি", "পেয়"], correct: 0 },
+        { q: "৬১. সংস্কৃত সাহিত্যে 'নাট্যশাস্ত্র' কে লিখেছেন?", options: ["ভরতমুনি", "কালিদাস", "ভট্টিকাব্য", "কোনটিই নয়"], correct: 0 },
+        { q: "৬২. 'ভট্টিকাব্য' কার লেখা?", options: ["ভট্টি", "কালিদাস", "মাঘ", "ভারবি"], correct: 0 },
+        { q: "৬৩. 'কিরাতার্জুনীয়ম' কার লেখা?", options: ["ভারবি", "মাঘ", "কালিদাস", "শ্রীহর্ষ"], correct: 0 },
+        { q: "৬৪. 'শিশুপালবধ' কার লেখা?", options: ["মাঘ", "ভারবি", "কালিদাস", "শ্রীহর্ষ"], correct: 0 },
+        { q: "৬৫. 'নৈষধীয়চরিতম' কার লেখা?", options: ["শ্রীহর্ষ", "মাঘ", "ভারবি", "কালিদাস"], correct: 0 },
+        { q: "৬৬. 'কথা সরিৎসাগর' কার লেখা?", options: ["সোমদেব", "বিষ্ণুশর্মা", "নারায়ণ পণ্ডিত", "কালিদাস"], correct: 0 },
+        { q: "৬৭. 'হর্ষচরিত' কার লেখা?", options: ["বাণভট্ট", "কালিদাস", "দণ্ডী", "সুবন্ধু"], correct: 0 },
+        { q: "৬৮. সংস্কৃত সাহিত্যে 'প্রস্থত্রয়ী'র অন্তর্ভুক্ত কী?", options: ["উপনিষদ, ব্রহ্মসূত্র, গীতা", "বেদ, পুরাণ, রামায়ণ", "সবগুলো", "কোনটিই নয়"], correct: 0 },
+        { q: "৬৯. ঋগ্বেদের ঋত্বিক কে?", options: ["হোতা", "অধ্বর্যু", "উদ্গাতা", "ব্রহ্মা"], correct: 0 },
+        { q: "৭০. যজুর্বেদের ঋত্বিক কে?", options: ["অধ্বর্যু", "হোতা", "উদ্গাতা", "ব্রহ্মা"], correct: 0 },
+        { q: "৭১. সামবেদের ঋত্বিক কে?", options: ["উদ্গাতা", "হোতা", "অধ্বর্যু", "ব্রহ্মা"], correct: 0 },
+        { q: "৭২. অথর্ববেদের ঋত্বিক কে?", options: ["ব্রহ্মা", "হোতা", "অধ্বর্যু", "উদ্গাতা"], correct: 0 },
+        { q: "৭৩. 'উপনিষদ' শব্দের অর্থ কী?", options: ["গুরুর নিকট বসা", "নষ্ট হওয়া", "দূরে থাকা", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৪. পতঞ্জলি কিসের রচয়িতা?", options: ["মহাভাষ্য", "অষ্টাধ্যয়ী", "বার্তিক", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৫. 'ব্যাকরণ' শব্দের সন্ধি বিচ্ছেদ কী?", options: ["বি+আ+করণ", "ব্য+করণ", "বি+করণ", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৬. 'সূর্যোদয়' শব্দের সন্ধি বিচ্ছেদ কী?", options: ["সূর্য+উদয়", "সূর্যা+উদয়", "সূর্য+উদয়ং", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৭. 'বিদ্যালয়' শব্দের সন্ধি বিচ্ছেদ কী?", options: ["বিদ্যা+আলয়", "বিদ্যা+লয়", "বি+দ্যালয়", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৮. 'নরেন্দ্র' শব্দের সন্ধি বিচ্ছেদ কী?", options: ["নর+ইন্দ্র", "নর+এন্দ্র", "নরা+ইন্দ্র", "কোনটিই নয়"], correct: 0 },
+        { q: "৭৯. 'মহেশ' শব্দের সন্ধি বিচ্ছেদ কী?", options: ["মহা+ঈশ", "মহে+শ", "মহ+ঈশ", "কোনটিই নয়"], correct: 0 },
+        { q: "৮০. 'তৎ+ম' = ?", options: ["তন্ম", "তৎম", "তত্ ম", "কোনটিই নয়"], correct: 0 },
+        { q: "৮১. 'মনঃ+হর' = ?", options: ["মনোহর", "মনস+হর", "মনহ+হর", "কোনটিই নয়"], correct: 0 },
+        { q: "৮২. 'রামঃ গচ্ছতি' - সংস্কৃত অনুবাদ কী?", options: ["রামঃ গচ্ছতি", "রাম গচ্ছতি", "রামং গচ্ছতি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৩. 'আমি পড়ি' - সংস্কৃত অনুবাদ কী?", options: ["অহং পঠামি", "অহং পঠতি", "অহং পঠসি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৪. 'তুমি যাও' - সংস্কৃত অনুবাদ কী?", options: ["ত্বং গচ্ছসি", "ত্বং গচ্ছতি", "ত্বং গচ্ছামি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৫. 'সে খায়' - সংস্কৃত অনুবাদ কী?", options: ["সঃ খাদতি", "তৎ খাদতি", "স খাদামি", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৬. 'সহ' শব্দের অর্থ কী?", options: ["সঙ্গে", "সে", "হওয়া", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৭. 'পুনঃ' শব্দের অর্থ কী?", options: ["আবার", "পরে", "আগে", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৮. 'অদ্য' শব্দের অর্থ কী?", options: ["আজ", "কাল", "পরশু", "কোনটিই নয়"], correct: 0 },
+        { q: "৮৯. 'স্বঃ' শব্দের অর্থ কী?", options: ["আগামীকাল", "আজ", "গতকাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৯০. 'হয়ঃ' শব্দের অর্থ কী?", options: ["গতকাল", "আজ", "আগামীকাল", "কোনটিই নয়"], correct: 0 },
+        { q: "৯১. 'বিদ্যা দদাতি বিনয়ম' - এটি কার উক্তি?", options: ["হিতোপদেশ", "পুরাণ", "বেদ", "কোনটিই নয়"], correct: 0 },
+        { q: "৯২. 'সত্যমেব জয়তে' কোথা থেকে নেওয়া হয়েছে?", options: ["মুণ্ডক উপনিষদ", "গীতা", "বেদ", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৩. 'অহিংসা পরম ধর্ম' - এটি কার বাণী?", options: ["মহাভারত", "রামায়ণ", "বেদ", "পুরাণ"], correct: 0 },
+        { q: "৯৪. 'জননী জন্মভূমিশ্চ স্বর্গাদপি গরীয়সী' - এটি কোথা থেকে?", options: ["রামায়ণ", "মহাভারত", "বেদ", "গীতা"], correct: 0 },
+        { q: "৯৫. সংস্কৃত ভাষায় কয়টি লিঙ্গ আছে?", options: ["৩টি", "২টি", "৪টি", "৫টি"], correct: 0 },
+        { q: "৯৬. সংস্কৃত ভাষায় কয়টি বচন আছে?", options: ["৩টি", "২টি", "৪টি", "১টি"], correct: 0 },
+        { q: "৯৭. 'একবচন' কাকে বলে?", options: ["একটি বস্তুকে", "দুইটি বস্তুকে", "অনেককে", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৮. 'দ্বিবচন' কাকে বলে?", options: ["দুটি বস্তুকে", "একটি বস্তুকে", "অনেককে", "কোনটিই নয়"], correct: 0 },
+        { q: "৯৯. 'বহুবচন' কাকে বলে?", options: ["দুইয়ের অধিক", "একটি", "দুটি", "কোনটিই নয়"], correct: 0 },
+        { q: "১০০. সংস্কৃত ভাষা কেমন ভাষা?", options: ["শ্লিষ্ট ভাষা", "অশ্লিষ্ট ভাষা", "সহজ ভাষা", "কোনটিই নয়"], correct: 0 }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(questions);
+
+    let currentQuestionIndex = 0, score = 0, userAnswers = [];
+
+    function init() {
+        const container = document.getElementById('opt-container');
+        const qObj = questions[currentQuestionIndex];
+        document.getElementById('q-count').innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = qObj.q;
+        container.innerHTML = '';
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(idx) {
+        userAnswers[currentQuestionIndex] = idx;
+        if(idx === questions[currentQuestionIndex].correct) score++;
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            init();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('score-summary').innerHTML = `আপনার স্কোর: <b>${score} / ${questions.length}</b>`;
+        let reviewHTML = "<h3>ভুলগুলো যাচাই করুন:</h3><br>";
+        for(let i = 0; i < questions.length; i++) {
+            if(userAnswers[i] !== questions[i].correct) {
+                reviewHTML += `<div class="result-item"><p><b>${questions[i].q}</b></p><p class="wrong">আপনার উত্তর: ${userAnswers[i] !== undefined ? questions[i].options[userAnswers[i]] : "উত্তর দেননি"}</p><p class="correct">সঠিক উত্তর: ${questions[i].options[questions[i].correct]}</p></div>`;
+            }
+        }
+        document.getElementById('review-list').innerHTML = reviewHTML;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
