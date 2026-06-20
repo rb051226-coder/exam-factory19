@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | Premium Mock Test Dashboard</title>
+    <title>Exam Factory | Premium Mock Test</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%); color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .glass-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 30px; width: 100%; max-width: 850px; text-align: center; }
         
-        /* লোগো স্টাইল */
-        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(134, 85, 250, 0.4); }
-        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        /* লোগো সেটিংস */
+        .logo-box { width: 220px; height: auto; margin: 0 auto 20px; border-radius: 12px; overflow: hidden; }
+        .logo-box img { width: 100%; height: auto; object-fit: contain; }
 
         #notice-container { background: rgba(234, 179, 8, 0.15); border-left: 4px solid #eab308; padding: 12px; margin-bottom: 20px; border-radius: 8px; font-size: 14px; color: #facc15; text-align: left; display: none; }
         .brand-logo { font-size: 32px; font-weight: 800; background: linear-gradient(to right, #ff7e5f, #feb47b, #8655faf5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
@@ -39,7 +39,7 @@
 
 <div class="glass-card">
     <div class="logo-box">
-        <img src="assets/logo.png" alt="Logo">
+        <img src="assets/logo.jpg" alt="Exam Factory Logo">
     </div>
     <div class="brand-logo">Exam Factory</div>
 
@@ -99,12 +99,9 @@
             document.getElementById('lock-screen').classList.remove('active');
             document.getElementById('dash-screen').classList.add('active');
             loadNotice('c11'); 
-        } else {
-            alert("ভুল পাসওয়ার্ড!");
-        }
+        } else { alert("ভুল পাসওয়ার্ড!"); }
     }
 
-    // নোটিশ লোড করার ফাংশন
     async function loadNotice(mode) {
         const container = document.getElementById('notice-container');
         try {
@@ -131,7 +128,6 @@
     }
 
     function navigateToSubject(pageName) {
-        // এখানে আপনার আগের ফাইলের নামের ফরম্যাট অনুযায়ী প্রিফিক্স যোগ হবে
         let prefix = (currentMode === 'c11') ? 'c11-' : (currentMode === 'c12') ? 'c12-' : 'job-';
         window.location.href = prefix + pageName;
     }
