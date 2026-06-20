@@ -6,57 +6,46 @@
     <title>Exam Factory | Premium Mock Test Dashboard</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%); color: #f8fafc; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .glass-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 30px; width: 100%; max-width: 850px; text-align: center; }
+        
+        /* লোগো স্টাইল */
+        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(134, 85, 250, 0.4); }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-            color: #f8fafc; min-height: 100vh; display: flex;
-            justify-content: center; align-items: center; padding: 20px;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            width: 100%; max-width: 850px; padding: 30px; text-align: center;
-        }
-
-        #notice-container {
-            background: rgba(234, 179, 8, 0.15); border-left: 4px solid #eab308;
-            padding: 12px; margin-bottom: 20px; border-radius: 8px;
-            font-size: 14px; color: #facc15; text-align: left; display: none;
-        }
-
+        #notice-container { background: rgba(234, 179, 8, 0.15); border-left: 4px solid #eab308; padding: 12px; margin-bottom: 20px; border-radius: 8px; font-size: 14px; color: #facc15; text-align: left; display: none; }
         .brand-logo { font-size: 32px; font-weight: 800; background: linear-gradient(to right, #ff7e5f, #feb47b, #8655faf5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
         
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         input { width: 100%; padding: 14px; background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #fff; text-align: center; margin-bottom: 20px; }
         .btn-3d { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 14px; border-radius: 14px; cursor: pointer; width: 100%; font-weight: 600; }
-
+        
         .class-toggle { display: flex; background: rgba(0, 0, 0, 0.3); padding: 5px; border-radius: 30px; margin-bottom: 25px; gap: 5px; }
         .class-btn { flex: 1; padding: 10px; background: transparent; border: none; color: #94a3b8; font-weight: 600; cursor: pointer; border-radius: 25px; transition: 0.3s; font-size: 13px; }
         .class-btn.active-class { background: linear-gradient(135deg, #a855f7, #6b21a8); color: white; }
-
+        
         .category-title { text-align: left; color: #38bdf8; font-weight: 600; margin: 20px 0 10px 0; font-size: 14px; border-left: 3px solid #a855f7; padding-left: 10px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .card-3d { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
         .card-3d:hover { background: rgba(255, 255, 255, 0.1); border-color: #38bdf8; transform: translateY(-3px); }
         .card-title { display: block; margin-top: 5px; font-weight: 600; font-size: 12px; }
-        .error { color: #ef4444; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
 
 <div class="glass-card">
+    <div class="logo-box">
+        <img src="assets/logo.png" alt="Logo">
+    </div>
     <div class="brand-logo">Exam Factory</div>
 
     <div id="lock-screen" class="screen active">
         <input type="password" id="access-code" placeholder="পাসওয়ার্ড দিন...">
         <button class="btn-3d" onclick="verifyPassword()">প্রবেশ করুন</button>
-        <p id="lock-error" class="error">ভুল পাসওয়ার্ড!</p>
     </div>
 
     <div id="dash-screen" class="screen">
@@ -68,34 +57,21 @@
             <button id="btn-job" class="class-btn" onclick="setMode('job')">Job Exams</button>
         </div>
 
-        <div id="content-wrapper">
-            
+        <div id="main-content">
             <div id="academic-area">
-                <div class="category-title">LANGUAGES</div>
+                <div class="category-title">SUBJECTS</div>
                 <div class="grid">
                     <div class="card-3d" onclick="navigateToSubject('bengali.html')">📖<span class="card-title">বাংলা</span></div>
                     <div class="card-3d" onclick="navigateToSubject('english.html')">🔤<span class="card-title">English</span></div>
-                </div>
-
-                <div class="category-title">ARTS STREAM</div>
-                <div class="grid">
                     <div class="card-3d" onclick="navigateToSubject('history.html')">📜<span class="card-title">ইতিহাস</span></div>
                     <div class="card-3d" onclick="navigateToSubject('geography.html')">🗺️<span class="card-title">ভূগোল</span></div>
                     <div class="card-3d" onclick="navigateToSubject('polscience.html')">⚖️<span class="card-title">রাষ্ট্রবিজ্ঞান</span></div>
                     <div class="card-3d" onclick="navigateToSubject('philosophy.html')">🧘<span class="card-title">দর্শন</span></div>
                     <div class="card-3d" onclick="navigateToSubject('education.html')">🎓<span class="card-title">শিক্ষাবিজ্ঞান</span></div>
-                </div>
-
-                <div class="category-title">SCIENCE STREAM</div>
-                <div class="grid">
                     <div class="card-3d" onclick="navigateToSubject('physics.html')">⚛️<span class="card-title">Physics</span></div>
                     <div class="card-3d" onclick="navigateToSubject('chemistry.html')">🧪<span class="card-title">Chemistry</span></div>
                     <div class="card-3d" onclick="navigateToSubject('math.html')">📐<span class="card-title">Mathematics</span></div>
                     <div class="card-3d" onclick="navigateToSubject('biology.html')">🧬<span class="card-title">Biology</span></div>
-                </div>
-
-                <div class="category-title">COMMERCE STREAM</div>
-                <div class="grid">
                     <div class="card-3d" onclick="navigateToSubject('accountancy.html')">📊<span class="card-title">Accountancy</span></div>
                     <div class="card-3d" onclick="navigateToSubject('bst.html')">🏢<span class="card-title">Business St.</span></div>
                     <div class="card-3d" onclick="navigateToSubject('economics.html')">📈<span class="card-title">Economics</span></div>
@@ -124,10 +100,11 @@
             document.getElementById('dash-screen').classList.add('active');
             loadNotice('c11'); 
         } else {
-            document.getElementById('lock-error').style.display = 'block';
+            alert("ভুল পাসওয়ার্ড!");
         }
     }
 
+    // নোটিশ লোড করার ফাংশন
     async function loadNotice(mode) {
         const container = document.getElementById('notice-container');
         try {
@@ -148,15 +125,13 @@
         document.getElementById('btn-c12').classList.toggle('active-class', mode === 'c12');
         document.getElementById('btn-job').classList.toggle('active-class', mode === 'job');
 
-        // একাডেমিক সাবজেক্টগুলো সব মোডেই দেখাবে, কিন্তু জব এরিয়া শুধু জবে দেখাবে
         document.getElementById('academic-area').style.display = (mode === 'job') ? 'none' : 'block';
         document.getElementById('job-area').style.display = (mode === 'job') ? 'block' : 'none';
-        
         loadNotice(mode);
     }
 
     function navigateToSubject(pageName) {
-        // প্রিফিক্স লজিক: c11-, c12-, অথবা job-
+        // এখানে আপনার আগের ফাইলের নামের ফরম্যাট অনুযায়ী প্রিফিক্স যোগ হবে
         let prefix = (currentMode === 'c11') ? 'c11-' : (currentMode === 'c12') ? 'c12-' : 'job-';
         window.location.href = prefix + pageName;
     }
