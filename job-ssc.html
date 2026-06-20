@@ -2,29 +2,55 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>SSC GD Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC GD Practice</title>
     <style>
-        body { background: #0b0e14; color: white; font-family: sans-serif; padding: 20px; }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+        body { background: #0b0e14; color: #f8fafc; font-family: 'Outfit', sans-serif; padding: 20px; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .back-btn { display: inline-block; padding: 10px 15px; background: #8b5cf6; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; margin-bottom: 20px; }
+        .question-box { margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 15px; }
+        .option { display: block; margin: 10px 0; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .option:hover { background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; }
     </style>
 </head>
 <body>
-    <div id="debug-area">
-        <h1>SSC GD Practice</h1>
-        <p>যদি এটি দেখতে পান, তবে স্ক্রিপ্ট কাজ করছে!</p>
-    </div>
 
-    <script>
-        console.log("Script is running!");
-        document.getElementById('debug-area').innerHTML += "<p>Script execution started...</p>";
-        
-        try {
-            const questions = [
-                { q: "ভারতের সংবিধানের জনক কে?", a: ["জওহরলাল নেহরু", "বি আর আম্বেদকর", "মহাত্মা গান্ধী", "বল্লভভাই প্যাটেল"], correct: 1 }
-            ];
-            document.getElementById('debug-area').innerHTML += "<p>Questions loaded successfully: " + questions.length + "</p>";
-        } catch (e) {
-            document.getElementById('debug-area').innerHTML += "<p style='color:red;'>Error: " + e.message + "</p>";
-        }
-    </script>
+<div class="glass-card">
+    <a href="index.html" class="back-btn">← ফিরে যান</a>
+    <h2>SSC GD Practice Set</h2>
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    // এখানে আপনার প্রশ্নগুলো রাখুন
+    const questions = [
+        { q: "ভারতের সংবিধানের জনক কে?", a: ["জওহরলাল নেহরু", "বি আর আম্বেদকর", "মহাত্মা গান্ধী", "বল্লভভাই প্যাটেল"], correct: 1 },
+        { q: "পানিপথের প্রথম যুদ্ধ কত সালে হয়?", a: ["১৫২৬", "১৫৫৬", "১৭৬১", "১৫২০"], correct: 0 },
+        { q: "সবচেয়ে হালকা ধাতু কোনটি?", a: ["লিথিয়াম", "সোডিয়াম", "ম্যাগনেশিয়াম", "অ্যালুমিনিয়াম"], correct: 0 }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    function loadQuiz() {
+        container.innerHTML = ""; 
+        questions.forEach((item, index) => {
+            let optionsHTML = item.a.map((opt, i) => 
+                `<label class="option"><input type="radio" name="q${index}" value="${i}"> ${opt}</label>`
+            ).join('');
+            
+            container.innerHTML += `
+                <div class="question-box">
+                    <p><strong>${index + 1}. ${item.q}</strong></p>
+                    ${optionsHTML}
+                </div>
+            `;
+        });
+    }
+
+    loadQuiz();
+</script>
+
 </body>
 </html>
+
