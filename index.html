@@ -6,39 +6,32 @@
     <title>Exam Factory | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #6366f1; --bg: #f3f4f6; --text: #111827; --card-bg: #ffffff; --notice-bg: #fff7ed; --notice-text: #9a3412;
-        }
-        /* Dark Mode Colors */
-        body.dark-mode {
-            --bg: #111827; --text: #f3f4f6; --card-bg: #1f2937; --notice-bg: #374151; --notice-text: #f3f4f6;
-        }
+        :root { --primary: #6366f1; --bg: #f3f4f6; --text: #111827; --card-bg: #ffffff; }
+        body.dark-mode { --bg: #111827; --text: #f3f4f6; --card-bg: #1f2937; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
         body { background: var(--bg); min-height: 100vh; padding: 20px; color: var(--text); }
         .container { max-width: 500px; margin: 0 auto; }
-
-        /* Login Screen */
+        
         #login-screen { margin-top: 100px; text-align: center; }
-        input { width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 14px; margin-bottom: 15px; outline: none; background: white; }
-        .btn-login { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 14px; font-weight: 700; cursor: pointer; }
+        input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; }
+        .btn-login { background: var(--primary); color: white; padding: 15px; width: 100%; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
 
-        /* Dashboard */
-        .hidden { display: none; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .hidden { display: none !important; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .logo { font-size: 24px; font-weight: 800; color: var(--primary); }
         .controls { display: flex; gap: 8px; }
-        .icon-btn { background: #e5e7eb; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; }
+        .btn-icon { background: #e5e7eb; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 16px; }
         
-        .notice-board { background: var(--notice-bg); padding: 16px; border-radius: 16px; margin-bottom: 25px; font-size: 14px; color: var(--notice-text); border: 1px solid rgba(0,0,0,0.05); }
+        .notice-board { background: #fff7ed; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; color: #9a3412; }
         
-        .tabs { display: flex; gap: 6px; margin-bottom: 25px; background: #e5e7eb; padding: 4px; border-radius: 14px; }
-        .tab { flex: 1; padding: 12px; border: none; background: transparent; font-weight: 600; color: #6b7280; border-radius: 10px; cursor: pointer; font-size: 13px; }
-        .tab.active { background: white; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: #e5e7eb; padding: 4px; border-radius: 12px; }
+        .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #6b7280; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .tab.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 20px; text-align: center; border: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
-        .card:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .card-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid #e5e7eb; cursor: pointer; }
+        .card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
         .card-label { font-size: 10px; font-weight: 700; }
     </style>
 </head>
@@ -55,8 +48,8 @@
         <div class="header">
             <div class="logo">Exam Factory</div>
             <div class="controls">
-                <button class="icon-btn" onclick="toggleTheme()">🌓</button>
-                <button class="icon-btn" onclick="window.location.href='modes.html'">⚙️</button>
+                <button class="btn-icon" onclick="toggleTheme()">🌓</button>
+                <button class="btn-icon" onclick="window.location.href='modes.html'">⚙️</button>
             </div>
         </div>
 
@@ -68,7 +61,6 @@
             <button class="tab" onclick="setMode('job', this)">Jobs</button>
         </div>
 
-        <!-- Class 11 -->
         <div id="grid-c11" class="grid">
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
@@ -93,18 +85,11 @@
             <div class="card" onclick="navigateTo('evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <!-- Class 12 -->
         <div id="grid-c12" class="grid hidden">
-             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
-             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
-             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
-             <div class="card" onclick="navigateTo('geography')"><span class="card-icon">🗺️</span><span class="card-label">ভূগোল</span></div>
-             <div class="card" onclick="navigateTo('math')"><span class="card-icon">📐</span><span class="card-label">Math</span></div>
-             <div class="card" onclick="navigateTo('physics')"><span class="card-icon">⚛️</span><span class="card-label">Physics</span></div>
-             <div class="card" onclick="navigateTo('chemistry')"><span class="card-icon">🧪</span><span class="card-label">Chemistry</span></div>
-        </div>
+            <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
+            <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
+            </div>
 
-        <!-- Job -->
         <div id="grid-job" class="grid hidden">
             <div class="card" onclick="navigateTo('ssc')"><span class="card-icon">🪖</span><span class="card-label">SSC GD</span></div>
             <div class="card" onclick="navigateTo('railway')"><span class="card-icon">🚂</span><span class="card-label">Railway</span></div>
@@ -128,12 +113,10 @@
     const APP_PASSWORD = "Rb@2026"; 
     let currentMode = "c11";
 
-    // Theme Toggle
     function toggleTheme() {
         document.body.classList.toggle('dark-mode');
         localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     }
-    // Load saved theme
     if(localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
 
     async function loadNotice(mode) {
@@ -141,7 +124,7 @@
             const response = await fetch(`data/notice-${mode}.txt`);
             const text = await response.text();
             document.getElementById('notice-text').innerText = text;
-        } catch (e) { document.getElementById('notice-text').innerText = "Update checked"; }
+        } catch (e) { document.getElementById('notice-text').innerText = "Updates checked"; }
     }
 
     function verifyPassword() {
@@ -163,8 +146,7 @@
     }
 
     function navigateTo(subject) {
-        if(currentMode === 'job' && subject === 'ssc') { window.location.href = 'job-ssc.html'; }
-        else { window.location.href = `${currentMode}-${subject}.html`; }
+        window.location.href = `${currentMode}-${subject}.html`;
     }
 
     window.onload = () => {
@@ -177,4 +159,3 @@
 </script>
 </body>
 </html>
-
