@@ -3,72 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | Pro Dashboard</title>
+    <title>Exam Factory | Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary: #6366f1; 
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --card-bg: rgba(255, 255, 255, 0.05);
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
+            /* থিম কালার */
+            --c11-color: #3b82f6; /* ব্লু */
+            --c12-color: #a855f7; /* পার্পল */
+            --job-color: #f59e0b; /* অরেঞ্জ/অ্যাম্বার */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
-        body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; color: var(--text-main); }
+        body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; color: #ffffff; }
         .container { max-width: 500px; margin: 0 auto; }
-        
-        /* Logo Styles */
-        .neon-logo-login { font-size: 36px; font-weight: 900; color: var(--primary); text-shadow: 0 0 15px rgba(99, 102, 241, 0.5); margin-bottom: 40px; text-align: center; }
-        .logo-dashboard { font-size: 22px; font-weight: 800; color: white; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Auth & UI */
+        /* লোগো ও লগইন */
+        .neon-logo-login { font-size: 36px; font-weight: 900; color: #6366f1; text-shadow: 0 0 15px rgba(99, 102, 241, 0.5); margin-bottom: 20px; text-align: center; }
+        .welcome-text { margin-bottom: 30px; text-align: center; opacity: 0.7; }
         #login-screen { margin-top: 80px; text-align: center; }
         input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); margin-bottom: 15px; outline: none; color: white; }
-        .btn-login { background: var(--primary); color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
-        .hidden { display: none !important; }
+        .btn-login { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
         
+        /* ড্যাশবোর্ড */
+        .hidden { display: none !important; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-icon { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 12px; cursor: pointer; color: white; }
         .notice-board { background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); }
         
+        /* ট্যাব */
         .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
-        .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: var(--text-muted); border-radius: 10px; cursor: pointer; }
-        .tab.active { background: var(--primary); color: white; }
+        .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #94a3b8; border-radius: 10px; cursor: pointer; }
+        
+        /* ডাইনামিক থিম */
+        .theme-c11 .active { background: var(--c11-color) !important; color: white; }
+        .theme-c12 .active { background: var(--c12-color) !important; color: white; }
+        .theme-job .active { background: var(--job-color) !important; color: white; }
 
+        /* গ্রিড ও কার্ড */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(5px); }
-        .card:hover { border-color: var(--primary); transform: translateY(-3px); background: rgba(255,255,255,0.1); }
+        
+        /* হভার কালার */
+        .theme-c11 .card:hover { border-color: var(--c11-color); }
+        .theme-c12 .card:hover { border-color: var(--c12-color); }
+        .theme-job .card:hover { border-color: var(--job-color); }
+        
         .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
         .card-label { font-size: 10px; font-weight: 600; color: #e2e8f0; }
-
-        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); padding-bottom: 20px; }
+        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #64748b; padding-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="app-container">
     <div id="login-screen">
         <div class="neon-logo-login">Exam Factory</div>
+        <p class="welcome-text">Welcome Back, Student!</p>
         <input type="password" id="access-code" placeholder="Enter Password">
         <button class="btn-login" onclick="verifyPassword()">Login Now</button>
     </div>
 
     <div id="dashboard-screen" class="hidden">
         <div class="header">
-            <div class="logo-dashboard">Exam Factory</div>
-            <button class="btn-icon" onclick="window.location.href='modes.html'">⚙️</button>
+            <div style="font-weight: 800; font-size: 20px;">Exam Factory</div>
+            <button onclick="window.location.href='modes.html'" style="background:rgba(255,255,255,0.1); border:none; padding:10px; border-radius:10px; color:white; cursor:pointer;">⚙️</button>
         </div>
 
-        <div class="notice-board">📢 <span id="notice-text">Welcome back! Keep studying.</span></div>
+        <div class="notice-board">📢 <span id="notice-text">Loading...</span></div>
 
-        <div class="tabs">
+        <div class="tabs" id="tab-container">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
             <button class="tab" onclick="setMode('c12', this)">Class 12</button>
             <button class="tab" onclick="setMode('job', this)">Jobs</button>
         </div>
 
-        <div id="grid-c11" class="grid">
+        <div id="grid-c11" class="grid theme-c11">
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -92,7 +102,7 @@
             <div class="card" onclick="navigateTo('evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <div id="grid-c12" class="grid hidden">
+        <div id="grid-c12" class="grid theme-c12 hidden">
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -116,7 +126,7 @@
             <div class="card" onclick="navigateTo('evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <div id="grid-job" class="grid hidden">
+        <div id="grid-job" class="grid theme-job hidden">
             <div class="card" onclick="navigateTo('ssc')"><span class="card-icon">🪖</span><span class="card-label">SSC GD</span></div>
             <div class="card" onclick="navigateTo('railway')"><span class="card-icon">🚂</span><span class="card-label">Railway</span></div>
             <div class="card" onclick="navigateTo('wbpolice')"><span class="card-icon">👮</span><span class="card-label">WB Police</span></div>
@@ -145,23 +155,42 @@
         if(localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
+            loadNotice('c11');
         }
     };
+
+    async function loadNotice(mode) {
+        document.getElementById('notice-text').innerText = "Loading...";
+        try {
+            const response = await fetch(`data/notice-${mode}.txt`);
+            const text = await response.text();
+            document.getElementById('notice-text').innerText = text;
+        } catch (e) { document.getElementById('notice-text').innerText = "System Active"; }
+    }
 
     function verifyPassword() {
         if(document.getElementById('access-code').value === APP_PASSWORD) {
             localStorage.setItem('isLoggedIn', 'true');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
+            loadNotice('c11');
         } else { alert("Wrong Password!"); }
     }
 
     function setMode(mode, btn) {
         currentMode = mode;
+        // ট্যাব ডিজাইন বদলানো
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
+        
+        // গ্রিড বদলানো
         document.querySelectorAll('.grid').forEach(g => g.classList.add('hidden'));
         document.getElementById('grid-' + mode).classList.remove('hidden');
+        
+        // কালার থিম ম্যানেজমেন্ট (ট্যাব কন্টেইনারে ক্লাস যুক্ত করা)
+        document.getElementById('tab-container').className = "tabs theme-" + mode;
+        
+        loadNotice(mode);
     }
 
     function navigateTo(subject) {
