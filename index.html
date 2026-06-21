@@ -3,47 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Factory | Dashboard</title>
+    <title>Exam Factory | Pro Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #6366f1; --bg: #f3f4f6; --text: #111827; --card-bg: #ffffff; }
-        body.dark-mode { --bg: #111827; --text: #f3f4f6; --card-bg: #1f2937; }
+        :root { 
+            --primary: #6366f1; 
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
-        body { background: var(--bg); min-height: 100vh; padding: 20px; color: var(--text); }
+        
+        body { 
+            background: var(--bg-gradient); 
+            min-height: 100vh; 
+            padding: 20px; 
+            color: var(--text-main);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .container { max-width: 500px; margin: 0 auto; }
         
-        /* Neon Logo Effect */
+        /* Neon Logo */
         .neon-logo { 
             font-size: 36px; font-weight: 900; color: var(--primary);
-            text-shadow: 0 0 10px rgba(99, 102, 241, 0.6), 0 0 20px rgba(99, 102, 241, 0.4);
-            margin-bottom: 30px; letter-spacing: -1px;
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+            margin-bottom: 30px; letter-spacing: -1px; text-align: center;
         }
 
         #login-screen { margin-top: 80px; text-align: center; }
-        input { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #ddd; margin-bottom: 15px; outline: none; }
-        input:focus { border-color: var(--primary); }
-        .btn-login { background: var(--primary); color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
+        input { 
+            width: 100%; padding: 16px; border-radius: 14px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 15px; outline: none; color: white;
+        }
+        input:focus { border-color: var(--primary); background: rgba(255,255,255,0.1); }
+        .btn-login { 
+            background: var(--primary); color: white; padding: 16px; width: 100%; 
+            border-radius: 14px; border: none; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
 
         .hidden { display: none !important; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--primary); }
-        .controls { display: flex; gap: 8px; }
-        .btn-icon { background: #e5e7eb; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        .logo { font-size: 22px; font-weight: 800; color: white; }
+        .btn-icon { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 16px; color: white; }
         
-        .notice-board { background: #fff7ed; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; color: #9a3412; border: 1px solid #ffedd5; }
+        .notice-board { 
+            background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; 
+            margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); 
+        }
         
-        .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: #e5e7eb; padding: 4px; border-radius: 12px; }
-        .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #6b7280; border-radius: 8px; cursor: pointer; font-size: 13px; }
-        .tab.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
+        .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: var(--text-muted); border-radius: 10px; cursor: pointer; }
+        .tab.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid #e5e7eb; cursor: pointer; }
-        .card:hover { border-color: var(--primary); transform: translateY(-2px); }
-        .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
-        .card-label { font-size: 10px; font-weight: 700; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .card { 
+            background: var(--card-bg); padding: 15px 5px; border-radius: 16px; 
+            text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(255,255,255,0.1); }
+        .card-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+        .card-label { font-size: 11px; font-weight: 600; color: #e2e8f0; }
 
-        /* Footer Style */
-        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #6b7280; padding-bottom: 20px; border-top: 1px solid #e5e7eb; padding-top: 15px; }
+        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -51,21 +81,20 @@
 <div class="container">
     <div id="login-screen">
         <div class="neon-logo">Exam Factory</div>
-        <h2>Welcome Back</h2>
+        <h2 style="margin-bottom: 20px;">Welcome Back</h2>
         <input type="password" id="access-code" placeholder="Enter Password">
-        <button class="btn-login" onclick="verifyPassword()">Login</button>
+        <button class="btn-login" onclick="verifyPassword()">Login Now</button>
     </div>
 
     <div id="dashboard-screen" class="hidden">
         <div class="header">
             <div class="logo">Exam Factory</div>
             <div class="controls">
-                <button class="btn-icon" onclick="toggleTheme()">🌓</button>
                 <button class="btn-icon" onclick="window.location.href='modes.html'">⚙️</button>
             </div>
         </div>
 
-        <div class="notice-board">📢 <span id="notice-text">Loading...</span></div>
+        <div class="notice-board">📢 <span id="notice-text">Loading updates...</span></div>
 
         <div class="tabs">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
@@ -74,6 +103,7 @@
         </div>
 
         <div id="grid-c11" class="grid">
+            <!-- Subjects -->
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -98,6 +128,7 @@
         </div>
 
         <div id="grid-c12" class="grid hidden">
+            <!-- Repeat same subjects for C12 -->
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -138,7 +169,6 @@
             <div class="card" onclick="navigateTo('others')"><span class="card-icon">🎯</span><span class="card-label">Others</span></div>
         </div>
 
-        <!-- Footer Section -->
         <div class="footer">
             Exam Factory © 2026 | Powered by RB Creations
         </div>
@@ -149,23 +179,16 @@
     const APP_PASSWORD = "Rb@2026"; 
     let currentMode = "c11";
 
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    }
-    if(localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-
     async function loadNotice(mode) {
         try {
             const response = await fetch(`data/notice-${mode}.txt`);
             const text = await response.text();
             document.getElementById('notice-text').innerText = text;
-        } catch (e) { document.getElementById('notice-text').innerText = "Updates checked"; }
+        } catch (e) { document.getElementById('notice-text').innerText = "System Active"; }
     }
 
     function verifyPassword() {
         if(document.getElementById('access-code').value === APP_PASSWORD) {
-            localStorage.setItem('isLoggedIn', 'true');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
             loadNotice('c11');
@@ -184,10 +207,6 @@
     function navigateTo(subject) {
         window.location.href = `${currentMode}-${subject}.html`;
     }
-
-    window.onload = () => {
-        // Starts at login screen every time
-    };
 </script>
 </body>
 </html>
