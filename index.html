@@ -9,45 +9,41 @@
         :root { 
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --card-bg: rgba(255, 255, 255, 0.05);
-            /* থিম কালার */
-            --c11-color: #3b82f6; /* ব্লু */
-            --c12-color: #a855f7; /* পার্পল */
-            --job-color: #f59e0b; /* অরেঞ্জ/অ্যাম্বার */
+            --c11-color: #3b82f6;
+            --c12-color: #a855f7;
+            --job-color: #f59e0b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.4s ease; }
         body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; color: #ffffff; }
         .container { max-width: 500px; margin: 0 auto; }
 
-        /* লোগো ও লগইন */
         .neon-logo-login { font-size: 36px; font-weight: 900; color: #6366f1; text-shadow: 0 0 15px rgba(99, 102, 241, 0.5); margin-bottom: 20px; text-align: center; }
         .welcome-text { margin-bottom: 30px; text-align: center; opacity: 0.7; }
         #login-screen { margin-top: 80px; text-align: center; }
         input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); margin-bottom: 15px; outline: none; color: white; }
         .btn-login { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
         
-        /* ড্যাশবোর্ড */
         .hidden { display: none !important; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .notice-board { background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); }
         
-        /* ট্যাব */
         .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
         .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #94a3b8; border-radius: 10px; cursor: pointer; }
         
-        /* ডাইনামিক থিম */
         .theme-c11 .active { background: var(--c11-color) !important; color: white; }
         .theme-c12 .active { background: var(--c12-color) !important; color: white; }
         .theme-job .active { background: var(--job-color) !important; color: white; }
 
-        /* গ্রিড ও কার্ড */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        
+        /* কার্ডের বেসিক স্টাইল */
         .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(5px); }
         
-        /* হভার কালার */
-        .theme-c11 .card:hover { border-color: var(--c11-color); }
-        .theme-c12 .card:hover { border-color: var(--c12-color); }
-        .theme-job .card:hover { border-color: var(--job-color); }
+        /* নিয়ন গ্লো ইফেক্ট */
+        .theme-c11 .card:hover { border-color: var(--c11-color); box-shadow: 0 0 15px var(--c11-color); transform: translateY(-5px); }
+        .theme-c12 .card:hover { border-color: var(--c12-color); box-shadow: 0 0 15px var(--c12-color); transform: translateY(-5px); }
+        .theme-job .card:hover { border-color: var(--job-color); box-shadow: 0 0 15px var(--job-color); transform: translateY(-5px); }
         
         .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
         .card-label { font-size: 10px; font-weight: 600; color: #e2e8f0; }
@@ -179,17 +175,10 @@
 
     function setMode(mode, btn) {
         currentMode = mode;
-        // ট্যাব ডিজাইন বদলানো
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
-        
-        // গ্রিড বদলানো
         document.querySelectorAll('.grid').forEach(g => g.classList.add('hidden'));
         document.getElementById('grid-' + mode).classList.remove('hidden');
-        
-        // কালার থিম ম্যানেজমেন্ট (ট্যাব কন্টেইনারে ক্লাস যুক্ত করা)
-        document.getElementById('tab-container').className = "tabs theme-" + mode;
-        
         loadNotice(mode);
     }
 
