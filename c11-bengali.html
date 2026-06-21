@@ -19,6 +19,13 @@
         .back-btn { background: rgba(255,255,255,0.1); border: 1px solid #334155; color: white; padding: 8px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; display: inline-block; }
         .back-btn:hover { background: #334155; }
         h2 { text-align: center; margin-bottom: 10px; }
+       /* স্কিপ বাটনের স্টাইল */
+.skip-btn { 
+    background: #475569 !important; 
+    border: 1px solid #64748b !important; 
+    margin-top: 10px; 
+}
+.skip-btn:hover { background: #64748b !important; }
     </style>
 </head>
 <body>
@@ -36,7 +43,9 @@
             <button class="opt-btn" onclick="handleAnswer(0)"></button>
             <button class="opt-btn" onclick="handleAnswer(1)"></button>
             <button class="opt-btn" onclick="handleAnswer(2)"></button>
-            <button class="opt-btn" onclick="handleAnswer(3)"></button>
+            <button class="opt-btn" onclick="handleAnswer(3)"></button> 
+            !-- নতুন স্কিপ বাটন -->
+    <button class="opt-btn skip-btn" onclick="skipQuestion()">এই প্রশ্নটি স্কিপ করুন ⏭️</button>
         </div>
         <button class="finish-btn" onclick="endQuiz()">পরীক্ষা শেষ করুন</button>
     </div>
@@ -177,6 +186,17 @@
         userAnswers[currentQuestionIndex] = selectedIndex;
         if(selectedIndex === questions[currentQuestionIndex].correct) score++;
         
+        if(currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            updateUI();
+        } else {
+            endQuiz();
+        }
+    }
+
+    // নতুন স্কিপ ফাংশন
+    function skipQuestion() {
+        userAnswers[currentQuestionIndex] = -1; // -1 মানে স্কিপ করা
         if(currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             updateUI();
