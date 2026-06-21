@@ -6,85 +6,57 @@
     <title>Exam Factory | Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg-color: #0f172a;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --c11-color: #3b82f6;
-            --c12-color: #a855f7;
-            --job-color: #f59e0b;
-        }
-
-        .light-mode {
-            --bg-color: #f1f5f9;
-            --text-color: #1e293b;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-        }
+        :root { --bg-color: #0f172a; --text-color: #ffffff; --card-bg: rgba(255, 255, 255, 0.05); --border-color: rgba(255, 255, 255, 0.1); }
+        .light-mode { --bg-color: #f1f5f9; --text-color: #1e293b; --card-bg: #ffffff; --border-color: #e2e8f0; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
         body { background: var(--bg-color); min-height: 100vh; padding: 20px; color: var(--text-color); }
         .container { max-width: 500px; margin: 0 auto; }
-
-        /* লোগো কনটেইনার */
-        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px auto; border-radius: 20px; overflow: hidden; border: 2px solid var(--border-color); background: #6366f1; }
-        .logo-box svg { width: 100%; height: 100%; }
-
-        #login-screen { margin-top: 50px; text-align: center; }
-        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); margin-bottom: 15px; outline: none; color: var(--text-color); }
-        .btn-login { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
-
         .hidden { display: none !important; }
+
+        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px auto; border-radius: 20px; border: 2px solid var(--border-color); background: #6366f1; overflow: hidden; }
+        #login-screen { margin-top: 50px; text-align: center; }
+        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); margin-bottom: 15px; color: var(--text-color); outline: none; }
+        .btn-action { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .notice-board { background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid var(--border-color); }
-
         .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: var(--card-bg); padding: 5px; border-radius: 14px; border: 1px solid var(--border-color); }
         .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #94a3b8; border-radius: 10px; cursor: pointer; }
-        .active { background: #6366f1 !important; color: white !important; }
-
+        .tab.active { background: #6366f1 !important; color: white !important; }
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; }
         .card:hover { border-color: #6366f1; transform: translateY(-5px); }
-        
         .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
         .card-label { font-size: 10px; font-weight: 600; }
-        
         .toggle-btn { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; cursor: pointer; color: var(--text-color); }
     </style>
 </head>
 <body>
 
-<div class="container" id="app-container">
-    <!-- Login Screen -->
+<div class="container">
     <div id="login-screen">
         <div id="login-logo-container" class="logo-box"></div>
-        <p>Welcome Back, Student!</p>
         <input type="password" id="access-code" placeholder="Enter Password">
-        <button class="btn-login" onclick="verifyPassword()">Login Now</button>
+        <button class="btn-action" onclick="verifyPassword()">Login</button>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard-screen" class="hidden">
         <div class="header">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div id="dash-logo-container" style="width:40px; height:40px; border-radius:8px; overflow:hidden; background:#6366f1;"></div>
-                <span style="font-weight: 800; font-size: 18px;">Exam Factory</span>
-            </div>
+            <span style="font-weight: 800; font-size: 20px;">Exam Factory</span>
             <div>
                 <button class="toggle-btn" onclick="toggleTheme()">🌓</button>
+                <button class="toggle-btn" onclick="showSettings()">⚙️</button>
             </div>
         </div>
 
-        <div class="notice-board">📢 <span id="notice-text">System Active</span></div>
+        <div class="notice-board">📢 <span id="notice-text">Loading...</span></div>
 
-        <div class="tabs" id="tab-container">
+        <div class="tabs">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
             <button class="tab" onclick="setMode('c12', this)">Class 12</button>
             <button class="tab" onclick="setMode('job', this)">Jobs</button>
         </div>
 
-        <!-- C11 Grid -->
         <div id="grid-c11" class="grid">
             <div class="card" onclick="navigateTo('c11', 'bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('c11', 'english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
@@ -109,7 +81,6 @@
             <div class="card" onclick="navigateTo('c11', 'evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <!-- C12 Grid -->
         <div id="grid-c12" class="grid hidden">
             <div class="card" onclick="navigateTo('c12', 'bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('c12', 'english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
@@ -134,7 +105,6 @@
             <div class="card" onclick="navigateTo('c12', 'evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <!-- Job Grid -->
         <div id="grid-job" class="grid hidden">
             <div class="card" onclick="navigateTo('job', 'ssc')"><span class="card-icon">🪖</span><span class="card-label">SSC GD</span></div>
             <div class="card" onclick="navigateTo('job', 'railway')"><span class="card-icon">🚂</span><span class="card-label">Railway</span></div>
@@ -152,31 +122,34 @@
             <div class="card" onclick="navigateTo('job', 'others')"><span class="card-icon">🎯</span><span class="card-label">Others</span></div>
         </div>
     </div>
+
+    <div id="settings-screen" class="hidden">
+        <div class="header"><h2>Settings</h2> <button class="toggle-btn" onclick="hideSettings()">Back</button></div>
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Dark/Light Mode</span>
+            <button class="toggle-btn" onclick="toggleTheme()">Toggle</button>
+        </div>
+        <button class="btn-action" style="background:#ef4444; margin-top:20px;" onclick="logout()">Logout</button>
+    </div>
 </div>
 
 <script>
     const APP_PASSWORD = "Rb@2026"; 
 
-    // র‍্যান্ডম লোগোর SVG
-    const logo1 = `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#ffffff"/><text x="50" y="58" text-anchor="middle" font-size="28" font-weight="bold" fill="#6366f1">EF</text></svg>`;
-    const logo2 = `<svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="20" fill="#f59e0b"/><text x="50" y="60" text-anchor="middle" font-size="28" font-weight="bold" fill="#ffffff">EF</text></svg>`;
-
     window.onload = () => {
-        const logos = [logo1, logo2];
-        const randomLogo = logos[Math.floor(Math.random() * logos.length)];
-        document.getElementById('login-logo-container').innerHTML = randomLogo;
-        document.getElementById('dash-logo-container').innerHTML = randomLogo;
-
         if(localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
+            loadNotice('c11');
         }
         if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
     };
 
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    function loadNotice(mode) {
+        fetch(`data/notice-${mode}.txt`)
+            .then(res => res.text())
+            .then(text => document.getElementById('notice-text').innerText = text)
+            .catch(() => document.getElementById('notice-text').innerText = "System Active");
     }
 
     function verifyPassword() {
@@ -186,16 +159,35 @@
         } else { alert("Wrong Password!"); }
     }
 
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
     function setMode(mode, btn) {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         document.querySelectorAll('.grid').forEach(g => g.classList.add('hidden'));
         document.getElementById('grid-' + mode).classList.remove('hidden');
+        loadNotice(mode);
     }
 
-    function navigateTo(mode, subject) { 
-        window.location.href = `${mode}-${subject}.html`; 
+    function showSettings() {
+        document.getElementById('dashboard-screen').classList.add('hidden');
+        document.getElementById('settings-screen').classList.remove('hidden');
     }
+
+    function hideSettings() {
+        document.getElementById('settings-screen').classList.add('hidden');
+        document.getElementById('dashboard-screen').classList.remove('hidden');
+    }
+
+    function logout() {
+        localStorage.setItem('isLoggedIn', 'false');
+        location.reload();
+    }
+
+    function navigateTo(mode, subject) { window.location.href = `${mode}-${subject}.html`; }
 </script>
 </body>
 </html>
