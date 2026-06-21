@@ -6,7 +6,7 @@
     <title>Exam Factory | Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #0f172a; --text-color: #ffffff; --card-bg: rgba(255, 255, 255, 0.05); --border-color: rgba(255, 255, 255, 0.1); }
+        :root { --bg-color: #0f172a; --text-color: #ffffff; --card-bg: rgba(255, 255, 255, 0.05); --border-color: rgba(255, 255, 255, 0.1); --accent-color: #6366f1; }
         .light-mode { --bg-color: #f1f5f9; --text-color: #1e293b; --card-bg: #ffffff; --border-color: #e2e8f0; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
@@ -14,20 +14,29 @@
         .container { max-width: 500px; margin: 0 auto; }
         .hidden { display: none !important; }
 
-        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px auto; border-radius: 20px; border: 2px solid var(--border-color); background: #6366f1; overflow: hidden; }
+        /* লোগো ও লগিন */
+        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px auto; border-radius: 25px; border: 2px solid var(--border-color); background: var(--accent-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
         #login-screen { margin-top: 50px; text-align: center; }
-        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); margin-bottom: 15px; color: var(--text-color); outline: none; }
-        .btn-action { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
+        .welcome-text { margin-bottom: 25px; font-size: 24px; font-weight: 800; color: var(--accent-color); }
+        
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .notice-board { background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid var(--border-color); }
+        .notice-board { background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid var(--border-color); border-left: 4px solid #fbbf24; }
+        
+        /* সার্চ বার */
+        .search-box { margin-bottom: 20px; }
+        .search-box input { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); outline: none; }
+        
         .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: var(--card-bg); padding: 5px; border-radius: 14px; border: 1px solid var(--border-color); }
         .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #94a3b8; border-radius: 10px; cursor: pointer; }
-        .tab.active { background: #6366f1 !important; color: white !important; }
+        .tab.active { background: var(--accent-color) !important; color: white !important; }
+        
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; }
-        .card:hover { border-color: #6366f1; transform: translateY(-5px); }
+        .card:hover { border-color: var(--accent-color); transform: translateY(-3px); }
         .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
         .card-label { font-size: 10px; font-weight: 600; }
+        
+        .btn-action { background: var(--accent-color); color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
         .toggle-btn { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; cursor: pointer; color: var(--text-color); }
     </style>
 </head>
@@ -36,7 +45,8 @@
 <div class="container">
     <div id="login-screen">
         <div id="login-logo-container" class="logo-box"></div>
-        <input type="password" id="access-code" placeholder="Enter Password">
+        <h2 class="welcome-text">Welcome Back!</h2>
+        <input type="password" id="access-code" placeholder="Enter Password" style="width:100%; padding:16px; border-radius:14px; border:1px solid var(--border-color); background:var(--card-bg); color:var(--text-color); margin-bottom:15px; outline:none;">
         <button class="btn-action" onclick="verifyPassword()">Login</button>
     </div>
 
@@ -50,6 +60,10 @@
         </div>
 
         <div class="notice-board">📢 <span id="notice-text">Loading...</span></div>
+
+        <div class="search-box">
+            <input type="text" id="search-input" onkeyup="filterCards()" placeholder="🔍 সাবজেক্ট সার্চ করুন...">
+        </div>
 
         <div class="tabs">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
@@ -80,7 +94,7 @@
             <div class="card" onclick="navigateTo('c11', 'nutrition')"><span class="card-icon">🍎</span><span class="card-label">Nutri.</span></div>
             <div class="card" onclick="navigateTo('c11', 'evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
-
+        
         <div id="grid-c12" class="grid hidden">
             <div class="card" onclick="navigateTo('c12', 'bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('c12', 'english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
@@ -125,18 +139,23 @@
 
     <div id="settings-screen" class="hidden">
         <div class="header"><h2>Settings</h2> <button class="toggle-btn" onclick="hideSettings()">Back</button></div>
-        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <span>Dark/Light Mode</span>
             <button class="toggle-btn" onclick="toggleTheme()">Toggle</button>
         </div>
-        <button class="btn-action" style="background:#ef4444; margin-top:20px;" onclick="logout()">Logout</button>
+        <button class="btn-action" style="background:#ef4444;" onclick="logout()">Logout</button>
     </div>
 </div>
 
 <script>
     const APP_PASSWORD = "Rb@2026"; 
+    const logos = [
+        `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#6366f1"/><text x="50" y="60" text-anchor="middle" font-size="40" font-weight="bold" fill="white">EF</text></svg>`,
+        `<svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="20" fill="#f59e0b"/><text x="50" y="65" text-anchor="middle" font-size="40" font-weight="bold" fill="white">EF</text></svg>`
+    ];
 
     window.onload = () => {
+        document.getElementById('login-logo-container').innerHTML = logos[Math.floor(Math.random() * logos.length)];
         if(localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
@@ -144,6 +163,15 @@
         }
         if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
     };
+
+    function filterCards() {
+        let input = document.getElementById('search-input').value.toLowerCase();
+        let activeGrid = document.querySelector('.grid:not(.hidden)');
+        let cards = activeGrid.getElementsByClassName('card');
+        for (let card of cards) {
+            card.style.display = card.innerText.toLowerCase().includes(input) ? "" : "none";
+        }
+    }
 
     function loadNotice(mode) {
         fetch(`data/notice-${mode}.txt`)
@@ -172,21 +200,9 @@
         loadNotice(mode);
     }
 
-    function showSettings() {
-        document.getElementById('dashboard-screen').classList.add('hidden');
-        document.getElementById('settings-screen').classList.remove('hidden');
-    }
-
-    function hideSettings() {
-        document.getElementById('settings-screen').classList.add('hidden');
-        document.getElementById('dashboard-screen').classList.remove('hidden');
-    }
-
-    function logout() {
-        localStorage.setItem('isLoggedIn', 'false');
-        location.reload();
-    }
-
+    function showSettings() { document.getElementById('dashboard-screen').classList.add('hidden'); document.getElementById('settings-screen').classList.remove('hidden'); }
+    function hideSettings() { document.getElementById('settings-screen').classList.add('hidden'); document.getElementById('dashboard-screen').classList.remove('hidden'); }
+    function logout() { localStorage.setItem('isLoggedIn', 'false'); location.reload(); }
     function navigateTo(mode, subject) { window.location.href = `${mode}-${subject}.html`; }
 </script>
 </body>
