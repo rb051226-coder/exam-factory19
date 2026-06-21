@@ -15,63 +15,32 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
-        
-        body { 
-            background: var(--bg-gradient); 
-            min-height: 100vh; 
-            padding: 20px; 
-            color: var(--text-main);
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; color: var(--text-main); }
         .container { max-width: 500px; margin: 0 auto; }
         
-        /* Neon Logo */
-        .neon-logo { 
-            font-size: 36px; font-weight: 900; color: var(--primary);
-            text-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
-            margin-bottom: 30px; letter-spacing: -1px; text-align: center;
-        }
+        /* Logo Styles */
+        .neon-logo-login { font-size: 36px; font-weight: 900; color: var(--primary); text-shadow: 0 0 15px rgba(99, 102, 241, 0.5); margin-bottom: 40px; text-align: center; }
+        .logo-dashboard { font-size: 22px; font-weight: 800; color: white; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+        /* Auth & UI */
         #login-screen { margin-top: 80px; text-align: center; }
-        input { 
-            width: 100%; padding: 16px; border-radius: 14px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            background: rgba(255,255,255,0.05);
-            margin-bottom: 15px; outline: none; color: white;
-        }
-        input:focus { border-color: var(--primary); background: rgba(255,255,255,0.1); }
-        .btn-login { 
-            background: var(--primary); color: white; padding: 16px; width: 100%; 
-            border-radius: 14px; border: none; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
+        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); margin-bottom: 15px; outline: none; color: white; }
+        .btn-login { background: var(--primary); color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
         .hidden { display: none !important; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .logo { font-size: 22px; font-weight: 800; color: white; }
-        .btn-icon { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 16px; color: white; }
         
-        .notice-board { 
-            background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; 
-            margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); 
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-icon { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 12px; cursor: pointer; color: white; }
+        .notice-board { background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); }
         
         .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
         .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: var(--text-muted); border-radius: 10px; cursor: pointer; }
-        .tab.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
+        .tab.active { background: var(--primary); color: white; }
 
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .card { 
-            background: var(--card-bg); padding: 15px 5px; border-radius: 16px; 
-            text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
-            backdrop-filter: blur(10px);
-        }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(255,255,255,0.1); }
-        .card-icon { font-size: 22px; display: block; margin-bottom: 5px; }
-        .card-label { font-size: 11px; font-weight: 600; color: #e2e8f0; }
+        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(5px); }
+        .card:hover { border-color: var(--primary); transform: translateY(-3px); background: rgba(255,255,255,0.1); }
+        .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+        .card-label { font-size: 10px; font-weight: 600; color: #e2e8f0; }
 
         .footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); padding-bottom: 20px; }
     </style>
@@ -80,21 +49,18 @@
 
 <div class="container">
     <div id="login-screen">
-        <div class="neon-logo">Exam Factory</div>
-        <h2 style="margin-bottom: 20px;">Welcome Back</h2>
+        <div class="neon-logo-login">Exam Factory</div>
         <input type="password" id="access-code" placeholder="Enter Password">
         <button class="btn-login" onclick="verifyPassword()">Login Now</button>
     </div>
 
     <div id="dashboard-screen" class="hidden">
         <div class="header">
-            <div class="logo">Exam Factory</div>
-            <div class="controls">
-                <button class="btn-icon" onclick="window.location.href='modes.html'">⚙️</button>
-            </div>
+            <div class="logo-dashboard">Exam Factory</div>
+            <button class="btn-icon" onclick="window.location.href='modes.html'">⚙️</button>
         </div>
 
-        <div class="notice-board">📢 <span id="notice-text">Loading updates...</span></div>
+        <div class="notice-board">📢 <span id="notice-text">Welcome back! Keep studying.</span></div>
 
         <div class="tabs">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
@@ -103,7 +69,6 @@
         </div>
 
         <div id="grid-c11" class="grid">
-            <!-- Subjects -->
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -128,7 +93,6 @@
         </div>
 
         <div id="grid-c12" class="grid hidden">
-            <!-- Repeat same subjects for C12 -->
             <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
             <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
             <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
@@ -169,9 +133,7 @@
             <div class="card" onclick="navigateTo('others')"><span class="card-icon">🎯</span><span class="card-label">Others</span></div>
         </div>
 
-        <div class="footer">
-            Exam Factory © 2026 | Powered by RB Creations
-        </div>
+        <div class="footer">Exam Factory © 2026 | Powered by RB Creations</div>
     </div>
 </div>
 
@@ -179,19 +141,18 @@
     const APP_PASSWORD = "Rb@2026"; 
     let currentMode = "c11";
 
-    async function loadNotice(mode) {
-        try {
-            const response = await fetch(`data/notice-${mode}.txt`);
-            const text = await response.text();
-            document.getElementById('notice-text').innerText = text;
-        } catch (e) { document.getElementById('notice-text').innerText = "System Active"; }
-    }
+    window.onload = () => {
+        if(localStorage.getItem('isLoggedIn') === 'true') {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+        }
+    };
 
     function verifyPassword() {
         if(document.getElementById('access-code').value === APP_PASSWORD) {
+            localStorage.setItem('isLoggedIn', 'true');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
-            loadNotice('c11');
         } else { alert("Wrong Password!"); }
     }
 
@@ -201,7 +162,6 @@
         btn.classList.add('active');
         document.querySelectorAll('.grid').forEach(g => g.classList.add('hidden'));
         document.getElementById('grid-' + mode).classList.remove('hidden');
-        loadNotice(mode);
     }
 
     function navigateTo(subject) {
