@@ -7,66 +7,76 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --bg-color: #0f172a;
+            --text-color: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
             --c11-color: #3b82f6;
             --c12-color: #a855f7;
             --job-color: #f59e0b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.4s ease; }
-        body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; color: #ffffff; }
+        .light-mode {
+            --bg-color: #f1f5f9;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
+        body { background: var(--bg-color); min-height: 100vh; padding: 20px; color: var(--text-color); }
         .container { max-width: 500px; margin: 0 auto; }
 
-        .neon-logo-login { font-size: 36px; font-weight: 900; color: #6366f1; text-shadow: 0 0 15px rgba(99, 102, 241, 0.5); margin-bottom: 20px; text-align: center; }
-        .welcome-text { margin-bottom: 30px; text-align: center; opacity: 0.7; }
-        #login-screen { margin-top: 80px; text-align: center; }
-        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); margin-bottom: 15px; outline: none; color: white; }
+        /* লোগো কনটেইনার */
+        .logo-box { width: 100px; height: 100px; margin: 0 auto 20px auto; border-radius: 20px; overflow: hidden; border: 2px solid var(--border-color); background: #6366f1; }
+        .logo-box svg { width: 100%; height: 100%; }
+
+        #login-screen { margin-top: 50px; text-align: center; }
+        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); margin-bottom: 15px; outline: none; color: var(--text-color); }
         .btn-login { background: #6366f1; color: white; padding: 16px; width: 100%; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
-        
+
         .hidden { display: none !important; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .notice-board { background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid rgba(255, 165, 0, 0.2); }
-        
-        .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
+        .notice-board { background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 14px; color: #fbbf24; border: 1px solid var(--border-color); }
+
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; background: var(--card-bg); padding: 5px; border-radius: 14px; border: 1px solid var(--border-color); }
         .tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; color: #94a3b8; border-radius: 10px; cursor: pointer; }
-        
-        .theme-c11 .active { background: var(--c11-color) !important; color: white; }
-        .theme-c12 .active { background: var(--c12-color) !important; color: white; }
-        .theme-job .active { background: var(--job-color) !important; color: white; }
+        .active { background: #6366f1 !important; color: white !important; }
 
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        
-        /* কার্ডের বেসিক স্টাইল */
-        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(5px); }
-        
-        /* নিয়ন গ্লো ইফেক্ট */
-        .theme-c11 .card:hover { border-color: var(--c11-color); box-shadow: 0 0 15px var(--c11-color); transform: translateY(-5px); }
-        .theme-c12 .card:hover { border-color: var(--c12-color); box-shadow: 0 0 15px var(--c12-color); transform: translateY(-5px); }
-        .theme-job .card:hover { border-color: var(--job-color); box-shadow: 0 0 15px var(--job-color); transform: translateY(-5px); }
+        .card { background: var(--card-bg); padding: 15px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; }
+        .card:hover { border-color: #6366f1; transform: translateY(-5px); }
         
         .card-icon { font-size: 20px; display: block; margin-bottom: 5px; }
-        .card-label { font-size: 10px; font-weight: 600; color: #e2e8f0; }
-        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #64748b; padding-bottom: 20px; }
+        .card-label { font-size: 10px; font-weight: 600; }
+        
+        .toggle-btn { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; cursor: pointer; color: var(--text-color); }
     </style>
 </head>
 <body>
 
 <div class="container" id="app-container">
+    <!-- Login Screen -->
     <div id="login-screen">
-        <div class="neon-logo-login">Exam Factory</div>
-        <p class="welcome-text">Welcome Back, Student!</p>
+        <div id="login-logo-container" class="logo-box"></div>
+        <p>Welcome Back, Student!</p>
         <input type="password" id="access-code" placeholder="Enter Password">
         <button class="btn-login" onclick="verifyPassword()">Login Now</button>
     </div>
 
+    <!-- Dashboard -->
     <div id="dashboard-screen" class="hidden">
         <div class="header">
-            <div style="font-weight: 800; font-size: 20px;">Exam Factory</div>
-            <button onclick="window.location.href='modes.html'" style="background:rgba(255,255,255,0.1); border:none; padding:10px; border-radius:10px; color:white; cursor:pointer;">⚙️</button>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div id="dash-logo-container" style="width:40px; height:40px; border-radius:8px; overflow:hidden; background:#6366f1;"></div>
+                <span style="font-weight: 800; font-size: 18px;">Exam Factory</span>
+            </div>
+            <div>
+                <button class="toggle-btn" onclick="toggleTheme()">🌓</button>
+            </div>
         </div>
 
-        <div class="notice-board">📢 <span id="notice-text">Loading...</span></div>
+        <div class="notice-board">📢 <span id="notice-text">System Active</span></div>
 
         <div class="tabs" id="tab-container">
             <button class="tab active" onclick="setMode('c11', this)">Class 11</button>
@@ -74,116 +84,117 @@
             <button class="tab" onclick="setMode('job', this)">Jobs</button>
         </div>
 
-        <div id="grid-c11" class="grid theme-c11">
-            <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
-            <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
-            <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
-            <div class="card" onclick="navigateTo('geography')"><span class="card-icon">🗺️</span><span class="card-label">ভূগোল</span></div>
-            <div class="card" onclick="navigateTo('polscience')"><span class="card-icon">⚖️</span><span class="card-label">রাষ্ট্রবিজ্ঞান</span></div>
-            <div class="card" onclick="navigateTo('philosophy')"><span class="card-icon">🧘</span><span class="card-label">দর্শন</span></div>
-            <div class="card" onclick="navigateTo('education')"><span class="card-icon">🎓</span><span class="card-label">শিক্ষা</span></div>
-            <div class="card" onclick="navigateTo('physics')"><span class="card-icon">⚛️</span><span class="card-label">Physics</span></div>
-            <div class="card" onclick="navigateTo('chemistry')"><span class="card-icon">🧪</span><span class="card-label">Chemistry</span></div>
-            <div class="card" onclick="navigateTo('math')"><span class="card-icon">📐</span><span class="card-label">Math</span></div>
-            <div class="card" onclick="navigateTo('biology')"><span class="card-icon">🧬</span><span class="card-label">Biology</span></div>
-            <div class="card" onclick="navigateTo('accountancy')"><span class="card-icon">📊</span><span class="card-label">Acct.</span></div>
-            <div class="card" onclick="navigateTo('bst')"><span class="card-icon">🏢</span><span class="card-label">BST</span></div>
-            <div class="card" onclick="navigateTo('economics')"><span class="card-icon">📈</span><span class="card-label">Econ.</span></div>
-            <div class="card" onclick="navigateTo('sociology')"><span class="card-icon">👥</span><span class="card-label">Soc.</span></div>
-            <div class="card" onclick="navigateTo('statistics')"><span class="card-icon">📉</span><span class="card-label">Stat.</span></div>
-            <div class="card" onclick="navigateTo('sanskrit')"><span class="card-icon">🕉️</span><span class="card-label">Sanskrit</span></div>
-            <div class="card" onclick="navigateTo('computer')"><span class="card-icon">💻</span><span class="card-label">Comp.</span></div>
-            <div class="card" onclick="navigateTo('psychology')"><span class="card-icon">🧠</span><span class="card-label">Psych.</span></div>
-            <div class="card" onclick="navigateTo('nutrition')"><span class="card-icon">🍎</span><span class="card-label">Nutri.</span></div>
-            <div class="card" onclick="navigateTo('evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
+        <!-- C11 Grid -->
+        <div id="grid-c11" class="grid">
+            <div class="card" onclick="navigateTo('c11', 'bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
+            <div class="card" onclick="navigateTo('c11', 'english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
+            <div class="card" onclick="navigateTo('c11', 'history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
+            <div class="card" onclick="navigateTo('c11', 'geography')"><span class="card-icon">🗺️</span><span class="card-label">ভূগোল</span></div>
+            <div class="card" onclick="navigateTo('c11', 'polscience')"><span class="card-icon">⚖️</span><span class="card-label">রাষ্ট্রবিজ্ঞান</span></div>
+            <div class="card" onclick="navigateTo('c11', 'philosophy')"><span class="card-icon">🧘</span><span class="card-label">দর্শন</span></div>
+            <div class="card" onclick="navigateTo('c11', 'education')"><span class="card-icon">🎓</span><span class="card-label">শিক্ষা</span></div>
+            <div class="card" onclick="navigateTo('c11', 'physics')"><span class="card-icon">⚛️</span><span class="card-label">Physics</span></div>
+            <div class="card" onclick="navigateTo('c11', 'chemistry')"><span class="card-icon">🧪</span><span class="card-label">Chemistry</span></div>
+            <div class="card" onclick="navigateTo('c11', 'math')"><span class="card-icon">📐</span><span class="card-label">Math</span></div>
+            <div class="card" onclick="navigateTo('c11', 'biology')"><span class="card-icon">🧬</span><span class="card-label">Biology</span></div>
+            <div class="card" onclick="navigateTo('c11', 'accountancy')"><span class="card-icon">📊</span><span class="card-label">Acct.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'bst')"><span class="card-icon">🏢</span><span class="card-label">BST</span></div>
+            <div class="card" onclick="navigateTo('c11', 'economics')"><span class="card-icon">📈</span><span class="card-label">Econ.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'sociology')"><span class="card-icon">👥</span><span class="card-label">Soc.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'statistics')"><span class="card-icon">📉</span><span class="card-label">Stat.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'sanskrit')"><span class="card-icon">🕉️</span><span class="card-label">Sanskrit</span></div>
+            <div class="card" onclick="navigateTo('c11', 'computer')"><span class="card-icon">💻</span><span class="card-label">Comp.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'psychology')"><span class="card-icon">🧠</span><span class="card-label">Psych.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'nutrition')"><span class="card-icon">🍎</span><span class="card-label">Nutri.</span></div>
+            <div class="card" onclick="navigateTo('c11', 'evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <div id="grid-c12" class="grid theme-c12 hidden">
-            <div class="card" onclick="navigateTo('bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
-            <div class="card" onclick="navigateTo('english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
-            <div class="card" onclick="navigateTo('history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
-            <div class="card" onclick="navigateTo('geography')"><span class="card-icon">🗺️</span><span class="card-label">ভূগোল</span></div>
-            <div class="card" onclick="navigateTo('polscience')"><span class="card-icon">⚖️</span><span class="card-label">রাষ্ট্রবিজ্ঞান</span></div>
-            <div class="card" onclick="navigateTo('philosophy')"><span class="card-icon">🧘</span><span class="card-label">দর্শন</span></div>
-            <div class="card" onclick="navigateTo('education')"><span class="card-icon">🎓</span><span class="card-label">শিক্ষা</span></div>
-            <div class="card" onclick="navigateTo('physics')"><span class="card-icon">⚛️</span><span class="card-label">Physics</span></div>
-            <div class="card" onclick="navigateTo('chemistry')"><span class="card-icon">🧪</span><span class="card-label">Chemistry</span></div>
-            <div class="card" onclick="navigateTo('math')"><span class="card-icon">📐</span><span class="card-label">Math</span></div>
-            <div class="card" onclick="navigateTo('biology')"><span class="card-icon">🧬</span><span class="card-label">Biology</span></div>
-            <div class="card" onclick="navigateTo('accountancy')"><span class="card-icon">📊</span><span class="card-label">Acct.</span></div>
-            <div class="card" onclick="navigateTo('bst')"><span class="card-icon">🏢</span><span class="card-label">BST</span></div>
-            <div class="card" onclick="navigateTo('economics')"><span class="card-icon">📈</span><span class="card-label">Econ.</span></div>
-            <div class="card" onclick="navigateTo('sociology')"><span class="card-icon">👥</span><span class="card-label">Soc.</span></div>
-            <div class="card" onclick="navigateTo('statistics')"><span class="card-icon">📉</span><span class="card-label">Stat.</span></div>
-            <div class="card" onclick="navigateTo('sanskrit')"><span class="card-icon">🕉️</span><span class="card-label">Sanskrit</span></div>
-            <div class="card" onclick="navigateTo('computer')"><span class="card-icon">💻</span><span class="card-label">Comp.</span></div>
-            <div class="card" onclick="navigateTo('psychology')"><span class="card-icon">🧠</span><span class="card-label">Psych.</span></div>
-            <div class="card" onclick="navigateTo('nutrition')"><span class="card-icon">🍎</span><span class="card-label">Nutri.</span></div>
-            <div class="card" onclick="navigateTo('evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
+        <!-- C12 Grid -->
+        <div id="grid-c12" class="grid hidden">
+            <div class="card" onclick="navigateTo('c12', 'bengali')"><span class="card-icon">📖</span><span class="card-label">বাংলা</span></div>
+            <div class="card" onclick="navigateTo('c12', 'english')"><span class="card-icon">🔤</span><span class="card-label">English</span></div>
+            <div class="card" onclick="navigateTo('c12', 'history')"><span class="card-icon">📜</span><span class="card-label">ইতিহাস</span></div>
+            <div class="card" onclick="navigateTo('c12', 'geography')"><span class="card-icon">🗺️</span><span class="card-label">ভূগোল</span></div>
+            <div class="card" onclick="navigateTo('c12', 'polscience')"><span class="card-icon">⚖️</span><span class="card-label">রাষ্ট্রবিজ্ঞান</span></div>
+            <div class="card" onclick="navigateTo('c12', 'philosophy')"><span class="card-icon">🧘</span><span class="card-label">দর্শন</span></div>
+            <div class="card" onclick="navigateTo('c12', 'education')"><span class="card-icon">🎓</span><span class="card-label">শিক্ষা</span></div>
+            <div class="card" onclick="navigateTo('c12', 'physics')"><span class="card-icon">⚛️</span><span class="card-label">Physics</span></div>
+            <div class="card" onclick="navigateTo('c12', 'chemistry')"><span class="card-icon">🧪</span><span class="card-label">Chemistry</span></div>
+            <div class="card" onclick="navigateTo('c12', 'math')"><span class="card-icon">📐</span><span class="card-label">Math</span></div>
+            <div class="card" onclick="navigateTo('c12', 'biology')"><span class="card-icon">🧬</span><span class="card-label">Biology</span></div>
+            <div class="card" onclick="navigateTo('c12', 'accountancy')"><span class="card-icon">📊</span><span class="card-label">Acct.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'bst')"><span class="card-icon">🏢</span><span class="card-label">BST</span></div>
+            <div class="card" onclick="navigateTo('c12', 'economics')"><span class="card-icon">📈</span><span class="card-label">Econ.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'sociology')"><span class="card-icon">👥</span><span class="card-label">Soc.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'statistics')"><span class="card-icon">📉</span><span class="card-label">Stat.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'sanskrit')"><span class="card-icon">🕉️</span><span class="card-label">Sanskrit</span></div>
+            <div class="card" onclick="navigateTo('c12', 'computer')"><span class="card-icon">💻</span><span class="card-label">Comp.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'psychology')"><span class="card-icon">🧠</span><span class="card-label">Psych.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'nutrition')"><span class="card-icon">🍎</span><span class="card-label">Nutri.</span></div>
+            <div class="card" onclick="navigateTo('c12', 'evs')"><span class="card-icon">🌍</span><span class="card-label">EVS</span></div>
         </div>
 
-        <div id="grid-job" class="grid theme-job hidden">
-            <div class="card" onclick="navigateTo('ssc')"><span class="card-icon">🪖</span><span class="card-label">SSC GD</span></div>
-            <div class="card" onclick="navigateTo('railway')"><span class="card-icon">🚂</span><span class="card-label">Railway</span></div>
-            <div class="card" onclick="navigateTo('wbpolice')"><span class="card-icon">👮</span><span class="card-label">WB Police</span></div>
-            <div class="card" onclick="navigateTo('banking')"><span class="card-icon">🏦</span><span class="card-label">Banking</span></div>
-            <div class="card" onclick="navigateTo('upsc')"><span class="card-icon">🏛️</span><span class="card-label">UPSC</span></div>
-            <div class="card" onclick="navigateTo('wbcs')"><span class="card-icon">👑</span><span class="card-label">WBCS</span></div>
-            <div class="card" onclick="navigateTo('tet')"><span class="card-icon">📝</span><span class="card-label">TET</span></div>
-            <div class="card" onclick="navigateTo('slst')"><span class="card-icon">🏫</span><span class="card-label">SLST</span></div>
-            <div class="card" onclick="navigateTo('mts')"><span class="card-icon">📁</span><span class="card-label">MTS</span></div>
-            <div class="card" onclick="navigateTo('cgl')"><span class="card-icon">💼</span><span class="card-label">CGL</span></div>
-            <div class="card" onclick="navigateTo('chsl')"><span class="card-icon">⌨️</span><span class="card-label">CHSL</span></div>
-            <div class="card" onclick="navigateTo('groupd')"><span class="card-icon">🏃</span><span class="card-label">Group D</span></div>
-            <div class="card" onclick="navigateTo('defense')"><span class="card-icon">🛡️</span><span class="card-label">Defense</span></div>
-            <div class="card" onclick="navigateTo('others')"><span class="card-icon">🎯</span><span class="card-label">Others</span></div>
+        <!-- Job Grid -->
+        <div id="grid-job" class="grid hidden">
+            <div class="card" onclick="navigateTo('job', 'ssc')"><span class="card-icon">🪖</span><span class="card-label">SSC GD</span></div>
+            <div class="card" onclick="navigateTo('job', 'railway')"><span class="card-icon">🚂</span><span class="card-label">Railway</span></div>
+            <div class="card" onclick="navigateTo('job', 'wbpolice')"><span class="card-icon">👮</span><span class="card-label">WB Police</span></div>
+            <div class="card" onclick="navigateTo('job', 'banking')"><span class="card-icon">🏦</span><span class="card-label">Banking</span></div>
+            <div class="card" onclick="navigateTo('job', 'upsc')"><span class="card-icon">🏛️</span><span class="card-label">UPSC</span></div>
+            <div class="card" onclick="navigateTo('job', 'wbcs')"><span class="card-icon">👑</span><span class="card-label">WBCS</span></div>
+            <div class="card" onclick="navigateTo('job', 'tet')"><span class="card-icon">📝</span><span class="card-label">TET</span></div>
+            <div class="card" onclick="navigateTo('job', 'slst')"><span class="card-icon">🏫</span><span class="card-label">SLST</span></div>
+            <div class="card" onclick="navigateTo('job', 'mts')"><span class="card-icon">📁</span><span class="card-label">MTS</span></div>
+            <div class="card" onclick="navigateTo('job', 'cgl')"><span class="card-icon">💼</span><span class="card-label">CGL</span></div>
+            <div class="card" onclick="navigateTo('job', 'chsl')"><span class="card-icon">⌨️</span><span class="card-label">CHSL</span></div>
+            <div class="card" onclick="navigateTo('job', 'groupd')"><span class="card-icon">🏃</span><span class="card-label">Group D</span></div>
+            <div class="card" onclick="navigateTo('job', 'defense')"><span class="card-icon">🛡️</span><span class="card-label">Defense</span></div>
+            <div class="card" onclick="navigateTo('job', 'others')"><span class="card-icon">🎯</span><span class="card-label">Others</span></div>
         </div>
-
-        <div class="footer">Exam Factory © 2026 | Powered by RB Creations</div>
     </div>
 </div>
 
 <script>
     const APP_PASSWORD = "Rb@2026"; 
-    let currentMode = "c11";
+
+    // র‍্যান্ডম লোগোর SVG
+    const logo1 = `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#ffffff"/><text x="50" y="58" text-anchor="middle" font-size="28" font-weight="bold" fill="#6366f1">EF</text></svg>`;
+    const logo2 = `<svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="20" fill="#f59e0b"/><text x="50" y="60" text-anchor="middle" font-size="28" font-weight="bold" fill="#ffffff">EF</text></svg>`;
 
     window.onload = () => {
+        const logos = [logo1, logo2];
+        const randomLogo = logos[Math.floor(Math.random() * logos.length)];
+        document.getElementById('login-logo-container').innerHTML = randomLogo;
+        document.getElementById('dash-logo-container').innerHTML = randomLogo;
+
         if(localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
-            loadNotice('c11');
         }
+        if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
     };
 
-    async function loadNotice(mode) {
-        document.getElementById('notice-text').innerText = "Loading...";
-        try {
-            const response = await fetch(`data/notice-${mode}.txt`);
-            const text = await response.text();
-            document.getElementById('notice-text').innerText = text;
-        } catch (e) { document.getElementById('notice-text').innerText = "System Active"; }
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     }
 
     function verifyPassword() {
         if(document.getElementById('access-code').value === APP_PASSWORD) {
             localStorage.setItem('isLoggedIn', 'true');
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('dashboard-screen').classList.remove('hidden');
-            loadNotice('c11');
+            location.reload();
         } else { alert("Wrong Password!"); }
     }
 
     function setMode(mode, btn) {
-        currentMode = mode;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         document.querySelectorAll('.grid').forEach(g => g.classList.add('hidden'));
         document.getElementById('grid-' + mode).classList.remove('hidden');
-        loadNotice(mode);
     }
 
-    function navigateTo(subject) {
-        window.location.href = `${currentMode}-${subject}.html`;
+    function navigateTo(mode, subject) { 
+        window.location.href = `${mode}-${subject}.html`; 
     }
 </script>
 </body>
